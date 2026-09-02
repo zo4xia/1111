@@ -1,0 +1,55 @@
+﻿
+== A 账号角色：不应再有 NO.%；roles 与 account_roles.role_key 一致 ==
+[]
+✅ accounts.roles 无 NO.% 残留 — 残留 0
+[]
+✅ accounts.roles 与 account_roles.role_key 全部一致 — 不一致 0
+[{"acc_name":"系统超管","acc_phone":"130****0000","roles":"platform_admin"},{"acc_name":"张主任","acc_phone":"13800000001","roles":"platform_admin"},{"acc_name":"李经办","acc_phone":"13800000002","roles":"operator"},{"acc_name":"王审核","acc_phone":"13800000003","roles":"reviewer"},{"acc_name":"赵运营","acc_phone":"13800000004","roles":"editor"},{"acc_name":"林建国","acc_phone":"13800000005","roles":"sub_admin"},{"acc_name":"黄志明","acc_phone":"13800000006","roles":"voters"},{"acc_name":"吴春霖","acc_phone":"13800000011","roles":"sub_admin"},{"acc_name":"郑文彬","acc_phone":"13800000012","roles":"operator"},{"acc_name":"陈玉华","acc_phone":"13800000013","roles":"reviewer"},{"acc_name":"林巧云","acc_phone":"13800000014","roles":"editor"},{"acc_name":"徐永福","acc_phone":"13800000015","roles":"voters"}]
+
+== B 选举状态 ==
+[{"el_id":"el-10","el_status":"archived","el_election_date":"2021-11-19T16:00:00.000Z","el_proposal_id":null,"note":"历史届·只读"},{"el_id":"el-11","el_status":"finished","el_election_date":"2026-07-15T16:00:00.000Z","el_proposal_id":"9ab2389f-73c0-48f4-96fa-0b4faa25ba02","note":"已于2026-07-16完成投票选举，选举结果已备案（第17号公告）；新旧班子交接尚未完成，待跟进（2026-09-02"},{"el_id":"el-14","el_status":"archived","el_election_date":"2021-12-09T16:00:00.000Z","el_proposal_id":null,"note":"历史届·只读"},{"el_id":"el-15","el_status":"finished","el_election_date":"2026-07-29T16:00:00.000Z","el_proposal_id":"8e5935b0-b8d8-439d-ab13-23e78a4bf3fd","note":"已于2026-07-30完成投票选举；结果仅补录主任岗位（黄志明28票），其余岗位结果及选民汇总数据待业务补录（2026"},{"el_id":"el-mtiyny8g","el_status":"in_progress","el_election_date":"2026-12-29T16:00:00.000Z","el_proposal_id":"7a3ee179-4f16-4212-bced-c47053d19fa0","note":null}]
+[{"el_id":"el-11","el_status":"finished"},{"el_id":"el-15","el_status":"finished"}]
+✅ el-11/el-15 均为 finished
+[{"el_id":"el-mtiyny8g","el_status":"in_progress"}]
+✅ 自测选举 el-mtiyny8g 未被改动（仍 in_progress）
+
+== C el-15 阶段对齐（diff 应全为 0） ==
+[{"total":16,"aligned":16}]
+✅ el-15 16 阶段全部与 D 日偏移对齐 — {"total":16,"aligned":16}
+[{"total":16,"aligned":16}]
+✅ el-11 16 阶段仍全部对齐（未被误伤） — {"total":16,"aligned":16}
+[{"stage_key":"D-35","stage_start_date":"2026-06-24T16:00:00.000Z","stage_end_date":"2026-06-24T16:00:00.000Z","stage_status":"已完成"},{"stage_key":"D0","stage_start_date":"2026-07-29T16:00:00.000Z","stage_end_date":"2026-07-29T16:00:00.000Z","stage_status":"已完成"},{"stage_key":"D+1~+10","stage_start_date":"2026-07-30T16:00:00.000Z","stage_end_date":"2026-08-08T16:00:00.000Z","stage_status":"已完成"}]
+
+== D el-11 收尾阶段状态 ==
+[{"stage_status":"进行中"}]
+✅ el-11 D+1~+10 = 进行中 — [{"stage_status":"进行中"}]
+
+== E 4 名候选人 ==
+[{"election_id":"el-11","cand_name":"许金坤","cand_r1":"通过","cand_r2":"不通过","cand_r3":null,"cand_r4":null,"cand_status":"预选未入围","cand_votes":null},{"election_id":"el-11","cand_name":"郑阿土","cand_r1":"通过","cand_r2":"不通过","cand_r3":null,"cand_r4":null,"cand_status":"预选未入围","cand_votes":null},{"election_id":"el-15","cand_name":"林强","cand_r1":"通过","cand_r2":"不通过","cand_r3":null,"cand_r4":null,"cand_status":"预选未入围","cand_votes":null},{"election_id":"el-15","cand_name":"黄志明","cand_r1":"通过","cand_r2":"通过","cand_r3":"通过","cand_r4":"通过","cand_status":"当选","cand_votes":28}]
+
+== F el-15 positions ==
+[{"pos_type":"主任","pos_status":"closed"},{"pos_type":"副主任","pos_status":"closed"},{"pos_type":"委员","pos_status":"closed"}]
+✅ el-15 岗位全部 closed
+
+== G materials 关联 ==
+[{"election_id":"el-11","total":12,"uuid_cnt":12,"joined":12},{"election_id":"el-15","total":12,"uuid_cnt":11,"joined":11}]
+✅ materials：el-11 12/12、el-15 11/11 已挂候选人UUID（张桂香无候选人保持空） — [{"election_id":"el-11","total":12,"uuid_cnt":12,"joined":12},{"election_id":"el-15","total":12,"uuid_cnt":11,"joined":11}]
+[{"id":"c96e6e7f-c31f-47dc-a012-dcbced6d342d","mat_submitter":"张桂香","mat_candidate_id":null}]
+
+== H 提案关联 ==
+[{"el_id":"el-11","el_proposal_id":"9ab2389f-73c0-48f4-96fa-0b4faa25ba02"},{"el_id":"el-15","el_proposal_id":"8e5935b0-b8d8-439d-ab13-23e78a4bf3fd"}]
+✅ el-11/el-15 均已关联 approved 提案
+
+== I el-15 结果 ==
+[{"election_id":"el-15","er_position":"主任","er_winner_name":"黄志明","er_votes":28,"er_election_date":"2026-07-29T16:00:00.000Z","note":"2026-09-02数据订正补录：依据 candidates 中黄志明「当选」状"}]
+✅ el-15 已补主任结果（黄志明28票，选举日2026-07-30） — [{"election_id":"el-15","er_position":"主任","er_winner_name":"黄志明","er_votes":28,"er_election_date":"2026-07-29T16:00:00.000Z","note":"2026-09-02数据订正补录：依据 candidates 中黄志明「当选」状"}]
+
+== J 占位组织标记 ==
+[{"total":84,"marked":84,"still_active":84}]
+✅ 84 个占位组织全部打标且 status 未改 — {"total":84,"marked":84,"still_active":84}
+
+== 备份表统计 ==
+[{"tbl":"accounts","op":"U","n":11},{"tbl":"candidates","op":"U","n":4},{"tbl":"election_results","op":"I","n":1},{"tbl":"election_stages","op":"U","n":17},{"tbl":"elections","op":"U","n":2},{"tbl":"materials","op":"U","n":23},{"tbl":"organizations","op":"U","n":84},{"tbl":"positions","op":"U","n":3}]
+
+== 结论 ==
+✅ 全部硬性校验通过

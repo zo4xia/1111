@@ -1,0 +1,2963 @@
+﻿
+===== 数据库当前日期 =====
+node : (node:3908) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as 
+aliases for 'verify-full'.
+At line:1 char:38
++ ... sers\zo4xi\Desktop\3\backend; node scripts/01_inspect.js 2>&1 | Out-F ...
++                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:3908) War... 'verify-full'.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq 
+semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+-- now（1 行）
+[
+ {
+  "now_ts": "2026-09-01T17:43:37.000Z",
+  "today": "2026-08-31T16:00:00.000Z"
+ }
+]
+
+===== 全部表与行数 =====
+-- pg_stat_user_tables（33 行）
+[
+ {
+  "table_name": "account",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "account_roles",
+  "approx_rows": "11"
+ },
+ {
+  "table_name": "accounts",
+  "approx_rows": "12"
+ },
+ {
+  "table_name": "announcement_templates",
+  "approx_rows": "22"
+ },
+ {
+  "table_name": "announcements",
+  "approx_rows": "34"
+ },
+ {
+  "table_name": "archives",
+  "approx_rows": "6"
+ },
+ {
+  "table_name": "candidates",
+  "approx_rows": "23"
+ },
+ {
+  "table_name": "design_notes",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "election_results",
+  "approx_rows": "10"
+ },
+ {
+  "table_name": "election_stages",
+  "approx_rows": "32"
+ },
+ {
+  "table_name": "elections",
+  "approx_rows": "4"
+ },
+ {
+  "table_name": "invitation",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "jwks",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "materials",
+  "approx_rows": "24"
+ },
+ {
+  "table_name": "member",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "notification_reads",
+  "approx_rows": "4"
+ },
+ {
+  "table_name": "notifications",
+  "approx_rows": "7"
+ },
+ {
+  "table_name": "organization",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "organizations",
+  "approx_rows": "123"
+ },
+ {
+  "table_name": "positions",
+  "approx_rows": "6"
+ },
+ {
+  "table_name": "project_config",
+  "approx_rows": "1"
+ },
+ {
+  "table_name": "project_memory",
+  "approx_rows": "3"
+ },
+ {
+  "table_name": "proposal_posts",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "proposals",
+  "approx_rows": "4"
+ },
+ {
+  "table_name": "role_quotas",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "roles",
+  "approx_rows": "6"
+ },
+ {
+  "table_name": "roster",
+  "approx_rows": "14"
+ },
+ {
+  "table_name": "session",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "stage_templates",
+  "approx_rows": "16"
+ },
+ {
+  "table_name": "system_configs",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "user",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "verification",
+  "approx_rows": "0"
+ },
+ {
+  "table_name": "voters",
+  "approx_rows": "38"
+ }
+]
+
+===== P0-3 accounts 全量 =====
+-- accounts（12 行）
+[
+ {
+  "id": "f8834e96-2c0f-44c7-9198-8af79d26f95b",
+  "org_id": "boss",
+  "acc_name": "系统超管",
+  "acc_phone": "130****0000",
+  "acc_password_hint": "*",
+  "roles": "NO.001",
+  "acc_status": "active",
+  "acc_note": "引导账号不参与登录演示",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "78d845a0-bf72-435a-9d25-6e0cec7632db",
+  "org_id": "boss",
+  "acc_name": "张主任",
+  "acc_phone": "13800000001",
+  "acc_password_hint": "123456",
+  "roles": "platform_admin",
+  "acc_status": "active",
+  "acc_note": "平台超管",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "98070cd4-8557-4791-be7d-dcedb01602d0",
+  "org_id": "s-jiankou",
+  "acc_name": "李经办",
+  "acc_phone": "13800000002",
+  "acc_password_hint": "123456",
+  "roles": "NO.003",
+  "acc_status": "active",
+  "acc_note": "经办/书记",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "ff2abaf0-895d-48da-8d48-6ec1060cf41f",
+  "org_id": "s-jiankou",
+  "acc_name": "王审核",
+  "acc_phone": "13800000003",
+  "acc_password_hint": "123456",
+  "roles": "NO.005",
+  "acc_status": "active",
+  "acc_note": "审核员",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "f47dbd70-6762-4e0d-b61b-2aa6d078774f",
+  "org_id": "s-jiankou",
+  "acc_name": "赵运营",
+  "acc_phone": "13800000004",
+  "acc_password_hint": "123456",
+  "roles": "NO.004",
+  "acc_status": "active",
+  "acc_note": "运营编辑",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "2e041028-05b6-4323-996a-c24a6fc8882b",
+  "org_id": "s-jiankou",
+  "acc_name": "林建国",
+  "acc_phone": "13800000005",
+  "acc_password_hint": "123456",
+  "roles": "NO.002",
+  "acc_status": "active",
+  "acc_note": "子管理·选委会主任",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "8eecf219-606d-4862-9a0f-5d1552e646ab",
+  "org_id": "s-jiankou",
+  "acc_name": "黄志明",
+  "acc_phone": "13800000006",
+  "acc_password_hint": "123456",
+  "roles": "NO.006",
+  "acc_status": "active",
+  "acc_note": "选民·H5演示账号·主任候选人",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "07aec30b-95e1-4376-b012-aa0fe6534366",
+  "org_id": "v-yanshou",
+  "acc_name": "吴春霖",
+  "acc_phone": "13800000011",
+  "acc_password_hint": "123456",
+  "roles": "NO.002",
+  "acc_status": "active",
+  "acc_note": "子管理·选委会主任",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "9d003831-2865-4f12-b01c-be803904aba4",
+  "org_id": "v-yanshou",
+  "acc_name": "郑文彬",
+  "acc_phone": "13800000012",
+  "acc_password_hint": "123456",
+  "roles": "NO.003",
+  "acc_status": "active",
+  "acc_note": "经办",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "ff6147dd-28ae-4319-817d-9e8ae35923d9",
+  "org_id": "v-yanshou",
+  "acc_name": "陈玉华",
+  "acc_phone": "13800000013",
+  "acc_password_hint": "123456",
+  "roles": "NO.005",
+  "acc_status": "active",
+  "acc_note": "审核员",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "a026d6ae-9e98-49d0-941b-1044a9a20e90",
+  "org_id": "v-yanshou",
+  "acc_name": "林巧云",
+  "acc_phone": "13800000014",
+  "acc_password_hint": "123456",
+  "roles": "NO.004",
+  "acc_status": "active",
+  "acc_note": "运营编辑",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ },
+ {
+  "id": "556ca8c1-64d4-4d92-96c4-3e623d84d4c0",
+  "org_id": "v-yanshou",
+  "acc_name": "徐永福",
+  "acc_phone": "13800000015",
+  "acc_password_hint": "123456",
+  "roles": "NO.006",
+  "acc_status": "active",
+  "acc_note": "选民·H5账号·当选主任",
+  "created_at": "2026-08-30T15:57:20.000Z"
+ }
+]
+
+===== account_roles 表（业务角色明细） =====
+-- account_roles（11 行）
+[
+ {
+  "id": "2d8a136e-4e3d-46e2-8da8-b5e8d2f740c8",
+  "org_id": "v-yanshou",
+  "role_key": "sub_admin",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "本组织子管理",
+  "acc_id": "07aec30b-95e1-4376-b012-aa0fe6534366",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "05a970bc-04c4-4237-965d-6842bb7d1360",
+  "org_id": "s-jiankou",
+  "role_key": "sub_admin",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "本组织子管理",
+  "acc_id": "2e041028-05b6-4323-996a-c24a6fc8882b",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "d7b9b24c-fedf-4012-8aec-2f7f9e69d24d",
+  "org_id": "v-yanshou",
+  "role_key": "voters",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "选民",
+  "acc_id": "556ca8c1-64d4-4d92-96c4-3e623d84d4c0",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "1b3238d5-ea42-48d0-a952-db92e32e76a8",
+  "org_id": "boss",
+  "role_key": "platform_admin",
+  "ar_status": "active",
+  "ar_assigned_by": "system",
+  "ar_note": "平台超管账号",
+  "acc_id": "78d845a0-bf72-435a-9d25-6e0cec7632db",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "44526856-cdf4-4c56-8cc8-2532797e6206",
+  "org_id": "s-jiankou",
+  "role_key": "voters",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "选民（提交材料）",
+  "acc_id": "8eecf219-606d-4862-9a0f-5d1552e646ab",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "8dc26893-a0da-40a0-bc00-102872c636fd",
+  "org_id": "s-jiankou",
+  "role_key": "operator",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "经办/书记",
+  "acc_id": "98070cd4-8557-4791-be7d-dcedb01602d0",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "a2ed9161-a1a1-4e09-9c8a-bd236080bc9e",
+  "org_id": "v-yanshou",
+  "role_key": "operator",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "经办",
+  "acc_id": "9d003831-2865-4f12-b01c-be803904aba4",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "1154fa6b-4326-41fd-9d23-0476a43048a2",
+  "org_id": "v-yanshou",
+  "role_key": "editor",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "运营编辑",
+  "acc_id": "a026d6ae-9e98-49d0-941b-1044a9a20e90",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "c3579674-ac21-4446-85b3-11d6aeb602a3",
+  "org_id": "s-jiankou",
+  "role_key": "editor",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "运营编辑",
+  "acc_id": "f47dbd70-6762-4e0d-b61b-2aa6d078774f",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "78a53743-93fb-401d-9acd-7cc624fc2082",
+  "org_id": "s-jiankou",
+  "role_key": "reviewer",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "审核角色",
+  "acc_id": "ff2abaf0-895d-48da-8d48-6ec1060cf41f",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ },
+ {
+  "id": "ba34fa31-8e90-4690-87a7-3100e0a8fef8",
+  "org_id": "v-yanshou",
+  "role_key": "reviewer",
+  "ar_status": "active",
+  "ar_assigned_by": "boss",
+  "ar_note": "审核角色",
+  "acc_id": "ff6147dd-28ae-4319-817d-9e8ae35923d9",
+  "created_at": "2026-08-30T15:57:27.000Z",
+  "updated_at": "2026-08-30T15:57:27.000Z"
+ }
+]
+
+===== P0-2 elections 全量 =====
+-- elections（4 行）
+[
+ {
+  "id": "00ba9577-a285-4963-b3a5-5004076f28a6",
+  "org_id": "v-yanshou",
+  "el_id": "el-10",
+  "el_term": "第10届",
+  "el_name": "第10届延寿村委会换届选举",
+  "el_status": "archived",
+  "el_election_date": "2021-11-19T16:00:00.000Z",
+  "el_method": "直选",
+  "el_proposal_id": null,
+  "el_note": "历史届·只读",
+  "created_at": "2026-08-30T15:57:50.000Z",
+  "updated_at": "2026-08-30T15:57:50.000Z"
+ },
+ {
+  "id": "e75efcb4-6aa8-4d11-89b0-ff5045419935",
+  "org_id": "s-jiankou",
+  "el_id": "el-14",
+  "el_term": "第14届",
+  "el_name": "第14届涧口社区居委会换届选举",
+  "el_status": "archived",
+  "el_election_date": "2021-12-09T16:00:00.000Z",
+  "el_method": "直选",
+  "el_proposal_id": null,
+  "el_note": "历史届·只读",
+  "created_at": "2026-08-30T15:57:50.000Z",
+  "updated_at": "2026-08-30T15:57:50.000Z"
+ },
+ {
+  "id": "7d434550-25f6-4dca-affb-ea56cd12d88b",
+  "org_id": "v-yanshou",
+  "el_id": "el-11",
+  "el_term": "第11届",
+  "el_name": "第11届延寿村委会换届选举",
+  "el_status": "in_progress",
+  "el_election_date": "2026-07-15T16:00:00.000Z",
+  "el_method": "直选",
+  "el_proposal_id": null,
+  "el_note": "D+5收尾中：备案完成、交接未开始",
+  "created_at": "2026-08-30T15:57:50.000Z",
+  "updated_at": "2026-08-30T15:57:50.000Z"
+ },
+ {
+  "id": "bda968d5-6197-4cf4-9b74-c77c8aaff921",
+  "org_id": "s-jiankou",
+  "el_id": "el-15",
+  "el_term": "第15届",
+  "el_name": "第15届涧口社区居委会换届选举",
+  "el_status": "in_progress",
+  "el_election_date": "2026-07-29T16:00:00.000Z",
+  "el_method": "直选",
+  "el_proposal_id": null,
+  "el_note": "D日锚点=全系统唯一日期输入",
+  "created_at": "2026-08-30T15:57:50.000Z",
+  "updated_at": "2026-08-30T15:57:50.000Z"
+ }
+]
+
+===== P2-4 stage_templates 模板 =====
+-- stage_templates（16 行）
+[
+ {
+  "st_key": "D-35",
+  "st_name": "前期筹备",
+  "st_day_offset": -35,
+  "st_duration_days": -35,
+  "st_order": -35
+ },
+ {
+  "st_key": "D-34",
+  "st_name": "成立选委会",
+  "st_day_offset": -34,
+  "st_duration_days": -34,
+  "st_order": -34
+ },
+ {
+  "st_key": "D-33~-29",
+  "st_name": "选民登记",
+  "st_day_offset": -33,
+  "st_duration_days": -29,
+  "st_order": -33
+ },
+ {
+  "st_key": "D-28~-24",
+  "st_name": "公示选民名单",
+  "st_day_offset": -28,
+  "st_duration_days": -24,
+  "st_order": -28
+ },
+ {
+  "st_key": "D-23~-21",
+  "st_name": "受理选民申诉",
+  "st_day_offset": -23,
+  "st_duration_days": -21,
+  "st_order": -23
+ },
+ {
+  "st_key": "D-20~-16",
+  "st_name": "代表选举",
+  "st_day_offset": -20,
+  "st_duration_days": -16,
+  "st_order": -20
+ },
+ {
+  "st_key": "D-15",
+  "st_name": "候选人提名启动",
+  "st_day_offset": -15,
+  "st_duration_days": -15,
+  "st_order": -15
+ },
+ {
+  "st_key": "D-14",
+  "st_name": "候选人提名延续",
+  "st_day_offset": -14,
+  "st_duration_days": -14,
+  "st_order": -14
+ },
+ {
+  "st_key": "D-13",
+  "st_name": "初步候选人汇总+镇级初审",
+  "st_day_offset": -13,
+  "st_duration_days": -13,
+  "st_order": -13
+ },
+ {
+  "st_key": "D-12~-10",
+  "st_name": "竞选预选",
+  "st_day_offset": -12,
+  "st_duration_days": -10,
+  "st_order": -12
+ },
+ {
+  "st_key": "D-9~-5",
+  "st_name": "区级11部门联审、党委考察",
+  "st_day_offset": -9,
+  "st_duration_days": -5,
+  "st_order": -9
+ },
+ {
+  "st_key": "D-4",
+  "st_name": "正式候选人公示",
+  "st_day_offset": -4,
+  "st_duration_days": -4,
+  "st_order": -4
+ },
+ {
+  "st_key": "D-3~-2",
+  "st_name": "投票竞选筹备",
+  "st_day_offset": -3,
+  "st_duration_days": -2,
+  "st_order": -3
+ },
+ {
+  "st_key": "D-1",
+  "st_name": "投票竞选筹备",
+  "st_day_offset": -1,
+  "st_duration_days": -1,
+  "st_order": -1
+ },
+ {
+  "st_key": "D0",
+  "st_name": "正式投票选举",
+  "st_day_offset": 0,
+  "st_duration_days": 0,
+  "st_order": 0
+ },
+ {
+  "st_key": "D+1~+10",
+  "st_name": "结果备案、新旧班子交接",
+  "st_day_offset": 1,
+  "st_duration_days": 10,
+  "st_order": 1
+ }
+]
+
+===== election_stages 按选举分组 =====
+-- stages（32 行）
+[
+ {
+  "election_id": "el-11",
+  "stage_key": "D-35",
+  "stage_name": "前期筹备",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-10T16:00:00.000Z",
+  "stage_end_date": "2026-06-10T16:00:00.000Z",
+  "stage_order": -35
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-34",
+  "stage_name": "成立选委会",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-11T16:00:00.000Z",
+  "stage_end_date": "2026-06-11T16:00:00.000Z",
+  "stage_order": -34
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-33~-29",
+  "stage_name": "选民登记",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-12T16:00:00.000Z",
+  "stage_end_date": "2026-06-16T16:00:00.000Z",
+  "stage_order": -33
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-28~-24",
+  "stage_name": "公示选民名单",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-17T16:00:00.000Z",
+  "stage_end_date": "2026-06-21T16:00:00.000Z",
+  "stage_order": -28
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-23~-21",
+  "stage_name": "受理选民申诉",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-22T16:00:00.000Z",
+  "stage_end_date": "2026-06-24T16:00:00.000Z",
+  "stage_order": -23
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-20~-16",
+  "stage_name": "村民代表和村民小组长选举",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-25T16:00:00.000Z",
+  "stage_end_date": "2026-06-29T16:00:00.000Z",
+  "stage_order": -20
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-15",
+  "stage_name": "候选人提名启动",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-30T16:00:00.000Z",
+  "stage_end_date": "2026-06-30T16:00:00.000Z",
+  "stage_order": -15
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-14",
+  "stage_name": "候选人提名延续",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-01T16:00:00.000Z",
+  "stage_end_date": "2026-07-01T16:00:00.000Z",
+  "stage_order": -14
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-13",
+  "stage_name": "初步候选人汇总+镇级初审",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-02T16:00:00.000Z",
+  "stage_end_date": "2026-07-02T16:00:00.000Z",
+  "stage_order": -13
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-12~-10",
+  "stage_name": "竞选预选",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-03T16:00:00.000Z",
+  "stage_end_date": "2026-07-05T16:00:00.000Z",
+  "stage_order": -12
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-9~-5",
+  "stage_name": "区级多部门联审、党委考察",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-06T16:00:00.000Z",
+  "stage_end_date": "2026-07-10T16:00:00.000Z",
+  "stage_order": -9
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-4",
+  "stage_name": "正式候选人公示",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-11T16:00:00.000Z",
+  "stage_end_date": "2026-07-11T16:00:00.000Z",
+  "stage_order": -4
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-3~-2",
+  "stage_name": "投票竞选筹备",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-12T16:00:00.000Z",
+  "stage_end_date": "2026-07-13T16:00:00.000Z",
+  "stage_order": -3
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D-1",
+  "stage_name": "投票竞选筹备",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-14T16:00:00.000Z",
+  "stage_end_date": "2026-07-14T16:00:00.000Z",
+  "stage_order": -1
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D0",
+  "stage_name": "正式投票选举",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-15T16:00:00.000Z",
+  "stage_end_date": "2026-07-15T16:00:00.000Z",
+  "stage_order": 0
+ },
+ {
+  "election_id": "el-11",
+  "stage_key": "D+1~+10",
+  "stage_name": "结果备案、新旧班子交接",
+  "stage_status": "办理中",
+  "stage_start_date": "2026-07-16T16:00:00.000Z",
+  "stage_end_date": "2026-07-25T16:00:00.000Z",
+  "stage_order": 1
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-35",
+  "stage_name": "前期筹备",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-23T16:00:00.000Z",
+  "stage_end_date": "2026-06-23T16:00:00.000Z",
+  "stage_order": -35
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-34",
+  "stage_name": "成立选委会",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-24T16:00:00.000Z",
+  "stage_end_date": "2026-06-24T16:00:00.000Z",
+  "stage_order": -34
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-33~-29",
+  "stage_name": "选民登记",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-25T16:00:00.000Z",
+  "stage_end_date": "2026-06-25T16:00:00.000Z",
+  "stage_order": -33
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-28~-24",
+  "stage_name": "公示选民名单",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-06-30T16:00:00.000Z",
+  "stage_end_date": "2026-06-30T16:00:00.000Z",
+  "stage_order": -28
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-23~-21",
+  "stage_name": "受理选民申诉",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-05T16:00:00.000Z",
+  "stage_end_date": "2026-07-05T16:00:00.000Z",
+  "stage_order": -23
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-20~-16",
+  "stage_name": "代表选举",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-08T16:00:00.000Z",
+  "stage_end_date": "2026-07-08T16:00:00.000Z",
+  "stage_order": -20
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-15",
+  "stage_name": "候选人提名启动",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-13T16:00:00.000Z",
+  "stage_end_date": "2026-07-13T16:00:00.000Z",
+  "stage_order": -15
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-14",
+  "stage_name": "候选人提名延续",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-14T16:00:00.000Z",
+  "stage_end_date": "2026-07-14T16:00:00.000Z",
+  "stage_order": -14
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-13",
+  "stage_name": "初步候选人汇总+镇级初审",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-15T16:00:00.000Z",
+  "stage_end_date": "2026-07-15T16:00:00.000Z",
+  "stage_order": -13
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-12~-10",
+  "stage_name": "竞选预选",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-16T16:00:00.000Z",
+  "stage_end_date": "2026-07-16T16:00:00.000Z",
+  "stage_order": -12
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-9~-5",
+  "stage_name": "区级11部门联审、党委考察",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-19T16:00:00.000Z",
+  "stage_end_date": "2026-07-19T16:00:00.000Z",
+  "stage_order": -9
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-4",
+  "stage_name": "正式候选人公示",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-24T16:00:00.000Z",
+  "stage_end_date": "2026-07-24T16:00:00.000Z",
+  "stage_order": -4
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-3~-2",
+  "stage_name": "投票竞选筹备",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-25T16:00:00.000Z",
+  "stage_end_date": "2026-07-25T16:00:00.000Z",
+  "stage_order": -3
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D-1",
+  "stage_name": "投票竞选筹备",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-27T16:00:00.000Z",
+  "stage_end_date": "2026-07-27T16:00:00.000Z",
+  "stage_order": -1
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D0",
+  "stage_name": "正式投票选举",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-28T16:00:00.000Z",
+  "stage_end_date": "2026-07-28T16:00:00.000Z",
+  "stage_order": 0
+ },
+ {
+  "election_id": "el-15",
+  "stage_key": "D+1~+10",
+  "stage_name": "结果备案、新旧班子交接",
+  "stage_status": "已完成",
+  "stage_start_date": "2026-07-29T16:00:00.000Z",
+  "stage_end_date": "2026-08-07T16:00:00.000Z",
+  "stage_order": 1
+ }
+]
+
+===== P1-3 election_results 全量 =====
+-- election_results（10 行）
+[
+ {
+  "id": "fed783ba-0586-4d75-be2f-58e1ff40d109",
+  "org_id": "v-yanshou",
+  "org_name": "延寿村委会",
+  "election_id": "el-11",
+  "er_election_date": "2026-07-15T16:00:00.000Z",
+  "er_position": "委员",
+  "er_winner_name": "陈丽芳",
+  "er_votes": 585,
+  "er_eligible_voters": 1286,
+  "er_actual_voters": 1147,
+  "er_valid_votes": 1133,
+  "er_invalid_votes": 14,
+  "er_turnout": "89.2%",
+  "er_result_ann_code": "第17号",
+  "er_filing_status": "已备案",
+  "er_filing_time": "2026-07-19T16:00:00.000Z",
+  "er_handover_status": "未交接",
+  "er_note": "妇女成员专职专选",
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "c50b8e6d-6f99-414a-8b49-4edc13c985c8",
+  "org_id": "v-yanshou",
+  "org_name": "延寿村委会",
+  "election_id": "el-11",
+  "er_election_date": "2026-07-15T16:00:00.000Z",
+  "er_position": "副主任",
+  "er_winner_name": "吴亚珍",
+  "er_votes": 571,
+  "er_eligible_voters": 1286,
+  "er_actual_voters": 1147,
+  "er_valid_votes": 1133,
+  "er_invalid_votes": 14,
+  "er_turnout": "89.2%",
+  "er_result_ann_code": "第17号",
+  "er_filing_status": "已备案",
+  "er_filing_time": "2026-07-19T16:00:00.000Z",
+  "er_handover_status": "未交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "3e1306fa-eddf-4b38-bd80-b8910f28f8cc",
+  "org_id": "v-yanshou",
+  "org_name": "延寿村委会",
+  "election_id": "el-11",
+  "er_election_date": "2026-07-15T16:00:00.000Z",
+  "er_position": "委员",
+  "er_winner_name": "黄志成",
+  "er_votes": 598,
+  "er_eligible_voters": 1286,
+  "er_actual_voters": 1147,
+  "er_valid_votes": 1133,
+  "er_invalid_votes": 14,
+  "er_turnout": "89.2%",
+  "er_result_ann_code": "第17号",
+  "er_filing_status": "已备案",
+  "er_filing_time": "2026-07-19T16:00:00.000Z",
+  "er_handover_status": "未交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "0bce7a03-061d-482e-acff-9115ac2e7ea9",
+  "org_id": "v-yanshou",
+  "org_name": "延寿村委会",
+  "election_id": "el-11",
+  "er_election_date": "2026-07-15T16:00:00.000Z",
+  "er_position": "委员",
+  "er_winner_name": "林金土",
+  "er_votes": 577,
+  "er_eligible_voters": 1286,
+  "er_actual_voters": 1147,
+  "er_valid_votes": 1133,
+  "er_invalid_votes": 14,
+  "er_turnout": "89.2%",
+  "er_result_ann_code": "第17号",
+  "er_filing_status": "已备案",
+  "er_filing_time": "2026-07-19T16:00:00.000Z",
+  "er_handover_status": "未交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "a994387e-c629-4bda-a4eb-5fb39353971e",
+  "org_id": "v-yanshou",
+  "org_name": "延寿村委会",
+  "election_id": "el-11",
+  "er_election_date": "2026-07-15T16:00:00.000Z",
+  "er_position": "委员",
+  "er_winner_name": "吴文贵",
+  "er_votes": 561,
+  "er_eligible_voters": 1286,
+  "er_actual_voters": 1147,
+  "er_valid_votes": 1133,
+  "er_invalid_votes": 14,
+  "er_turnout": "89.2%",
+  "er_result_ann_code": "第17号",
+  "er_filing_status": "已备案",
+  "er_filing_time": "2026-07-19T16:00:00.000Z",
+  "er_handover_status": "未交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "a2e618f0-1912-4fc5-aecd-9e94d0474091",
+  "org_id": "v-yanshou",
+  "org_name": "延寿村委会",
+  "election_id": "el-11",
+  "er_election_date": "2026-07-15T16:00:00.000Z",
+  "er_position": "主任",
+  "er_winner_name": "徐永福",
+  "er_votes": 623,
+  "er_eligible_voters": 1286,
+  "er_actual_voters": 1147,
+  "er_valid_votes": 1133,
+  "er_invalid_votes": 14,
+  "er_turnout": "89.2%",
+  "er_result_ann_code": "第17号",
+  "er_filing_status": "已备案",
+  "er_filing_time": "2026-07-19T16:00:00.000Z",
+  "er_handover_status": "未交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "a16ab0de-447e-4dca-a0ea-9c56d8af00d9",
+  "org_id": "s-jiankou",
+  "org_name": "涧口居委会",
+  "election_id": "el-14",
+  "er_election_date": "2021-12-09T16:00:00.000Z",
+  "er_position": "副主任",
+  "er_winner_name": "林美华",
+  "er_votes": 867,
+  "er_eligible_voters": 1850,
+  "er_actual_voters": 1612,
+  "er_valid_votes": 1598,
+  "er_invalid_votes": 14,
+  "er_turnout": "87.1%",
+  "er_result_ann_code": null,
+  "er_filing_status": "已备案",
+  "er_filing_time": "2021-12-14T16:00:00.000Z",
+  "er_handover_status": "已交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "0cb23e22-bcb9-45cd-890d-b89b9c4865fe",
+  "org_id": "s-jiankou",
+  "org_name": "涧口居委会",
+  "election_id": "el-14",
+  "er_election_date": "2021-12-09T16:00:00.000Z",
+  "er_position": "委员",
+  "er_winner_name": "黄大鹏",
+  "er_votes": 845,
+  "er_eligible_voters": 1850,
+  "er_actual_voters": 1612,
+  "er_valid_votes": 1598,
+  "er_invalid_votes": 14,
+  "er_turnout": "87.1%",
+  "er_result_ann_code": null,
+  "er_filing_status": "已备案",
+  "er_filing_time": "2021-12-14T16:00:00.000Z",
+  "er_handover_status": "已交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "e8a3cb0b-e8d5-464c-816d-0ee3d2d2a385",
+  "org_id": "s-jiankou",
+  "org_name": "涧口居委会",
+  "election_id": "el-14",
+  "er_election_date": "2021-12-09T16:00:00.000Z",
+  "er_position": "委员",
+  "er_winner_name": "吴丽娟",
+  "er_votes": 831,
+  "er_eligible_voters": 1850,
+  "er_actual_voters": 1612,
+  "er_valid_votes": 1598,
+  "er_invalid_votes": 14,
+  "er_turnout": "87.1%",
+  "er_result_ann_code": null,
+  "er_filing_status": "已备案",
+  "er_filing_time": "2021-12-14T16:00:00.000Z",
+  "er_handover_status": "已交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ },
+ {
+  "id": "6ba53fcf-3ce3-4234-aaec-271f0c70918a",
+  "org_id": "s-jiankou",
+  "org_name": "涧口居委会",
+  "election_id": "el-14",
+  "er_election_date": "2021-12-09T16:00:00.000Z",
+  "er_position": "主任",
+  "er_winner_name": "陈志强",
+  "er_votes": 892,
+  "er_eligible_voters": 1850,
+  "er_actual_voters": 1612,
+  "er_valid_votes": 1598,
+  "er_invalid_votes": 14,
+  "er_turnout": "87.1%",
+  "er_result_ann_code": null,
+  "er_filing_status": "已备案",
+  "er_filing_time": "2021-12-14T16:00:00.000Z",
+  "er_handover_status": "已交接",
+  "er_note": null,
+  "created_at": "2026-08-30T16:00:23.000Z",
+  "updated_at": "2026-08-30T16:00:23.000Z"
+ }
+]
+
+===== positions 全量 =====
+-- positions（6 行）
+[
+ {
+  "id": "1047f7cb-c056-4e03-a7e9-837c3138f9e9",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "pos_type": "主任",
+  "pos_quota": 1,
+  "pos_status": "closed",
+  "pos_desc": "主持村委会全面工作"
+ },
+ {
+  "id": "443a88b4-7b48-4685-ae93-f0e9a19c9392",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "pos_type": "副主任",
+  "pos_quota": 1,
+  "pos_status": "closed",
+  "pos_desc": "协助主任开展工作"
+ },
+ {
+  "id": "45413d33-28db-4535-a22b-f2604eac707d",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "pos_type": "委员",
+  "pos_quota": 4,
+  "pos_status": "closed",
+  "pos_desc": "分管具体事务（含妇女成员1名专职专选）"
+ },
+ {
+  "id": "5d7d6be6-4382-428d-a16b-4cdfa7b53b86",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "pos_type": "主任",
+  "pos_quota": 1,
+  "pos_status": "open",
+  "pos_desc": "主持居委会全面工作"
+ },
+ {
+  "id": "4d50edb9-8f40-45c8-8f09-073d18718712",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "pos_type": "副主任",
+  "pos_quota": 1,
+  "pos_status": "open",
+  "pos_desc": "协助主任开展工作"
+ },
+ {
+  "id": "b3f1f80d-536c-4159-a106-771906520d17",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "pos_type": "委员",
+  "pos_quota": 5,
+  "pos_status": "open",
+  "pos_desc": "分管具体事务"
+ }
+]
+
+===== P1-2 candidates 全量 =====
+-- candidates（23 行）
+[
+ {
+  "id": "afff8617-b59f-4277-b9f9-44629a1bd6f7",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "李国雄",
+  "cand_position_id": "副主任",
+  "cand_source": "org_recommend",
+  "cand_gender": "男",
+  "cand_age": 46,
+  "cand_phone": "15700001046",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "落选",
+  "cand_votes": 455,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "eea76768-0d7a-46f4-9380-bb56dfa15f9d",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "黄志成",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 39,
+  "cand_phone": "15100001039",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "当选",
+  "cand_votes": 598,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "9968410c-2d77-4efb-a6d2-c90988e3849f",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "林金土",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 63,
+  "cand_phone": "15200001063",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "当选",
+  "cand_votes": 577,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "1a758226-78df-4ee9-b0b2-875cc42c1d16",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "吴文贵",
+  "cand_position_id": "委员",
+  "cand_source": "org_recommend",
+  "cand_gender": "男",
+  "cand_age": 57,
+  "cand_phone": "15300001057",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "当选",
+  "cand_votes": 561,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "6abd744b-6c46-4f01-a516-228b3d10bfb3",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "王国祥",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 45,
+  "cand_phone": "15400001045",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "落选",
+  "cand_votes": 402,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "53a68b6f-9e84-4b7f-8dcd-9bc915bb2140",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "郑阿土",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 49,
+  "cand_phone": "15500001049",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "预选未入围",
+  "cand_r4": null,
+  "cand_status": "预选未入围",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "cce7cc12-e6fa-4864-abda-2057e62758b1",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "陈丽芳",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 36,
+  "cand_phone": "15600001036",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "当选",
+  "cand_votes": 585,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "36112356-9326-4993-8bd0-0952ef3a2321",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "许丽英",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 41,
+  "cand_phone": "15800001041",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "落选",
+  "cand_votes": 463,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "c324b6ba-c484-4d7b-a817-d4271b83d213",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "徐永福",
+  "cand_position_id": "主任",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 47,
+  "cand_phone": "13800000015",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "当选",
+  "cand_votes": 623,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "8d3575fc-2918-4cef-b91b-868174a6c9ff",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "翁志强",
+  "cand_position_id": "主任",
+  "cand_source": "org_recommend",
+  "cand_gender": "男",
+  "cand_age": 44,
+  "cand_phone": "15900001044",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "落选",
+  "cand_votes": 489,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "e7e8a665-6315-4cdc-9654-ae44b4840247",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "许金坤",
+  "cand_position_id": "主任",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 51,
+  "cand_phone": "15800001051",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "预选未入围",
+  "cand_r4": null,
+  "cand_status": "预选未入围",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "b93a0e01-9144-4a6f-8e26-1a1c38331dc2",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "cand_name": "吴亚珍",
+  "cand_position_id": "副主任",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 42,
+  "cand_phone": "15000001042",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "通过",
+  "cand_status": "当选",
+  "cand_votes": 571,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "772ebc79-5d56-40ce-8a72-49ad78cdf3f0",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "周伟",
+  "cand_position_id": "主任",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 41,
+  "cand_phone": "13700001041",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "不通过",
+  "cand_r4": null,
+  "cand_status": "联审不通过",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "9d1c3d29-203c-4460-88ba-1e5a411fe7fe",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "吴丽琴",
+  "cand_position_id": "副主任",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 58,
+  "cand_phone": "13500001058",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "待审",
+  "cand_r4": null,
+  "cand_status": "待第3轮",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "d7c293b0-dde9-4979-ac21-d7908b901067",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "蔡文辉",
+  "cand_position_id": "副主任",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 66,
+  "cand_phone": "13600001066",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "待审",
+  "cand_status": "待第4轮考察",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "2121f2bf-03ec-4809-8ad3-251ed46dab9f",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "林晓芳",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 34,
+  "cand_phone": "15800001034",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "待审",
+  "cand_r4": null,
+  "cand_status": "待第3轮",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "78ee89f3-0ee7-4827-ba8a-a954d5088a1e",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "徐美珍",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 39,
+  "cand_phone": "18900001039",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "待审",
+  "cand_r4": null,
+  "cand_status": "待第3轮",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "f8e614aa-98ea-40ce-96b2-3b0c9578fbe1",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "王秀兰",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 62,
+  "cand_phone": "13300001062",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "待审",
+  "cand_r4": null,
+  "cand_status": "待第3轮",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "029cff2a-50a6-4a82-b9ed-2e001f96d7a8",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "杨秀珍",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 50,
+  "cand_phone": "15500001050",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "待审",
+  "cand_r4": null,
+  "cand_status": "待第3轮",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "51ca47f4-c0e1-4641-ac65-86839e4b5650",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "林强",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 28,
+  "cand_phone": "18600001028",
+  "cand_r1": "通过",
+  "cand_r2": "不通过",
+  "cand_r3": null,
+  "cand_r4": null,
+  "cand_status": "初审退出",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "460c50c1-5ad4-4293-9727-e8022c6157ab",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "黄志明",
+  "cand_position_id": "主任",
+  "cand_source": "self",
+  "cand_gender": "男",
+  "cand_age": 45,
+  "cand_phone": "13800000006",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "待审",
+  "cand_r4": null,
+  "cand_status": "当选",
+  "cand_votes": 28,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "3dce8997-e53c-46f6-ae76-df5ee978ddfc",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "何雪梅",
+  "cand_position_id": "委员",
+  "cand_source": "self",
+  "cand_gender": "女",
+  "cand_age": 47,
+  "cand_phone": "15000001047",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "通过",
+  "cand_r4": "待审",
+  "cand_status": "待第4轮考察",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ },
+ {
+  "id": "6eefeeea-8417-4178-8cdd-b0a3dfd9a641",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "cand_name": "郑建国",
+  "cand_position_id": "主任",
+  "cand_source": "org_recommend",
+  "cand_gender": "男",
+  "cand_age": 52,
+  "cand_phone": "13900001052",
+  "cand_r1": "通过",
+  "cand_r2": "通过",
+  "cand_r3": "待审",
+  "cand_r4": null,
+  "cand_status": "待第3轮",
+  "cand_votes": null,
+  "created_at": "2026-08-30T15:58:10.000Z"
+ }
+]
+
+===== P1-4 voters 按选举统计 =====
+-- voters_count（2 行）
+[
+ {
+  "election_id": "el-11",
+  "n": 23
+ },
+ {
+  "election_id": "el-15",
+  "n": 15
+ }
+]
+-- voters_sample（5 行）
+[
+ {
+  "id": "301b4f78-d1ba-4b5a-a4eb-2d3ef002c140",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "vot_name": "林建国",
+  "vot_gender": "男",
+  "vot_age": 56,
+  "vot_id_card": "350302197003051018",
+  "vot_phone": "13800000005",
+  "vot_household_addr": "华亭镇涧口社区中心路118号",
+  "vot_residence_addr": "华亭镇涧口社区中心路118号",
+  "vot_group": "第一小组",
+  "vot_register_time": "2026-06-26T16:00:00.000Z",
+  "vot_status": "已确认",
+  "vot_is_away": false,
+  "vot_need_ballot_box": false,
+  "vot_is_proxy": false,
+  "vot_proxy_person": null,
+  "vot_note": "选委会主任·子管理账号",
+  "vot_source": "registered",
+  "vot_position_id": null,
+  "vot_material_status": "none",
+  "created_at": "2026-08-30T15:59:46.000Z",
+  "updated_at": "2026-08-30T15:59:46.000Z"
+ },
+ {
+  "id": "6fe92083-feb0-4b2d-af42-1c76f8bf1887",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "vot_name": "王秀兰",
+  "vot_gender": "女",
+  "vot_age": 62,
+  "vot_id_card": "350302196403120024",
+  "vot_phone": "13300001062",
+  "vot_household_addr": "华亭镇涧口社区中心路12号",
+  "vot_residence_addr": "华亭镇涧口社区中心路12号",
+  "vot_group": "第一小组",
+  "vot_register_time": "2026-06-26T16:00:00.000Z",
+  "vot_status": "已确认",
+  "vot_is_away": false,
+  "vot_need_ballot_box": true,
+  "vot_is_proxy": false,
+  "vot_proxy_person": null,
+  "vot_note": "腿脚不便·流动票箱·委员候选人",
+  "vot_source": "registered",
+  "vot_position_id": null,
+  "vot_material_status": "none",
+  "created_at": "2026-08-30T15:59:46.000Z",
+  "updated_at": "2026-08-30T15:59:46.000Z"
+ },
+ {
+  "id": "b7da21f0-9b56-4d2f-a69e-61969d23d2a1",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "vot_name": "陈金水",
+  "vot_gender": "男",
+  "vot_age": 71,
+  "vot_id_card": "350302195511080031",
+  "vot_phone": "13200001071",
+  "vot_household_addr": "华亭镇涧口社区中心路5号",
+  "vot_residence_addr": "华亭镇涧口社区中心路5号",
+  "vot_group": "第一小组",
+  "vot_register_time": "2026-06-26T16:00:00.000Z",
+  "vot_status": "已确认",
+  "vot_is_away": false,
+  "vot_need_ballot_box": true,
+  "vot_is_proxy": false,
+  "vot_proxy_person": null,
+  "vot_note": "卧病在床·流动票箱",
+  "vot_source": "registered",
+  "vot_position_id": null,
+  "vot_material_status": "none",
+  "created_at": "2026-08-30T15:59:46.000Z",
+  "updated_at": "2026-08-30T15:59:46.000Z"
+ },
+ {
+  "id": "1a877b18-02db-4764-bfa4-786828f0eec7",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "vot_name": "林晓芳",
+  "vot_gender": "女",
+  "vot_age": 34,
+  "vot_id_card": "350302199206152026",
+  "vot_phone": "15800001034",
+  "vot_household_addr": "华亭镇涧口社区中心路28号",
+  "vot_residence_addr": "华亭镇涧口社区中心路28号",
+  "vot_group": "第二小组",
+  "vot_register_time": "2026-06-27T16:00:00.000Z",
+  "vot_status": "已确认",
+  "vot_is_away": false,
+  "vot_need_ballot_box": false,
+  "vot_is_proxy": false,
+  "vot_proxy_person": null,
+  "vot_note": "妇女成员专职专选·委员候选人",
+  "vot_source": "registered",
+  "vot_position_id": null,
+  "vot_material_status": "none",
+  "created_at": "2026-08-30T15:59:46.000Z",
+  "updated_at": "2026-08-30T15:59:46.000Z"
+ },
+ {
+  "id": "ae22c4a2-84df-44d4-828c-a30f07a6b866",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "vot_name": "黄志明",
+  "vot_gender": "男",
+  "vot_age": 45,
+  "vot_id_card": "350302198108231017",
+  "vot_phone": "13800000006",
+  "vot_household_addr": "华亭镇涧口社区中心路36号",
+  "vot_residence_addr": "华亭镇涧口社区中心路36号",
+  "vot_group": "第二小组",
+  "vot_register_time": "2026-06-27T16:00:00.000Z",
+  "vot_status": "已确认",
+  "vot_is_away": false,
+  "vot_need_ballot_box": false,
+  "vot_is_proxy": false,
+  "vot_proxy_person": null,
+  "vot_note": "H5演示账号·主任候选人",
+  "vot_source": "registered",
+  "vot_position_id": null,
+  "vot_material_status": "none",
+  "created_at": "2026-08-30T15:59:46.000Z",
+  "updated_at": "2026-08-30T15:59:46.000Z"
+ }
+]
+
+===== P1-1 organizations 占位统计 =====
+-- orgs_total（1 行）
+[
+ {
+  "total": 123,
+  "placeholder": 84,
+  "phone_null": 123,
+  "person_null": 123
+ }
+]
+-- orgs_type_town（15 行）
+[
+ {
+  "type": "community_committee",
+  "town": "东海镇",
+  "n": 1,
+  "ph": 1
+ },
+ {
+  "type": "community_committee",
+  "town": "凤凰山街道",
+  "n": 6,
+  "ph": 6
+ },
+ {
+  "type": "community_committee",
+  "town": "华亭镇",
+  "n": 3,
+  "ph": 2
+ },
+ {
+  "type": "community_committee",
+  "town": "常太镇",
+  "n": 1,
+  "ph": 1
+ },
+ {
+  "type": "community_committee",
+  "town": "灵川镇",
+  "n": 1,
+  "ph": 1
+ },
+ {
+  "type": "community_committee",
+  "town": "霞林街道",
+  "n": 9,
+  "ph": 9
+ },
+ {
+  "type": "community_committee",
+  "town": "龙桥街道",
+  "n": 8,
+  "ph": 8
+ },
+ {
+  "type": "platform",
+  "town": "华亭镇",
+  "n": 1,
+  "ph": 0
+ },
+ {
+  "type": "village_committee",
+  "town": "东海镇",
+  "n": 12,
+  "ph": 0
+ },
+ {
+  "type": "village_committee",
+  "town": "凤凰山街道",
+  "n": 3,
+  "ph": 3
+ },
+ {
+  "type": "village_committee",
+  "town": "华亭镇",
+  "n": 32,
+  "ph": 31
+ },
+ {
+  "type": "village_committee",
+  "town": "常太镇",
+  "n": 27,
+  "ph": 18
+ },
+ {
+  "type": "village_committee",
+  "town": "灵川镇",
+  "n": 14,
+  "ph": 0
+ },
+ {
+  "type": "village_committee",
+  "town": "霞林街道",
+  "n": 2,
+  "ph": 2
+ },
+ {
+  "type": "village_committee",
+  "town": "龙桥街道",
+  "n": 3,
+  "ph": 2
+ }
+]
+-- orgs_real（39 行）
+[
+ {
+  "slug": "s-jiankou",
+  "name": "涧口社区居委会",
+  "town": "华亭镇",
+  "type": "community_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "boss",
+  "name": "城厢区换届选举平台",
+  "town": "华亭镇",
+  "type": "platform",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-shangting",
+  "name": "上亭村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-shangtu",
+  "name": "上图村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-dongzhu",
+  "name": "东朱村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-dongsha",
+  "name": "东沙村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-donghai",
+  "name": "东海村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-lijiao",
+  "name": "利角村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-pingyang",
+  "name": "坪洋村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-dabu",
+  "name": "大埔村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-caiting",
+  "name": "蔡亭村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-caicuo",
+  "name": "蔡厝村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-xicuo",
+  "name": "西厝村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-xihuang",
+  "name": "西黄村委会",
+  "town": "东海镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-houshan",
+  "name": "后山村委会",
+  "town": "华亭镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-houshan2",
+  "name": "候山村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-dangcheng",
+  "name": "党城村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-shanmen",
+  "name": "山门村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-lingxia",
+  "name": "岭下村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-xibei",
+  "name": "溪北村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-zhaoche",
+  "name": "照车村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-guoxi",
+  "name": "过溪村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-zhangji",
+  "name": "长基村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-xiashan",
+  "name": "霞山村委会",
+  "town": "常太镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-xiawei",
+  "name": "下尾村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-dongjin",
+  "name": "东进村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-shufeng",
+  "name": "书峰村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-yunzhuang",
+  "name": "云庄村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-taihu",
+  "name": "太湖村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-shanmenli",
+  "name": "山门里村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-zhangbian",
+  "name": "张边村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-jingli",
+  "name": "径里村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-kezhu",
+  "name": "柯朱村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-guishan",
+  "name": "桂山村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-bangtou",
+  "name": "榜头村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-aizao",
+  "name": "硋灶村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-xidun",
+  "name": "西墩村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-qingshan",
+  "name": "青山村委会",
+  "town": "灵川镇",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ },
+ {
+  "slug": "v-yanshou",
+  "name": "延寿村委会",
+  "town": "龙桥街道",
+  "type": "village_committee",
+  "status": "active",
+  "org_phone": null,
+  "org_person": null
+ }
+]
+
+===== P2-1 announcements ann_code 分布 =====
+-- announcements（34 行）
+[
+ {
+  "id": "2a0e0e14-3d60-449f-b353-35eda7352a6a",
+  "election_id": "el-11",
+  "ann_code": "第10号",
+  "ann_title": "关于村民委员会选举投票时间和地点的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-13T10:00:00.000Z"
+ },
+ {
+  "id": "fa963eea-6f4a-49e0-ab73-40afa1a96a94",
+  "election_id": "el-11",
+  "ann_code": "第11号",
+  "ann_title": "关于选举工作人员名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-13T11:30:00.000Z"
+ },
+ {
+  "id": "906d640f-2829-4f26-bf4e-d9395c7f24be",
+  "election_id": "el-11",
+  "ann_code": "第12号",
+  "ann_title": "关于流动票箱投票人员名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-13T15:00:00.000Z"
+ },
+ {
+  "id": "58de8740-6f16-4480-aad4-6ff82bac9b94",
+  "election_id": "el-11",
+  "ann_code": "第13号",
+  "ann_title": "关于委托投票名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-14T10:00:00.000Z"
+ },
+ {
+  "id": "65dae845-6eab-4f51-9472-eda7fda3c996",
+  "election_id": "el-11",
+  "ann_code": "第14号",
+  "ann_title": "关于代写人员名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-14T11:30:00.000Z"
+ },
+ {
+  "id": "5e84f17f-39f5-4c1e-82fe-dacad99817b0",
+  "election_id": "el-11",
+  "ann_code": "第15号",
+  "ann_title": "关于无效票认定规则的公告",
+  "ann_stage_key": "D-1",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-15T10:00:00.000Z"
+ },
+ {
+  "id": "dcb9ee97-e61d-4cf4-af1c-53bfcab61eea",
+  "election_id": "el-11",
+  "ann_code": "第17-1号",
+  "ann_title": "关于村务监督委员会成员选举结果的公告",
+  "ann_stage_key": "D0",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-16T20:05:00.000Z"
+ },
+ {
+  "id": "febf6a83-6fa5-449e-ae23-0606d217c66c",
+  "election_id": "el-11",
+  "ann_code": "第17号",
+  "ann_title": "关于村民委员会选举结果的公告",
+  "ann_stage_key": "D0",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-16T20:00:00.000Z"
+ },
+ {
+  "id": "e79b0871-f5a0-43b9-b2e6-310adb915b95",
+  "election_id": "el-11",
+  "ann_code": "第1号",
+  "ann_title": "关于确定选举日的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-12T10:00:00.000Z"
+ },
+ {
+  "id": "5187fbb5-ba89-4cd4-9a79-92ad561a6f93",
+  "election_id": "el-11",
+  "ann_code": "第2号",
+  "ann_title": "关于村民选举委员会名单的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-12T10:00:00.000Z"
+ },
+ {
+  "id": "bd0d9c75-00a6-4f8f-94ba-ad3d45e1b0c8",
+  "election_id": "el-11",
+  "ann_code": "第3号",
+  "ann_title": "关于选民登记的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-12T10:00:00.000Z"
+ },
+ {
+  "id": "245344f4-0e8e-4fc1-a611-4dd683c3547c",
+  "election_id": "el-11",
+  "ann_code": "第4号",
+  "ann_title": "关于选民名单的公告",
+  "ann_stage_key": "D-28~-24",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-18T10:00:00.000Z"
+ },
+ {
+  "id": "8f289de0-5d4d-4a27-a4f5-f64d4c55472a",
+  "election_id": "el-11",
+  "ann_code": "第5号",
+  "ann_title": "关于村民代表和小组长选举的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-26T10:00:00.000Z"
+ },
+ {
+  "id": "ee6beb52-1c34-4eaa-8dac-869707a96792",
+  "election_id": "el-11",
+  "ann_code": "第6-1号",
+  "ann_title": "关于村民小组长、副组长名单的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-30T11:30:00.000Z"
+ },
+ {
+  "id": "bac25f8e-b888-4832-b427-e2c7d0b35777",
+  "election_id": "el-11",
+  "ann_code": "第6号",
+  "ann_title": "关于村民代表名单的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-30T10:00:00.000Z"
+ },
+ {
+  "id": "42a01a22-f06a-49a0-a137-04f01fd1eb52",
+  "election_id": "el-11",
+  "ann_code": "第7号",
+  "ann_title": "关于村民委员会成员初步候选人提名的公告",
+  "ann_stage_key": "D-15",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-01T07:50:00.000Z"
+ },
+ {
+  "id": "f1f02cc3-8fe5-4091-886c-99416e3628be",
+  "election_id": "el-11",
+  "ann_code": "第8号",
+  "ann_title": "关于村民委员会成员初步候选人名单的公告",
+  "ann_stage_key": "D-13",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-03T10:00:00.000Z"
+ },
+ {
+  "id": "f09f908c-1978-4c03-b677-8dcdae7570a6",
+  "election_id": "el-11",
+  "ann_code": "第9号",
+  "ann_title": "关于村民委员会成员正式候选人名单的公告",
+  "ann_stage_key": "D-4",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-12T10:00:00.000Z"
+ },
+ {
+  "id": "ea0323e7-7f23-4fcb-bf6c-80bd6f016223",
+  "election_id": "el-11",
+  "ann_code": "补充公告",
+  "ann_title": "关于选民名单更正的补充公告",
+  "ann_stage_key": "D-23~-21",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-24T10:00:00.000Z"
+ },
+ {
+  "id": "245af69f-279f-455f-bbf7-610e3eabdd9c",
+  "election_id": "el-11",
+  "ann_code": "预选办法",
+  "ann_title": "关于村民委员会成员正式候选人预选办法的公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-04T10:00:00.000Z"
+ },
+ {
+  "id": "a8293e1f-aadd-431f-9f8b-c05a1ea7a27e",
+  "election_id": "el-11",
+  "ann_code": "预选结果",
+  "ann_title": "关于村民委员会成员正式候选人预选结果公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-06T10:00:00.000Z"
+ },
+ {
+  "id": "7d270e5b-e936-46fc-bd86-116bdfcfd189",
+  "election_id": "el-15",
+  "ann_code": "第1号",
+  "ann_title": "关于确定选举日的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-26T10:00:00.000Z"
+ },
+ {
+  "id": "28a75e1a-feb9-418c-89b0-8e523f0ccfbd",
+  "election_id": "el-15",
+  "ann_code": "第2-1号",
+  "ann_title": "关于居民选举委员会成员自动辞职和递补的公告",
+  "ann_stage_key": "D-13",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-17T11:30:00.000Z"
+ },
+ {
+  "id": "2bfddcf8-e644-417c-91d6-43d3f7a5991f",
+  "election_id": "el-15",
+  "ann_code": "第2号",
+  "ann_title": "关于居民选举委员会名单的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-26T10:00:00.000Z"
+ },
+ {
+  "id": "6dbc651a-b19f-4f97-810b-e5035bb7feb5",
+  "election_id": "el-15",
+  "ann_code": "第3号",
+  "ann_title": "关于选民登记的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-06-26T10:00:00.000Z"
+ },
+ {
+  "id": "afbcd347-000f-4429-9c5c-0bc037acebb1",
+  "election_id": "el-15",
+  "ann_code": "第4号",
+  "ann_title": "关于选民名单的公告",
+  "ann_stage_key": "D-28~-24",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-02T10:00:00.000Z"
+ },
+ {
+  "id": "d22186b6-4f4a-4401-bdcf-7d39e51adc53",
+  "election_id": "el-15",
+  "ann_code": "第5号",
+  "ann_title": "关于居民代表和小组长选举的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-10T10:00:00.000Z"
+ },
+ {
+  "id": "3a9aefac-32fc-4900-a538-cdca1f356ae0",
+  "election_id": "el-15",
+  "ann_code": "第6-1号",
+  "ann_title": "关于户代表、副组长名单的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-14T11:30:00.000Z"
+ },
+ {
+  "id": "1e42d43b-42ae-4e6b-86fb-2bef77c4fcc7",
+  "election_id": "el-15",
+  "ann_code": "第6号",
+  "ann_title": "关于居民代表名单的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-14T10:00:00.000Z"
+ },
+ {
+  "id": "11f6737d-e9a5-4af2-a825-8293b4080147",
+  "election_id": "el-15",
+  "ann_code": "第7号",
+  "ann_title": "关于居民委员会成员初步候选人提名的公告",
+  "ann_stage_key": "D-15",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-15T07:50:00.000Z"
+ },
+ {
+  "id": "b0127b98-179c-4501-ae24-349b721b70d7",
+  "election_id": "el-15",
+  "ann_code": "第8号",
+  "ann_title": "关于居民委员会成员初步候选人名单的公告",
+  "ann_stage_key": "D-13",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-17T10:00:00.000Z"
+ },
+ {
+  "id": "ca9b153b-6e79-4afe-8d5a-76af8b66459b",
+  "election_id": "el-15",
+  "ann_code": "补充公告",
+  "ann_title": "关于选民名单更正的补充公告",
+  "ann_stage_key": "D-23~-21",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-09T10:00:00.000Z"
+ },
+ {
+  "id": "e9b07b11-a2ce-4975-a214-94b9d4c4c2a8",
+  "election_id": "el-15",
+  "ann_code": "预选办法",
+  "ann_title": "关于居民委员会成员正式候选人预选办法的公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-18T10:00:00.000Z"
+ },
+ {
+  "id": "9a6b1afb-aaf3-47dd-b91f-2019202108e9",
+  "election_id": "el-15",
+  "ann_code": "预选结果",
+  "ann_title": "关于居民委员会成员正式候选人预选结果公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "ann_publicity_deadline": null,
+  "ann_publish_time": "2026-07-20T10:00:00.000Z"
+ }
+]
+
+===== P2-2 materials 全量 =====
+-- materials（24 行）
+[
+ {
+  "id": "192bf6c5-ea24-4b22-a7c1-13f053de99a4",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "组织推荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "吴文贵",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15300001057",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "26aedda4-a571-4377-ad74-7734728934a1",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "副主任",
+  "mat_candidate_id": "吴亚珍",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15000001042",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "2cc102f4-b253-406f-82db-f3fb757ec65d",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "王国祥",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15400001045",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "57c310de-bba3-4ae1-ad4b-e236be10472e",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "组织推荐",
+  "mat_status": "approved",
+  "mat_position_id": "副主任",
+  "mat_candidate_id": "李国雄",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15700001046",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "580c88f7-ac59-47b8-af98-f1a5da4a06b6",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "主任",
+  "mat_candidate_id": "许金坤",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15800001051",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "76f77e60-917a-460d-8801-ac382e37e84a",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "陈丽芳",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15600001036",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录·妇女成员专职专选",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "79de2134-045b-4305-afe7-da906bf1c9e7",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "组织推荐",
+  "mat_status": "approved",
+  "mat_position_id": "主任",
+  "mat_candidate_id": "翁志强",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15900001044",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "8fd50f19-5f90-4374-b018-74ff5bbbb6ef",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "黄志成",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15100001039",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "9498a07f-d209-4c5a-906a-723c9c8ef048",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "主任",
+  "mat_candidate_id": "徐永福",
+  "mat_submitter": "徐永福",
+  "mat_submitter_phone": "13800000015",
+  "mat_stage": "提名阶段",
+  "mat_note": "H5端提交",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "957b2f14-8b78-4fea-bf99-1abdc0a38e80",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "郑阿土",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15500001049",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录·预选未入围",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "b04b4b56-8ba7-4ac8-957d-fb22849dc229",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "许丽英",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15800001041",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录·妇女成员",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "d8775dc6-150c-4b41-b31e-4d69ccd4c0bf",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "林金土",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15200001063",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "277fe4e4-4e9e-43d5-bcad-04b28c8bd8a7",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "副主任",
+  "mat_candidate_id": "吴丽琴",
+  "mat_submitter": "吴丽琴",
+  "mat_submitter_phone": "13500001058",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "2880987b-b6c4-4015-8bf3-3234924c36b3",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "徐美珍",
+  "mat_submitter": "徐美珍",
+  "mat_submitter_phone": "18900001039",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "2d900dda-4b57-4208-8862-353025dc89b4",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "林强",
+  "mat_submitter": "林强",
+  "mat_submitter_phone": "18600001028",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录·本人r2阶段申请退出",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "3e2ad915-5260-4241-8a91-4cda91d96442",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "主任",
+  "mat_candidate_id": "黄志明",
+  "mat_submitter": "黄志明",
+  "mat_submitter_phone": "13800000006",
+  "mat_stage": "提名阶段",
+  "mat_note": "H5端提交",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "45d10b16-c161-475b-b4a4-6b6d0b3db859",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "王秀兰",
+  "mat_submitter": "王秀兰",
+  "mat_submitter_phone": "13300001062",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "56e44693-9c59-43a7-a8c8-d5cd2e457c63",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "林晓芳",
+  "mat_submitter": "林晓芳",
+  "mat_submitter_phone": "15800001034",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "6c5bb31f-5fe3-4029-b9a2-633f42f5314a",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "主任",
+  "mat_candidate_id": "周伟",
+  "mat_submitter": "周伟",
+  "mat_submitter_phone": "13700001041",
+  "mat_stage": "提名阶段",
+  "mat_note": "同人报主任+委员两岗·07-16确认主任岗（冲突已解决）",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "7130fb69-fd4c-4e60-a576-2e0f83956ecd",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "副主任",
+  "mat_candidate_id": "蔡文辉",
+  "mat_submitter": "蔡文辉",
+  "mat_submitter_phone": "13600001066",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "b41dfd20-3d21-4f62-82fd-d26f15c53941",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "何雪梅",
+  "mat_submitter": "何雪梅",
+  "mat_submitter_phone": "15000001047",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "c8fc2706-7be3-4e7b-ba4d-51b285be5868",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": "杨秀珍",
+  "mat_submitter": "杨秀珍",
+  "mat_submitter_phone": "15500001050",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "c96e6e7f-c31f-47dc-a012-dcbced6d342d",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "个人自荐",
+  "mat_status": "approved",
+  "mat_position_id": "委员",
+  "mat_candidate_id": null,
+  "mat_submitter": "张桂香",
+  "mat_submitter_phone": "15800001044",
+  "mat_stage": "提名阶段",
+  "mat_note": "不生成候选记录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ },
+ {
+  "id": "f1c5ad48-93cf-4a99-88bc-656bd16af0f0",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "mat_type": "组织推荐",
+  "mat_status": "approved",
+  "mat_position_id": "主任",
+  "mat_candidate_id": "郑建国",
+  "mat_submitter": "郑建国",
+  "mat_submitter_phone": "13900001052",
+  "mat_stage": "提名阶段",
+  "mat_note": "管理员代录",
+  "created_at": "2026-08-30T15:59:58.000Z"
+ }
+]
+
+===== P2-3 proposals 全量 =====
+-- proposals（4 行）
+[
+ {
+  "id": "9ab2389f-73c0-48f4-96fa-0b4faa25ba02",
+  "org_id": "v-yanshou",
+  "election_id": "el-11",
+  "prop_title": "第11届延寿村委会换届方案",
+  "prop_method": "直选",
+  "prop_status": "approved",
+  "prop_creator_id": "13800000012",
+  "prop_reviewer_id": "13800000013",
+  "prop_submit_time": "2026-06-09T09:00:00.000Z",
+  "prop_review_time": "2026-06-10T10:00:00.000Z",
+  "prop_election_date": null
+ },
+ {
+  "id": "8e5935b0-b8d8-439d-ab13-23e78a4bf3fd",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "prop_title": "第15届涧口社区居委会换届方案",
+  "prop_method": "直选",
+  "prop_status": "approved",
+  "prop_creator_id": "13800000002",
+  "prop_reviewer_id": "13800000003",
+  "prop_submit_time": "2026-06-20T09:00:00.000Z",
+  "prop_review_time": "2026-06-21T10:00:00.000Z",
+  "prop_election_date": null
+ },
+ {
+  "id": "9a3a7868-8b64-4627-8f22-87aab8ccf131",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "prop_title": "第15届选举委员会成立方案",
+  "prop_method": "直选",
+  "prop_status": "submitted",
+  "prop_creator_id": "13800000002",
+  "prop_reviewer_id": null,
+  "prop_submit_time": "2026-06-22T09:00:00.000Z",
+  "prop_review_time": null,
+  "prop_election_date": null
+ },
+ {
+  "id": "9867d2e8-ba97-4623-b31c-0ae84d67b524",
+  "org_id": "s-jiankou",
+  "election_id": "el-15",
+  "prop_title": "选民登记实施细则（草案）",
+  "prop_method": "直选",
+  "prop_status": "rejected",
+  "prop_creator_id": "13800000002",
+  "prop_reviewer_id": "13800000003",
+  "prop_submit_time": "2026-06-23T09:00:00.000Z",
+  "prop_review_time": "2026-06-23T15:00:00.000Z",
+  "prop_election_date": null
+ }
+]
+
+===== roster / archives / notifications / operation_logs 计数 =====
+-- roster（1 行）
+[
+ {
+  "n": 14
+ }
+]
+-- archives（1 行）
+[
+ {
+  "n": 6
+ }
+]
+-- notifications（1 行）
+[
+ {
+  "n": 7
+ }
+]
+operation_logs 查询失败：relation "operation_logs" does not exist

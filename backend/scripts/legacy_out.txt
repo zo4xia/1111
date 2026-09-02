@@ -1,0 +1,30 @@
+﻿
+[voters vs results]
+[{"election_id":"el-11","voters_rows":23,"elig":1286},{"election_id":"el-15","voters_rows":15,"elig":null}]
+
+[el-15 候选人状态分布（修复后）]
+[{"cand_status":"当选","n":1},{"cand_status":"待第3轮","n":6},{"cand_status":"待第4轮考察","n":2},{"cand_status":"联审不通过","n":1},{"cand_status":"预选未入围","n":1}]
+
+[el-11 交接状态]
+[{"er_handover_status":"未交接","n":6}]
+
+[el-14 结果公告编号为空]
+[{"n":4}]
+
+[非规范公告编号（el-11/el-15）]
+[{"election_id":"el-11","ann_code":"补充公告","n":1},{"election_id":"el-11","ann_code":"预选办法","n":1},{"election_id":"el-11","ann_code":"预选结果","n":1},{"election_id":"el-15","ann_code":"补充公告","n":1},{"election_id":"el-15","ann_code":"预选办法","n":1},{"election_id":"el-15","ann_code":"预选结果","n":1}]
+
+[orgs 联系信息空缺]
+[{"total":123,"phone_null":123,"person_null":123,"placeholder":84}]
+
+[proposal submitted 滞留]
+[{"id":"9a3a7868-8b64-4627-8f22-87aab8ccf131","prop_title":"第15届选举委员会成立方案","prop_status":"submitted"}]
+
+[proposal 创建/审核人存手机号情况]
+[{"total":5,"creator_phone":5,"reviewer_phone":4}]
+
+[备份表按表统计]
+[{"tbl":"accounts","op":"U","n":11},{"tbl":"candidates","op":"U","n":4},{"tbl":"election_results","op":"I","n":2},{"tbl":"election_stages","op":"U","n":17},{"tbl":"elections","op":"U","n":2},{"tbl":"materials","op":"U","n":23},{"tbl":"organizations","op":"U","n":84},{"tbl":"positions","op":"U","n":3}]
+
+[当前各业务表行数]
+[{"relname":"accounts","n_live_tup":"12"},{"relname":"announcements","n_live_tup":"52"},{"relname":"candidates","n_live_tup":"23"},{"relname":"data_fix_backup","n_live_tup":"146"},{"relname":"election_results","n_live_tup":"11"},{"relname":"election_stages","n_live_tup":"48"},{"relname":"elections","n_live_tup":"5"},{"relname":"materials","n_live_tup":"24"},{"relname":"organizations","n_live_tup":"123"},{"relname":"positions","n_live_tup":"9"},{"relname":"proposals","n_live_tup":"5"},{"relname":"voters","n_live_tup":"38"}]

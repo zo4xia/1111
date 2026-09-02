@@ -1,0 +1,23 @@
+管理员登录 OK: 130****0000 role=admin
+真实账号数: 12
+账号样本: [{"id":"f8834e96-2c0f-44c7-9198-8af79d26f95b","accPhone":"130****0000","accName":"系统超管","orgId":"boss","orgName":"城厢区换届选举平台","roles":"platform_admin","accStatus":"active","createdAt":"2026-08-30T15:57:20.000Z"},{"id":"78d845a0-bf72-435a-9d25-6e0cec7632db","accPhone":"13800000001","accName":"张主任","orgId":"boss","orgName":"城厢区换届选举平台","roles":"platform_admin","accStatus":"active","createdAt":"2026-08-30T15:57:20.000Z"},{"id":"98070cd4-8557-4791-be7d-dcedb01602d0","accPhone":"13800000002","accName":"李经办","orgId":"s-jiankou","orgName":"涧口社区居委会","roles":"operator","accStatus":"active","createdAt":"2026-08-30T15:57:20.000Z"}]
+
+可试用普通账号数: 10
+
+=== 登录成功: 13800000002@s-jiankou ===
+  /api/mp/materials/mine → 0行
+  /api/notifications → 5行
+    原始字段: id,orgId,elId,notifType,notifContent,notifStatus,notifScheduledAt,notifToPhones
+    样本 notifToPhones: ["13900008877","15800001044","13800000002,13800000003,13800000004,13800000005"]
+    过滤后命中我的通知: 2/5
+    映射[0]: {"notif_id":"2f9d2620-3940-4280-90f0-8ccaa21dfaa4","notif_org_id":"s-jiankou","notif_election_id":"el-15","notif_type":"announcement_remind","notif_content":"正式候选人公示今日开始（D-4），9号公告模板已就绪，请核对名单后创建草稿并发布。","notif_status":"scheduled","notif_to_role_filter":"","notif_to_phones":"13800000002,13800000003,13800000004,13800000005","notif_scheduled_at":"2026-07-26 08:00","notif_source_type":"","notif_source_key":""}
+    ⚠ 页面依赖但全空的字段: 无
+
+=== 登录成功: 13800000003@s-jiankou ===
+  /api/mp/materials/mine → 0行
+  /api/notifications → 5行
+    原始字段: id,orgId,elId,notifType,notifContent,notifStatus,notifScheduledAt,notifToPhones
+    样本 notifToPhones: ["13900008877","15800001044","13800000002,13800000003,13800000004,13800000005"]
+    过滤后命中我的通知: 3/5
+    映射[0]: {"notif_id":"2f9d2620-3940-4280-90f0-8ccaa21dfaa4","notif_org_id":"s-jiankou","notif_election_id":"el-15","notif_type":"announcement_remind","notif_content":"正式候选人公示今日开始（D-4），9号公告模板已就绪，请核对名单后创建草稿并发布。","notif_status":"scheduled","notif_to_role_filter":"","notif_to_phones":"13800000002,13800000003,13800000004,13800000005","notif_scheduled_at":"2026-07-26 08:00","notif_source_type":"","notif_source_key":""}
+    ⚠ 页面依赖但全空的字段: 无

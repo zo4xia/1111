@@ -1,0 +1,5 @@
+[api] listening on 0.0.0.0:8080
+[api] 数据库连接成功（Neon）· today=2026-09-02 · organizations=123
+[api] proposals.prop_election_date 列就绪
+[api] proposal_posts 表就绪
+[api] proposals.prop_report 列就绪

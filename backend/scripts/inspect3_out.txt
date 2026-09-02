@@ -1,0 +1,1069 @@
+﻿
+===== organizations 全部列 =====
+[
+ {
+  "column_name": "id",
+  "data_type": "uuid",
+  "is_nullable": "NO",
+  "column_default": "gen_random_uuid()"
+ },
+ {
+  "column_name": "slug",
+  "data_type": "character varying",
+  "is_nullable": "NO",
+  "column_default": null
+ },
+ {
+  "column_name": "name",
+  "data_type": "character varying",
+  "is_nullable": "NO",
+  "column_default": null
+ },
+ {
+  "column_name": "town",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "type",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "status",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "org_phone",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "org_person",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "org_note",
+  "data_type": "text",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "created_at",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "NO",
+  "column_default": "CURRENT_TIMESTAMP"
+ },
+ {
+  "column_name": "updated_at",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "NO",
+  "column_default": "CURRENT_TIMESTAMP"
+ }
+]
+
+===== 占位组织样例（前10） =====
+[
+ {
+  "slug": "s-dh-j1",
+  "name": "东海镇社区占位1",
+  "town": "东海镇",
+  "type": "community_committee",
+  "status": "active"
+ },
+ {
+  "slug": "v-fhs-c1",
+  "name": "凤凰山街道村占位1",
+  "town": "凤凰山街道",
+  "type": "village_committee",
+  "status": "active"
+ },
+ {
+  "slug": "v-fhs-c2",
+  "name": "凤凰山街道村占位2",
+  "town": "凤凰山街道",
+  "type": "village_committee",
+  "status": "active"
+ },
+ {
+  "slug": "v-fhs-c3",
+  "name": "凤凰山街道村占位3",
+  "town": "凤凰山街道",
+  "type": "village_committee",
+  "status": "active"
+ },
+ {
+  "slug": "s-fhs-j1",
+  "name": "凤凰山街道社区占位1",
+  "town": "凤凰山街道",
+  "type": "community_committee",
+  "status": "active"
+ },
+ {
+  "slug": "s-fhs-j2",
+  "name": "凤凰山街道社区占位2",
+  "town": "凤凰山街道",
+  "type": "community_committee",
+  "status": "active"
+ },
+ {
+  "slug": "s-fhs-j3",
+  "name": "凤凰山街道社区占位3",
+  "town": "凤凰山街道",
+  "type": "community_committee",
+  "status": "active"
+ },
+ {
+  "slug": "s-fhs-j4",
+  "name": "凤凰山街道社区占位4",
+  "town": "凤凰山街道",
+  "type": "community_committee",
+  "status": "active"
+ },
+ {
+  "slug": "s-fhs-j5",
+  "name": "凤凰山街道社区占位5",
+  "town": "凤凰山街道",
+  "type": "community_committee",
+  "status": "active"
+ },
+ {
+  "slug": "s-fhs-j6",
+  "name": "凤凰山街道社区占位6",
+  "town": "凤凰山街道",
+  "type": "community_committee",
+  "status": "active"
+ }
+]
+
+===== election_results 列约束 =====
+[
+ {
+  "column_name": "id",
+  "data_type": "uuid",
+  "is_nullable": "NO",
+  "column_default": "gen_random_uuid()"
+ },
+ {
+  "column_name": "org_id",
+  "data_type": "character varying",
+  "is_nullable": "NO",
+  "column_default": null
+ },
+ {
+  "column_name": "org_name",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "election_id",
+  "data_type": "character varying",
+  "is_nullable": "NO",
+  "column_default": null
+ },
+ {
+  "column_name": "er_election_date",
+  "data_type": "date",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_position",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_winner_name",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_votes",
+  "data_type": "integer",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_eligible_voters",
+  "data_type": "integer",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_actual_voters",
+  "data_type": "integer",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_valid_votes",
+  "data_type": "integer",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_invalid_votes",
+  "data_type": "integer",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_turnout",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_result_ann_code",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_filing_status",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_filing_time",
+  "data_type": "date",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_handover_status",
+  "data_type": "character varying",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "er_note",
+  "data_type": "text",
+  "is_nullable": "YES",
+  "column_default": null
+ },
+ {
+  "column_name": "created_at",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "NO",
+  "column_default": "CURRENT_TIMESTAMP"
+ },
+ {
+  "column_name": "updated_at",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "NO",
+  "column_default": "CURRENT_TIMESTAMP"
+ }
+]
+
+===== election_results 唯一约束/索引 =====
+[
+ {
+  "conname": "election_results_id_not_null",
+  "def": "NOT NULL id"
+ },
+ {
+  "conname": "election_results_org_id_not_null",
+  "def": "NOT NULL org_id"
+ },
+ {
+  "conname": "election_results_election_id_not_null",
+  "def": "NOT NULL election_id"
+ },
+ {
+  "conname": "election_results_created_at_not_null",
+  "def": "NOT NULL created_at"
+ },
+ {
+  "conname": "election_results_updated_at_not_null",
+  "def": "NOT NULL updated_at"
+ },
+ {
+  "conname": "election_results_pkey",
+  "def": "PRIMARY KEY (id)"
+ }
+]
+[
+ {
+  "indexname": "election_results_pkey",
+  "indexdef": "CREATE UNIQUE INDEX election_results_pkey ON public.election_results USING btree (id)"
+ },
+ {
+  "indexname": "idx_election_results_org_id",
+  "indexdef": "CREATE INDEX idx_election_results_org_id ON public.election_results USING btree (org_id)"
+ },
+ {
+  "indexname": "idx_election_results_election_id",
+  "indexdef": "CREATE INDEX idx_election_results_election_id ON public.election_results USING btree (election_id)"
+ }
+]
+
+===== announcements 6 条非规范编号明细 =====
+[
+ {
+  "id": "245af69f-279f-455f-bbf7-610e3eabdd9c",
+  "election_id": "el-11",
+  "ann_code": "预选办法",
+  "ann_title": "关于村民委员会成员正式候选人预选办法的公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "content_len": 557
+ },
+ {
+  "id": "a8293e1f-aadd-431f-9f8b-c05a1ea7a27e",
+  "election_id": "el-11",
+  "ann_code": "预选结果",
+  "ann_title": "关于村民委员会成员正式候选人预选结果公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "content_len": 281
+ },
+ {
+  "id": "ea0323e7-7f23-4fcb-bf6c-80bd6f016223",
+  "election_id": "el-11",
+  "ann_code": "补充公告",
+  "ann_title": "关于选民名单更正的补充公告",
+  "ann_stage_key": "D-23~-21",
+  "ann_status": "published",
+  "content_len": 137
+ },
+ {
+  "id": "9a6b1afb-aaf3-47dd-b91f-2019202108e9",
+  "election_id": "el-15",
+  "ann_code": "预选结果",
+  "ann_title": "关于居民委员会成员正式候选人预选结果公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "content_len": 188
+ },
+ {
+  "id": "e9b07b11-a2ce-4975-a214-94b9d4c4c2a8",
+  "election_id": "el-15",
+  "ann_code": "预选办法",
+  "ann_title": "关于居民委员会成员正式候选人预选办法的公告",
+  "ann_stage_key": "D-12~-10",
+  "ann_status": "published",
+  "content_len": 544
+ },
+ {
+  "id": "ca9b153b-6e79-4afe-8d5a-76af8b66459b",
+  "election_id": "el-15",
+  "ann_code": "补充公告",
+  "ann_title": "关于选民名单更正的补充公告",
+  "ann_stage_key": "D-23~-21",
+  "ann_status": "published",
+  "content_len": 136
+ },
+ {
+  "id": "0ae26ba5-d4f3-4603-8926-97dbad6946d5",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "15",
+  "ann_title": "关于无效票认定规则的公告",
+  "ann_stage_key": "D-1",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "a1e29720-41ee-484a-a492-d6bf625c015d",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "8",
+  "ann_title": "关于村民委员会成员初步候选人名单的公告",
+  "ann_stage_key": "D-13",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "01831e90-dc10-4ea3-9ab3-28ad2f82f613",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "7",
+  "ann_title": "关于村民委员会成员初步候选人提名的公告",
+  "ann_stage_key": "D-15",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "f0f156e5-e6dc-4781-a938-5411c820caff",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "6-1",
+  "ann_title": "关于村民小组长、副组长名单的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "faa65e24-c151-4110-9e47-912104036892",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "5",
+  "ann_title": "关于村民代表和小组长选举的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "2bbe118a-1986-4529-a33e-04f18315500c",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "6",
+  "ann_title": "关于村民代表名单的公告",
+  "ann_stage_key": "D-20~-16",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "22c66ae3-0249-4773-9e7a-3940c998eeea",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "4",
+  "ann_title": "关于选民名单的公告",
+  "ann_stage_key": "D-28~-24",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "ff1c970d-b036-4598-8554-6d6d6478dfe0",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "2",
+  "ann_title": "关于村民选举委员会名单的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "2307b7a4-19bb-4bd3-aa27-a232d181b3c0",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "1",
+  "ann_title": "关于确定选举日的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "096958a5-c798-4f90-acf3-25e3f1421b58",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "3",
+  "ann_title": "关于选民登记的公告",
+  "ann_stage_key": "D-34",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "8275db2f-6466-43bf-b92d-c76bb27a3285",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "14",
+  "ann_title": "关于代写人员名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "73b4af67-bbdb-45de-bcbd-9f6e47de7917",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "12",
+  "ann_title": "关于流动票箱投票人员名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "e5722e4e-f8f1-4875-ac1f-7afa0a2e7dd4",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "10",
+  "ann_title": "关于村民委员会选举投票时间和地点的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "30c905c6-d18f-4545-b14e-8d78a859354d",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "11",
+  "ann_title": "关于选举工作人员名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "3eca6f17-523a-4b6d-be21-a9bc309ac61f",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "13",
+  "ann_title": "关于委托投票名单的公告",
+  "ann_stage_key": "D-3~-2",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "05d5d206-59fd-4cab-b213-0f832fc30864",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "9",
+  "ann_title": "关于村民委员会成员正式候选人名单的公告",
+  "ann_stage_key": "D-4",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "125f9c3a-1378-4b78-ad17-82f6b86ad429",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "16",
+  "ann_title": "关于村民委员会选举结果的公告",
+  "ann_stage_key": "D0",
+  "ann_status": "draft",
+  "content_len": 0
+ },
+ {
+  "id": "129adedb-0ef9-4c0f-b803-397a7f6c7ab5",
+  "election_id": "el-mtiyny8g",
+  "ann_code": "17",
+  "ann_title": "关于村务监督委员会成员选举结果的公告",
+  "ann_stage_key": "D0",
+  "ann_status": "draft",
+  "content_len": 0
+ }
+]
+
+===== el-15 阶段：实际日期 vs 以选举日2026-07-30为锚的应有日期 =====
+[
+ {
+  "stage_key": "D-35",
+  "actual_start": "2026-06-23T16:00:00.000Z",
+  "actual_end": "2026-06-23T16:00:00.000Z",
+  "st_day_offset": -35,
+  "expect_start": "2026-06-24T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-34",
+  "actual_start": "2026-06-24T16:00:00.000Z",
+  "actual_end": "2026-06-24T16:00:00.000Z",
+  "st_day_offset": -34,
+  "expect_start": "2026-06-25T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-33~-29",
+  "actual_start": "2026-06-25T16:00:00.000Z",
+  "actual_end": "2026-06-25T16:00:00.000Z",
+  "st_day_offset": -33,
+  "expect_start": "2026-06-26T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-28~-24",
+  "actual_start": "2026-06-30T16:00:00.000Z",
+  "actual_end": "2026-06-30T16:00:00.000Z",
+  "st_day_offset": -28,
+  "expect_start": "2026-07-01T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-23~-21",
+  "actual_start": "2026-07-05T16:00:00.000Z",
+  "actual_end": "2026-07-05T16:00:00.000Z",
+  "st_day_offset": -23,
+  "expect_start": "2026-07-06T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-20~-16",
+  "actual_start": "2026-07-08T16:00:00.000Z",
+  "actual_end": "2026-07-08T16:00:00.000Z",
+  "st_day_offset": -20,
+  "expect_start": "2026-07-09T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-15",
+  "actual_start": "2026-07-13T16:00:00.000Z",
+  "actual_end": "2026-07-13T16:00:00.000Z",
+  "st_day_offset": -15,
+  "expect_start": "2026-07-14T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-14",
+  "actual_start": "2026-07-14T16:00:00.000Z",
+  "actual_end": "2026-07-14T16:00:00.000Z",
+  "st_day_offset": -14,
+  "expect_start": "2026-07-15T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-13",
+  "actual_start": "2026-07-15T16:00:00.000Z",
+  "actual_end": "2026-07-15T16:00:00.000Z",
+  "st_day_offset": -13,
+  "expect_start": "2026-07-16T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-12~-10",
+  "actual_start": "2026-07-16T16:00:00.000Z",
+  "actual_end": "2026-07-16T16:00:00.000Z",
+  "st_day_offset": -12,
+  "expect_start": "2026-07-17T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-9~-5",
+  "actual_start": "2026-07-19T16:00:00.000Z",
+  "actual_end": "2026-07-19T16:00:00.000Z",
+  "st_day_offset": -9,
+  "expect_start": "2026-07-20T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-4",
+  "actual_start": "2026-07-24T16:00:00.000Z",
+  "actual_end": "2026-07-24T16:00:00.000Z",
+  "st_day_offset": -4,
+  "expect_start": "2026-07-25T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-3~-2",
+  "actual_start": "2026-07-25T16:00:00.000Z",
+  "actual_end": "2026-07-25T16:00:00.000Z",
+  "st_day_offset": -3,
+  "expect_start": "2026-07-26T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D-1",
+  "actual_start": "2026-07-27T16:00:00.000Z",
+  "actual_end": "2026-07-27T16:00:00.000Z",
+  "st_day_offset": -1,
+  "expect_start": "2026-07-28T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D0",
+  "actual_start": "2026-07-28T16:00:00.000Z",
+  "actual_end": "2026-07-28T16:00:00.000Z",
+  "st_day_offset": 0,
+  "expect_start": "2026-07-29T16:00:00.000Z",
+  "start_diff_days": -1
+ },
+ {
+  "stage_key": "D+1~+10",
+  "actual_start": "2026-07-29T16:00:00.000Z",
+  "actual_end": "2026-08-07T16:00:00.000Z",
+  "st_day_offset": 1,
+  "expect_start": "2026-07-30T16:00:00.000Z",
+  "start_diff_days": -1
+ }
+]
+
+===== el-11 阶段：同样校验（锚 2026-07-16） =====
+[
+ {
+  "stage_key": "D-35",
+  "actual_start": "2026-06-10T16:00:00.000Z",
+  "expect_start": "2026-06-10T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-34",
+  "actual_start": "2026-06-11T16:00:00.000Z",
+  "expect_start": "2026-06-11T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-33~-29",
+  "actual_start": "2026-06-12T16:00:00.000Z",
+  "expect_start": "2026-06-12T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-28~-24",
+  "actual_start": "2026-06-17T16:00:00.000Z",
+  "expect_start": "2026-06-17T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-23~-21",
+  "actual_start": "2026-06-22T16:00:00.000Z",
+  "expect_start": "2026-06-22T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-20~-16",
+  "actual_start": "2026-06-25T16:00:00.000Z",
+  "expect_start": "2026-06-25T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-15",
+  "actual_start": "2026-06-30T16:00:00.000Z",
+  "expect_start": "2026-06-30T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-14",
+  "actual_start": "2026-07-01T16:00:00.000Z",
+  "expect_start": "2026-07-01T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-13",
+  "actual_start": "2026-07-02T16:00:00.000Z",
+  "expect_start": "2026-07-02T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-12~-10",
+  "actual_start": "2026-07-03T16:00:00.000Z",
+  "expect_start": "2026-07-03T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-9~-5",
+  "actual_start": "2026-07-06T16:00:00.000Z",
+  "expect_start": "2026-07-06T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-4",
+  "actual_start": "2026-07-11T16:00:00.000Z",
+  "expect_start": "2026-07-11T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-3~-2",
+  "actual_start": "2026-07-12T16:00:00.000Z",
+  "expect_start": "2026-07-12T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D-1",
+  "actual_start": "2026-07-14T16:00:00.000Z",
+  "expect_start": "2026-07-14T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D0",
+  "actual_start": "2026-07-15T16:00:00.000Z",
+  "expect_start": "2026-07-15T16:00:00.000Z",
+  "start_diff_days": 0
+ },
+ {
+  "stage_key": "D+1~+10",
+  "actual_start": "2026-07-16T16:00:00.000Z",
+  "expect_start": "2026-07-16T16:00:00.000Z",
+  "start_diff_days": 0
+ }
+]
+
+===== materials→candidates 按(选举,手机号)可匹配性实测 =====
+[
+ {
+  "el": "el-11",
+  "materials": 12,
+  "match_by_phone": 12,
+  "unmatched": 0
+ },
+ {
+  "el": "el-15",
+  "materials": 12,
+  "match_by_phone": 11,
+  "unmatched": 1
+ }
+]
+[
+ {
+  "id": "79de2134-045b-4305-afe7-da906bf1c9e7",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15900001044",
+  "mat_candidate_id": "翁志强",
+  "cand_id": "8d3575fc-2918-4cef-b91b-868174a6c9ff",
+  "cand_name": "翁志强"
+ },
+ {
+  "id": "580c88f7-ac59-47b8-af98-f1a5da4a06b6",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15800001051",
+  "mat_candidate_id": "许金坤",
+  "cand_id": "e7e8a665-6315-4cdc-9654-ae44b4840247",
+  "cand_name": "许金坤"
+ },
+ {
+  "id": "26aedda4-a571-4377-ad74-7734728934a1",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15000001042",
+  "mat_candidate_id": "吴亚珍",
+  "cand_id": "b93a0e01-9144-4a6f-8e26-1a1c38331dc2",
+  "cand_name": "吴亚珍"
+ },
+ {
+  "id": "57c310de-bba3-4ae1-ad4b-e236be10472e",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15700001046",
+  "mat_candidate_id": "李国雄",
+  "cand_id": "afff8617-b59f-4277-b9f9-44629a1bd6f7",
+  "cand_name": "李国雄"
+ },
+ {
+  "id": "8fd50f19-5f90-4374-b018-74ff5bbbb6ef",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15100001039",
+  "mat_candidate_id": "黄志成",
+  "cand_id": "eea76768-0d7a-46f4-9380-bb56dfa15f9d",
+  "cand_name": "黄志成"
+ },
+ {
+  "id": "d8775dc6-150c-4b41-b31e-4d69ccd4c0bf",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15200001063",
+  "mat_candidate_id": "林金土",
+  "cand_id": "9968410c-2d77-4efb-a6d2-c90988e3849f",
+  "cand_name": "林金土"
+ },
+ {
+  "id": "192bf6c5-ea24-4b22-a7c1-13f053de99a4",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15300001057",
+  "mat_candidate_id": "吴文贵",
+  "cand_id": "1a758226-78df-4ee9-b0b2-875cc42c1d16",
+  "cand_name": "吴文贵"
+ },
+ {
+  "id": "2cc102f4-b253-406f-82db-f3fb757ec65d",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15400001045",
+  "mat_candidate_id": "王国祥",
+  "cand_id": "6abd744b-6c46-4f01-a516-228b3d10bfb3",
+  "cand_name": "王国祥"
+ },
+ {
+  "id": "957b2f14-8b78-4fea-bf99-1abdc0a38e80",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15500001049",
+  "mat_candidate_id": "郑阿土",
+  "cand_id": "53a68b6f-9e84-4b7f-8dcd-9bc915bb2140",
+  "cand_name": "郑阿土"
+ },
+ {
+  "id": "76f77e60-917a-460d-8801-ac382e37e84a",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15600001036",
+  "mat_candidate_id": "陈丽芳",
+  "cand_id": "cce7cc12-e6fa-4864-abda-2057e62758b1",
+  "cand_name": "陈丽芳"
+ },
+ {
+  "id": "b04b4b56-8ba7-4ac8-957d-fb22849dc229",
+  "election_id": "el-11",
+  "mat_submitter": "郑文彬",
+  "mat_submitter_phone": "15800001041",
+  "mat_candidate_id": "许丽英",
+  "cand_id": "36112356-9326-4993-8bd0-0952ef3a2321",
+  "cand_name": "许丽英"
+ },
+ {
+  "id": "9498a07f-d209-4c5a-906a-723c9c8ef048",
+  "election_id": "el-11",
+  "mat_submitter": "徐永福",
+  "mat_submitter_phone": "13800000015",
+  "mat_candidate_id": "徐永福",
+  "cand_id": "c324b6ba-c484-4d7b-a817-d4271b83d213",
+  "cand_name": "徐永福"
+ },
+ {
+  "id": "c96e6e7f-c31f-47dc-a012-dcbced6d342d",
+  "election_id": "el-15",
+  "mat_submitter": "张桂香",
+  "mat_submitter_phone": "15800001044",
+  "mat_candidate_id": null,
+  "cand_id": null,
+  "cand_name": null
+ },
+ {
+  "id": "f1c5ad48-93cf-4a99-88bc-656bd16af0f0",
+  "election_id": "el-15",
+  "mat_submitter": "郑建国",
+  "mat_submitter_phone": "13900001052",
+  "mat_candidate_id": "郑建国",
+  "cand_id": "6eefeeea-8417-4178-8cdd-b0a3dfd9a641",
+  "cand_name": "郑建国"
+ },
+ {
+  "id": "6c5bb31f-5fe3-4029-b9a2-633f42f5314a",
+  "election_id": "el-15",
+  "mat_submitter": "周伟",
+  "mat_submitter_phone": "13700001041",
+  "mat_candidate_id": "周伟",
+  "cand_id": "772ebc79-5d56-40ce-8a72-49ad78cdf3f0",
+  "cand_name": "周伟"
+ },
+ {
+  "id": "277fe4e4-4e9e-43d5-bcad-04b28c8bd8a7",
+  "election_id": "el-15",
+  "mat_submitter": "吴丽琴",
+  "mat_submitter_phone": "13500001058",
+  "mat_candidate_id": "吴丽琴",
+  "cand_id": "9d1c3d29-203c-4460-88ba-1e5a411fe7fe",
+  "cand_name": "吴丽琴"
+ },
+ {
+  "id": "7130fb69-fd4c-4e60-a576-2e0f83956ecd",
+  "election_id": "el-15",
+  "mat_submitter": "蔡文辉",
+  "mat_submitter_phone": "13600001066",
+  "mat_candidate_id": "蔡文辉",
+  "cand_id": "d7c293b0-dde9-4979-ac21-d7908b901067",
+  "cand_name": "蔡文辉"
+ },
+ {
+  "id": "56e44693-9c59-43a7-a8c8-d5cd2e457c63",
+  "election_id": "el-15",
+  "mat_submitter": "林晓芳",
+  "mat_submitter_phone": "15800001034",
+  "mat_candidate_id": "林晓芳",
+  "cand_id": "2121f2bf-03ec-4809-8ad3-251ed46dab9f",
+  "cand_name": "林晓芳"
+ },
+ {
+  "id": "2880987b-b6c4-4015-8bf3-3234924c36b3",
+  "election_id": "el-15",
+  "mat_submitter": "徐美珍",
+  "mat_submitter_phone": "18900001039",
+  "mat_candidate_id": "徐美珍",
+  "cand_id": "78ee89f3-0ee7-4827-ba8a-a954d5088a1e",
+  "cand_name": "徐美珍"
+ },
+ {
+  "id": "b41dfd20-3d21-4f62-82fd-d26f15c53941",
+  "election_id": "el-15",
+  "mat_submitter": "何雪梅",
+  "mat_submitter_phone": "15000001047",
+  "mat_candidate_id": "何雪梅",
+  "cand_id": "3dce8997-e53c-46f6-ae76-df5ee978ddfc",
+  "cand_name": "何雪梅"
+ },
+ {
+  "id": "45d10b16-c161-475b-b4a4-6b6d0b3db859",
+  "election_id": "el-15",
+  "mat_submitter": "王秀兰",
+  "mat_submitter_phone": "13300001062",
+  "mat_candidate_id": "王秀兰",
+  "cand_id": "f8e614aa-98ea-40ce-96b2-3b0c9578fbe1",
+  "cand_name": "王秀兰"
+ },
+ {
+  "id": "c8fc2706-7be3-4e7b-ba4d-51b285be5868",
+  "election_id": "el-15",
+  "mat_submitter": "杨秀珍",
+  "mat_submitter_phone": "15500001050",
+  "mat_candidate_id": "杨秀珍",
+  "cand_id": "029cff2a-50a6-4a82-b9ed-2e001f96d7a8",
+  "cand_name": "杨秀珍"
+ },
+ {
+  "id": "2d900dda-4b57-4208-8862-353025dc89b4",
+  "election_id": "el-15",
+  "mat_submitter": "林强",
+  "mat_submitter_phone": "18600001028",
+  "mat_candidate_id": "林强",
+  "cand_id": "51ca47f4-c0e1-4641-ac65-86839e4b5650",
+  "cand_name": "林强"
+ },
+ {
+  "id": "3e2ad915-5260-4241-8a91-4cda91d96442",
+  "election_id": "el-15",
+  "mat_submitter": "黄志明",
+  "mat_submitter_phone": "13800000006",
+  "mat_candidate_id": "黄志明",
+  "cand_id": "460c50c1-5ad4-4293-9727-e8022c6157ab",
+  "cand_name": "黄志明"
+ }
+]
+
+===== accounts 约束（roles 是否有 CHECK） =====
+[
+ {
+  "conname": "accounts_id_not_null",
+  "def": "NOT NULL id"
+ },
+ {
+  "conname": "accounts_org_id_not_null",
+  "def": "NOT NULL org_id"
+ },
+ {
+  "conname": "accounts_created_at_not_null",
+  "def": "NOT NULL created_at"
+ },
+ {
+  "conname": "accounts_updated_at_not_null",
+  "def": "NOT NULL updated_at"
+ },
+ {
+  "conname": "accounts_pkey",
+  "def": "PRIMARY KEY (id)"
+ }
+]
+
+===== account_roles 约束 =====
+[
+ {
+  "conname": "account_roles_id_not_null",
+  "def": "NOT NULL id"
+ },
+ {
+  "conname": "account_roles_org_id_not_null",
+  "def": "NOT NULL org_id"
+ },
+ {
+  "conname": "account_roles_role_key_not_null",
+  "def": "NOT NULL role_key"
+ },
+ {
+  "conname": "account_roles_acc_id_not_null",
+  "def": "NOT NULL acc_id"
+ },
+ {
+  "conname": "account_roles_created_at_not_null",
+  "def": "NOT NULL created_at"
+ },
+ {
+  "conname": "account_roles_updated_at_not_null",
+  "def": "NOT NULL updated_at"
+ },
+ {
+  "conname": "account_roles_pkey",
+  "def": "PRIMARY KEY (id)"
+ },
+ {
+  "conname": "account_roles_acc_id_fkey",
+  "def": "FOREIGN KEY (acc_id) REFERENCES accounts(id)"
+ }
+]
+
+===== positions 约束与 pos_status 取值 =====
+[
+ {
+  "pos_status": "active"
+ },
+ {
+  "pos_status": "open"
+ },
+ {
+  "pos_status": "closed"
+ }
+]

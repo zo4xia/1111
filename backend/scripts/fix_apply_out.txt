@@ -1,0 +1,47 @@
+﻿=== 数据自洽修复开始  BATCH=B20260902  MODE=APPLY ===
+备份表 data_fix_backup 就绪
+修复范围：el-11, el-15 | 明确排除的自测选举： el-mtiyny8g(端到端自测_涧口社区第十六届换届方案_13412)
+
+----- A. accounts.roles 非法值 NO.00x → 合法角色 -----
+  备份 11 行；改动 11 行
+
+----- B. elections 状态/备注订正（→ finished） -----
+  备份 2 行；改动 2 行
+
+----- C. el-15 阶段日期对齐选举日（+1天） -----
+  备份 16 行；改动 16 行
+
+----- D. el-11 收尾阶段 办理中→进行中 -----
+  备份 1 行；改动 1 行
+
+----- E. candidates 轮次/状态自洽（4人） -----
+  备份 4 行；改动 4 行
+
+----- F. el-15 positions open→closed -----
+  备份 3 行；改动 3 行
+
+----- G. materials.mat_candidate_id 姓名→UUID -----
+  备份 23 行；改动 23 行
+
+----- H. elections.el_proposal_id 回填 -----
+  备份 0 行；改动 2 行
+
+----- I. el-15 补录主任结果（黄志明28票） -----
+  备份 0 行；改动 1 行
+
+----- J. organizations 占位数据打标（不删除） -----
+  备份 84 行；改动 84 行
+
+=== 已 COMMIT，修复完成 ===
+
+各节汇总：
+  A. accounts.roles 非法值 NO.00x → 合法角色 —— 备份 11 / 改动 11
+  B. elections 状态/备注订正（→ finished） —— 备份 2 / 改动 2
+  C. el-15 阶段日期对齐选举日（+1天） —— 备份 16 / 改动 16
+  D. el-11 收尾阶段 办理中→进行中 —— 备份 1 / 改动 1
+  E. candidates 轮次/状态自洽（4人） —— 备份 4 / 改动 4
+  F. el-15 positions open→closed —— 备份 3 / 改动 3
+  G. materials.mat_candidate_id 姓名→UUID —— 备份 23 / 改动 23
+  H. elections.el_proposal_id 回填 —— 备份 0 / 改动 2
+  I. el-15 补录主任结果（黄志明28票） —— 备份 0 / 改动 1
+  J. organizations 占位数据打标（不删除） —— 备份 84 / 改动 84

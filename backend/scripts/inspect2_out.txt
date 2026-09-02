@@ -1,0 +1,294 @@
+﻿
+===== 关键列类型 =====
+| table_name | column_name | data_type |
+| account_roles | role_key | character varying |
+| account_roles | updated_at | timestamp with time zone |
+| accounts | roles | character varying |
+| accounts | updated_at | timestamp with time zone |
+| announcements | ann_code | character varying |
+| announcements | ann_edit_time | timestamp with time zone |
+| announcements | ann_review_time | timestamp with time zone |
+| announcements | ann_publish_time | timestamp with time zone |
+| announcements | updated_at | timestamp with time zone |
+| candidates | cand_position_id | character varying |
+| candidates | cand_r1_time | timestamp with time zone |
+| candidates | cand_r2_time | timestamp with time zone |
+| candidates | cand_r3_time | timestamp with time zone |
+| candidates | cand_r4_time | timestamp with time zone |
+| candidates | updated_at | timestamp with time zone |
+| election_results | er_election_date | date |
+| election_results | er_filing_time | date |
+| election_results | updated_at | timestamp with time zone |
+| election_stages | stage_status | character varying |
+| election_stages | stage_start_date | date |
+| election_stages | stage_end_date | date |
+| election_stages | updated_at | timestamp with time zone |
+| elections | el_status | character varying |
+| elections | el_election_date | date |
+| elections | updated_at | timestamp with time zone |
+| materials | mat_position_id | character varying |
+| materials | mat_submit_time | timestamp with time zone |
+| materials | mat_review_time | timestamp with time zone |
+| materials | mat_candidate_id | character varying |
+| materials | updated_at | timestamp with time zone |
+| positions | updated_at | timestamp with time zone |
+| voters | vot_register_time | date |
+| voters | updated_at | timestamp with time zone |
+
+===== P0-2 北京时间对齐校验（选举日 vs D0阶段 vs 结果日） =====
+| el_id | el_d_bj | d0_stage_bj | result_d_bj | el_status |
+| el-10 | Sat Nov 20 2021 00:00:00 GMT+0800 (台北标准时间) | ∅ | ∅ | archived |
+| el-11 | Thu Jul 16 2026 00:00:00 GMT+0800 (台北标准时间) | Thu Jul 16 2026 00:00:00 GMT+0800 (台北标准时间) | Thu Jul 16 2026 00:00:00 GMT+0800 (台北标准时间) | in_progress |
+| el-14 | Fri Dec 10 2021 00:00:00 GMT+0800 (台北标准时间) | ∅ | Fri Dec 10 2021 00:00:00 GMT+0800 (台北标准时间) | archived |
+| el-15 | Thu Jul 30 2026 00:00:00 GMT+0800 (台北标准时间) | Wed Jul 29 2026 00:00:00 GMT+0800 (台北标准时间) | ∅ | in_progress |
+
+===== P1-2 candidates 紧凑表 =====
+| el | name | pos | src | r1 | r2 | r3 | r4 | st | votes |
+| el-11 | 李国雄 | 副主任 | org_recommend | 通过 | 通过 | 通过 | 通过 | 落选 | 455 |
+| el-11 | 黄志成 | 委员 | self | 通过 | 通过 | 通过 | 通过 | 当选 | 598 |
+| el-11 | 林金土 | 委员 | self | 通过 | 通过 | 通过 | 通过 | 当选 | 577 |
+| el-11 | 吴文贵 | 委员 | org_recommend | 通过 | 通过 | 通过 | 通过 | 当选 | 561 |
+| el-11 | 王国祥 | 委员 | self | 通过 | 通过 | 通过 | 通过 | 落选 | 402 |
+| el-11 | 郑阿土 | 委员 | self | 通过 | 通过 | 预选未入围 | ∅ | 预选未入围 | ∅ |
+| el-11 | 陈丽芳 | 委员 | self | 通过 | 通过 | 通过 | 通过 | 当选 | 585 |
+| el-11 | 许丽英 | 委员 | self | 通过 | 通过 | 通过 | 通过 | 落选 | 463 |
+| el-11 | 徐永福 | 主任 | self | 通过 | 通过 | 通过 | 通过 | 当选 | 623 |
+| el-11 | 翁志强 | 主任 | org_recommend | 通过 | 通过 | 通过 | 通过 | 落选 | 489 |
+| el-11 | 许金坤 | 主任 | self | 通过 | 通过 | 预选未入围 | ∅ | 预选未入围 | ∅ |
+| el-11 | 吴亚珍 | 副主任 | self | 通过 | 通过 | 通过 | 通过 | 当选 | 571 |
+| el-15 | 周伟 | 主任 | self | 通过 | 通过 | 不通过 | ∅ | 联审不通过 | ∅ |
+| el-15 | 吴丽琴 | 副主任 | self | 通过 | 通过 | 待审 | ∅ | 待第3轮 | ∅ |
+| el-15 | 蔡文辉 | 副主任 | self | 通过 | 通过 | 通过 | 待审 | 待第4轮考察 | ∅ |
+| el-15 | 林晓芳 | 委员 | self | 通过 | 通过 | 待审 | ∅ | 待第3轮 | ∅ |
+| el-15 | 徐美珍 | 委员 | self | 通过 | 通过 | 待审 | ∅ | 待第3轮 | ∅ |
+| el-15 | 王秀兰 | 委员 | self | 通过 | 通过 | 待审 | ∅ | 待第3轮 | ∅ |
+| el-15 | 杨秀珍 | 委员 | self | 通过 | 通过 | 待审 | ∅ | 待第3轮 | ∅ |
+| el-15 | 林强 | 委员 | self | 通过 | 不通过 | ∅ | ∅ | 初审退出 | ∅ |
+| el-15 | 黄志明 | 主任 | self | 通过 | 通过 | 待审 | ∅ | 当选 | 28 |
+| el-15 | 何雪梅 | 委员 | self | 通过 | 通过 | 通过 | 待审 | 待第4轮考察 | ∅ |
+| el-15 | 郑建国 | 主任 | org_recommend | 通过 | 通过 | 待审 | ∅ | 待第3轮 | ∅ |
+
+===== 候选人 cand_position_id 取值分布 =====
+| el | pos | n |
+| el-11 | 主任 | 3 |
+| el-11 | 副主任 | 2 |
+| el-11 | 委员 | 7 |
+| el-15 | 主任 | 3 |
+| el-15 | 副主任 | 2 |
+| el-15 | 委员 | 6 |
+
+===== 候选人 position_id 是否能匹配 positions（按选举+pos_type） =====
+| el | pos | n | matched_positions |
+| el-11 | 主任 | 3 | 3 |
+| el-11 | 副主任 | 2 | 2 |
+| el-11 | 委员 | 7 | 7 |
+| el-15 | 主任 | 3 | 3 |
+| el-15 | 副主任 | 2 | 2 |
+| el-15 | 委员 | 6 | 6 |
+
+===== P1-4 voters 结构与分布 =====
+| column_name | data_type |
+| id | uuid |
+| org_id | character varying |
+| election_id | character varying |
+| vot_name | character varying |
+| vot_gender | character varying |
+| vot_age | integer |
+| vot_id_card | character varying |
+| vot_phone | character varying |
+| vot_household_addr | character varying |
+| vot_residence_addr | character varying |
+| vot_group | character varying |
+| vot_register_time | date |
+| vot_status | character varying |
+| vot_is_away | boolean |
+| vot_need_ballot_box | boolean |
+| vot_is_proxy | boolean |
+| vot_proxy_person | character varying |
+| vot_note | text |
+| vot_source | character varying |
+| vot_position_id | character varying |
+| vot_material_status | character varying |
+| created_at | timestamp with time zone |
+| updated_at | timestamp with time zone |
+| el | n |
+| el-11 | 23 |
+| el-15 | 15 |
+
+===== P1-3 results 紧凑表 =====
+| el | pos | winner | votes | elig | actual | turnout | ann | filing | handover |
+| el-11 | 委员 | 黄志成 | 598 | 1286 | 1147 | 89.2% | 第17号 | 已备案 | 未交接 |
+| el-11 | 委员 | 陈丽芳 | 585 | 1286 | 1147 | 89.2% | 第17号 | 已备案 | 未交接 |
+| el-11 | 委员 | 吴文贵 | 561 | 1286 | 1147 | 89.2% | 第17号 | 已备案 | 未交接 |
+| el-11 | 委员 | 林金土 | 577 | 1286 | 1147 | 89.2% | 第17号 | 已备案 | 未交接 |
+| el-11 | 副主任 | 吴亚珍 | 571 | 1286 | 1147 | 89.2% | 第17号 | 已备案 | 未交接 |
+| el-11 | 主任 | 徐永福 | 623 | 1286 | 1147 | 89.2% | 第17号 | 已备案 | 未交接 |
+| el-14 | 委员 | 吴丽娟 | 831 | 1850 | 1612 | 87.1% | ∅ | 已备案 | 已交接 |
+| el-14 | 委员 | 黄大鹏 | 845 | 1850 | 1612 | 87.1% | ∅ | 已备案 | 已交接 |
+| el-14 | 副主任 | 林美华 | 867 | 1850 | 1612 | 87.1% | ∅ | 已备案 | 已交接 |
+| el-14 | 主任 | 陈志强 | 892 | 1850 | 1612 | 87.1% | ∅ | 已备案 | 已交接 |
+
+===== P1-1 organizations 汇总 =====
+| total | placeholder | phone_null | person_null | status_not_active |
+| 123 | 84 | 123 | 123 | 0 |
+| type | town | n | ph |
+| community_committee | 东海镇 | 1 | 1 |
+| community_committee | 凤凰山街道 | 6 | 6 |
+| community_committee | 华亭镇 | 3 | 2 |
+| community_committee | 常太镇 | 1 | 1 |
+| community_committee | 灵川镇 | 1 | 1 |
+| community_committee | 霞林街道 | 9 | 9 |
+| community_committee | 龙桥街道 | 8 | 8 |
+| platform | 华亭镇 | 1 | 0 |
+| village_committee | 东海镇 | 12 | 0 |
+| village_committee | 凤凰山街道 | 3 | 3 |
+| village_committee | 华亭镇 | 32 | 31 |
+| village_committee | 常太镇 | 27 | 18 |
+| village_committee | 灵川镇 | 14 | 0 |
+| village_committee | 霞林街道 | 2 | 2 |
+| village_committee | 龙桥街道 | 3 | 2 |
+| slug | name | town | type | status |
+| s-jiankou | 涧口社区居委会 | 华亭镇 | community_committee | active |
+| boss | 城厢区换届选举平台 | 华亭镇 | platform | active |
+| v-shangting | 上亭村委会 | 东海镇 | village_committee | active |
+| v-shangtu | 上图村委会 | 东海镇 | village_committee | active |
+| v-dongzhu | 东朱村委会 | 东海镇 | village_committee | active |
+| v-dongsha | 东沙村委会 | 东海镇 | village_committee | active |
+| v-donghai | 东海村委会 | 东海镇 | village_committee | active |
+| v-lijiao | 利角村委会 | 东海镇 | village_committee | active |
+| v-pingyang | 坪洋村委会 | 东海镇 | village_committee | active |
+| v-dabu | 大埔村委会 | 东海镇 | village_committee | active |
+| v-caiting | 蔡亭村委会 | 东海镇 | village_committee | active |
+| v-caicuo | 蔡厝村委会 | 东海镇 | village_committee | active |
+| v-xicuo | 西厝村委会 | 东海镇 | village_committee | active |
+| v-xihuang | 西黄村委会 | 东海镇 | village_committee | active |
+| v-houshan | 后山村委会 | 华亭镇 | village_committee | active |
+| v-houshan2 | 候山村委会 | 常太镇 | village_committee | active |
+| v-dangcheng | 党城村委会 | 常太镇 | village_committee | active |
+| v-shanmen | 山门村委会 | 常太镇 | village_committee | active |
+| v-lingxia | 岭下村委会 | 常太镇 | village_committee | active |
+| v-xibei | 溪北村委会 | 常太镇 | village_committee | active |
+| v-zhaoche | 照车村委会 | 常太镇 | village_committee | active |
+| v-guoxi | 过溪村委会 | 常太镇 | village_committee | active |
+| v-zhangji | 长基村委会 | 常太镇 | village_committee | active |
+| v-xiashan | 霞山村委会 | 常太镇 | village_committee | active |
+| v-xiawei | 下尾村委会 | 灵川镇 | village_committee | active |
+| v-dongjin | 东进村委会 | 灵川镇 | village_committee | active |
+| v-shufeng | 书峰村委会 | 灵川镇 | village_committee | active |
+| v-yunzhuang | 云庄村委会 | 灵川镇 | village_committee | active |
+| v-taihu | 太湖村委会 | 灵川镇 | village_committee | active |
+| v-shanmenli | 山门里村委会 | 灵川镇 | village_committee | active |
+| v-zhangbian | 张边村委会 | 灵川镇 | village_committee | active |
+| v-jingli | 径里村委会 | 灵川镇 | village_committee | active |
+| v-kezhu | 柯朱村委会 | 灵川镇 | village_committee | active |
+| v-guishan | 桂山村委会 | 灵川镇 | village_committee | active |
+| v-bangtou | 榜头村委会 | 灵川镇 | village_committee | active |
+| v-aizao | 硋灶村委会 | 灵川镇 | village_committee | active |
+| v-xidun | 西墩村委会 | 灵川镇 | village_committee | active |
+| v-qingshan | 青山村委会 | 灵川镇 | village_committee | active |
+| v-yanshou | 延寿村委会 | 龙桥街道 | village_committee | active |
+
+===== P2-1 announcements ann_code 分布 =====
+| el | code | stage | st | n |
+| el-11 | 第15号 | D-1 | published | 1 |
+| el-11 | 预选办法 | D-12~-10 | published | 1 |
+| el-11 | 预选结果 | D-12~-10 | published | 1 |
+| el-11 | 第8号 | D-13 | published | 1 |
+| el-11 | 第7号 | D-15 | published | 1 |
+| el-11 | 第5号 | D-20~-16 | published | 1 |
+| el-11 | 第6-1号 | D-20~-16 | published | 1 |
+| el-11 | 第6号 | D-20~-16 | published | 1 |
+| el-11 | 补充公告 | D-23~-21 | published | 1 |
+| el-11 | 第4号 | D-28~-24 | published | 1 |
+| el-11 | 第1号 | D-34 | published | 1 |
+| el-11 | 第2号 | D-34 | published | 1 |
+| el-11 | 第3号 | D-34 | published | 1 |
+| el-11 | 第10号 | D-3~-2 | published | 1 |
+| el-11 | 第11号 | D-3~-2 | published | 1 |
+| el-11 | 第12号 | D-3~-2 | published | 1 |
+| el-11 | 第13号 | D-3~-2 | published | 1 |
+| el-11 | 第14号 | D-3~-2 | published | 1 |
+| el-11 | 第9号 | D-4 | published | 1 |
+| el-11 | 第17-1号 | D0 | published | 1 |
+| el-11 | 第17号 | D0 | published | 1 |
+| el-15 | 预选办法 | D-12~-10 | published | 1 |
+| el-15 | 预选结果 | D-12~-10 | published | 1 |
+| el-15 | 第2-1号 | D-13 | published | 1 |
+| el-15 | 第8号 | D-13 | published | 1 |
+| el-15 | 第7号 | D-15 | published | 1 |
+| el-15 | 第5号 | D-20~-16 | published | 1 |
+| el-15 | 第6-1号 | D-20~-16 | published | 1 |
+| el-15 | 第6号 | D-20~-16 | published | 1 |
+| el-15 | 补充公告 | D-23~-21 | published | 1 |
+| el-15 | 第4号 | D-28~-24 | published | 1 |
+| el-15 | 第1号 | D-34 | published | 1 |
+| el-15 | 第2号 | D-34 | published | 1 |
+| el-15 | 第3号 | D-34 | published | 1 |
+
+===== P2-2 materials 紧凑表 =====
+| id | el | type | st | pos | cand | submitter | phone | stage |
+| 192bf6c5-ea24-4b22-a7c1-13f053de99a4 | el-11 | 组织推荐 | approved | 委员 | 吴文贵 | 郑文彬 | 15300001057 | 提名阶段 |
+| 26aedda4-a571-4377-ad74-7734728934a1 | el-11 | 个人自荐 | approved | 副主任 | 吴亚珍 | 郑文彬 | 15000001042 | 提名阶段 |
+| 2cc102f4-b253-406f-82db-f3fb757ec65d | el-11 | 个人自荐 | approved | 委员 | 王国祥 | 郑文彬 | 15400001045 | 提名阶段 |
+| 57c310de-bba3-4ae1-ad4b-e236be10472e | el-11 | 组织推荐 | approved | 副主任 | 李国雄 | 郑文彬 | 15700001046 | 提名阶段 |
+| 580c88f7-ac59-47b8-af98-f1a5da4a06b6 | el-11 | 个人自荐 | approved | 主任 | 许金坤 | 郑文彬 | 15800001051 | 提名阶段 |
+| 76f77e60-917a-460d-8801-ac382e37e84a | el-11 | 个人自荐 | approved | 委员 | 陈丽芳 | 郑文彬 | 15600001036 | 提名阶段 |
+| 79de2134-045b-4305-afe7-da906bf1c9e7 | el-11 | 组织推荐 | approved | 主任 | 翁志强 | 郑文彬 | 15900001044 | 提名阶段 |
+| 8fd50f19-5f90-4374-b018-74ff5bbbb6ef | el-11 | 个人自荐 | approved | 委员 | 黄志成 | 郑文彬 | 15100001039 | 提名阶段 |
+| 9498a07f-d209-4c5a-906a-723c9c8ef048 | el-11 | 个人自荐 | approved | 主任 | 徐永福 | 徐永福 | 13800000015 | 提名阶段 |
+| 957b2f14-8b78-4fea-bf99-1abdc0a38e80 | el-11 | 个人自荐 | approved | 委员 | 郑阿土 | 郑文彬 | 15500001049 | 提名阶段 |
+| b04b4b56-8ba7-4ac8-957d-fb22849dc229 | el-11 | 个人自荐 | approved | 委员 | 许丽英 | 郑文彬 | 15800001041 | 提名阶段 |
+| d8775dc6-150c-4b41-b31e-4d69ccd4c0bf | el-11 | 个人自荐 | approved | 委员 | 林金土 | 郑文彬 | 15200001063 | 提名阶段 |
+| 277fe4e4-4e9e-43d5-bcad-04b28c8bd8a7 | el-15 | 个人自荐 | approved | 副主任 | 吴丽琴 | 吴丽琴 | 13500001058 | 提名阶段 |
+| 2880987b-b6c4-4015-8bf3-3234924c36b3 | el-15 | 个人自荐 | approved | 委员 | 徐美珍 | 徐美珍 | 18900001039 | 提名阶段 |
+| 2d900dda-4b57-4208-8862-353025dc89b4 | el-15 | 个人自荐 | approved | 委员 | 林强 | 林强 | 18600001028 | 提名阶段 |
+| 3e2ad915-5260-4241-8a91-4cda91d96442 | el-15 | 个人自荐 | approved | 主任 | 黄志明 | 黄志明 | 13800000006 | 提名阶段 |
+| 45d10b16-c161-475b-b4a4-6b6d0b3db859 | el-15 | 个人自荐 | approved | 委员 | 王秀兰 | 王秀兰 | 13300001062 | 提名阶段 |
+| 56e44693-9c59-43a7-a8c8-d5cd2e457c63 | el-15 | 个人自荐 | approved | 委员 | 林晓芳 | 林晓芳 | 15800001034 | 提名阶段 |
+| 6c5bb31f-5fe3-4029-b9a2-633f42f5314a | el-15 | 个人自荐 | approved | 主任 | 周伟 | 周伟 | 13700001041 | 提名阶段 |
+| 7130fb69-fd4c-4e60-a576-2e0f83956ecd | el-15 | 个人自荐 | approved | 副主任 | 蔡文辉 | 蔡文辉 | 13600001066 | 提名阶段 |
+| b41dfd20-3d21-4f62-82fd-d26f15c53941 | el-15 | 个人自荐 | approved | 委员 | 何雪梅 | 何雪梅 | 15000001047 | 提名阶段 |
+| c8fc2706-7be3-4e7b-ba4d-51b285be5868 | el-15 | 个人自荐 | approved | 委员 | 杨秀珍 | 杨秀珍 | 15500001050 | 提名阶段 |
+| c96e6e7f-c31f-47dc-a012-dcbced6d342d | el-15 | 个人自荐 | approved | 委员 | ∅ | 张桂香 | 15800001044 | 提名阶段 |
+| f1c5ad48-93cf-4a99-88bc-656bd16af0f0 | el-15 | 组织推荐 | approved | 主任 | 郑建国 | 郑建国 | 13900001052 | 提名阶段 |
+
+===== materials.mat_candidate_id 与 candidates.id 匹配情况（uuid 才可能匹配） =====
+| el | total | uuid_like | matched_cand |
+| el-11 | 12 | 0 | 0 |
+| el-15 | 12 | 0 | 0 |
+
+===== P2-3 proposals 紧凑表 =====
+| id | el | title | st | creator | reviewer | submit | dday |
+| 9ab2389f-73c0-48f4-96fa-0b4faa25ba02 | el-11 | 第11届延寿村委会换届方案 | approved | 13800000012 | 13800000013 | Tue Jun 09 2026 17:00:00 GMT+0800 (台北标准时间) | ∅ |
+| 8e5935b0-b8d8-439d-ab13-23e78a4bf3fd | el-15 | 第15届涧口社区居委会换届方案 | approved | 13800000002 | 13800000003 | Sat Jun 20 2026 17:00:00 GMT+0800 (台北标准时间) | ∅ |
+| 9a3a7868-8b64-4627-8f22-87aab8ccf131 | el-15 | 第15届选举委员会成立方案 | submitted | 13800000002 | ∅ | Mon Jun 22 2026 17:00:00 GMT+0800 (台北标准时间) | ∅ |
+| 9867d2e8-ba97-4623-b31c-0ae84d67b524 | el-15 | 选民登记实施细则（草案） | rejected | 13800000002 | 13800000003 | Tue Jun 23 2026 17:00:00 GMT+0800 (台北标准时间) | ∅ |
+
+===== elections.el_proposal_id 关联 =====
+| el_id | el_status | el_proposal_id |
+| el-10 | archived | ∅ |
+| el-11 | in_progress | ∅ |
+| el-14 | archived | ∅ |
+| el-15 | in_progress | ∅ |
+
+===== roles 字典表（6行） =====
+| id | role_key | role_name | role_scope | role_desc | role_permissions | created_at | updated_at |
+| 34b7222a-1e2a-4766-9fcc-eec7c7f5e6ca | editor | 运营编辑 | organization | 负责内容与公告编辑 | 编辑,发布,手工录入,导入材料 | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) |
+| 47b5139d-ae5c-4e47-9992-087a35909ff0 | operator | 经办/书记 | organization | 负责日常业务办理 | 编辑,发布,发送通知,提交材料 | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) |
+| 79bda010-b7a5-4a38-8537-3c8e063e7c6e | reviewer | 审核 | organization | 只有审核动作可写其余只读 | 只读,审核 | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) |
+| b31cea11-a7aa-4228-9780-82b297c68109 | platform_admin | 平台超管 | platform | boss组织全能权限 | 超管,编辑,审核,发布,删除,只读,子管理,提交材料,发送通知,导入材料,手工录入,资料归档 | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) |
+| e2df6808-9b62-462f-92a4-842584f88426 | voters | 选民 | organization | 提交材料,投票 | 提交材料,投票 | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) |
+| ef9722a9-f816-46e6-a2b7-7eb9f97f62ae | sub_admin | 村/社区子管理 | organization | 本组织最高管理只有超管可增删 | 子管理,编辑,审核,发布,删除,提交材料,发送通知,导入材料,资料归档,手工录入 | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) | Sun Aug 30 2026 23:57:17 GMT+0800 (台北标准时间) |
+
+===== 阶段状态分布 =====
+| el | st | n | mino | maxo |
+| el-11 | 办理中 | 1 | 1 | 1 |
+| el-11 | 已完成 | 15 | -35 | 0 |
+| el-15 | 已完成 | 16 | -35 | 1 |
+
+===== roster/archives/notifications 概览 =====
+| t | n |
+| roster | 14 |
+| archives | 6 |
+| notifications | 7 |
+| notification_reads | 4 |
