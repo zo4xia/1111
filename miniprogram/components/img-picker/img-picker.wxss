@@ -1,0 +1,36 @@
+/* 图片选择器 · 自包含样式（色值/圆角全走全局 CSS 变量，随设计令牌归一）
+   样式隔离说明：普通类不跨组件生效，仅 CSS 变量可继承穿透 */
+.ip-wrap { display: flex; flex-direction: column; gap: 10rpx; }
+.ip-count { color: var(--ink-4); font-size: var(--fs-mini); line-height: 1; }
+.ip-grid { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.ip-cell { position: relative; width: 160rpx; height: 160rpx; }
+.ip-img {
+  width: 100%; height: 100%;
+  border-radius: var(--r-sm);
+  background: var(--line-3);
+}
+.ip-del {
+  position: absolute; top: -10rpx; right: -10rpx;
+  display: flex; align-items: center; justify-content: center;
+  width: 40rpx; height: 40rpx;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2rpx solid var(--line);
+  color: var(--ink-3);
+  font-size: var(--fs-cap);
+  line-height: 1;
+  box-shadow: var(--sh-soft);
+}
+.ip-add {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6rpx;
+  width: 160rpx; height: 160rpx;
+  border: 2rpx dashed var(--c-dai-light);
+  border-radius: var(--r-sm);
+  background: var(--c-dai-bg);
+  color: var(--c-dai);
+}
+.ip-add.is-disabled { border-color: var(--line); background: var(--line-3); color: var(--ink-4); }
+.ip-add-ic { width: 44rpx; height: 44rpx; opacity: 0.85; }
+.ip-add-txt { font-size: var(--fs-mini); font-weight: 600; letter-spacing: 1rpx; }
+/* 按压反馈（组件隔离域内本地实现，与全局 .is-pressed 同规则） */
+.is-pressed { opacity: 0.72; }

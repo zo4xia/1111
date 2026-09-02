@@ -1,0 +1,15 @@
+<!-- 图片九宫格：缩略图（点按预览）+ 删除叉 + 虚线添加格 -->
+<view class="ip-wrap">
+  <view class="ip-grid">
+    <view class="ip-cell" wx:for="{{files}}" wx:key="_id">
+      <image class="ip-img" src="{{item.url}}" mode="aspectFill" data-idx="{{index}}" bindtap="preview"/>
+      <view class="ip-del" data-idx="{{index}}" catchtap="remove">×</view>
+    </view>
+    <view class="ip-add {{disabled ? 'is-disabled' : ''}}" wx:if="{{files.length < max}}" bindtap="choose" hover-class="is-pressed">
+      <image class="ip-add-ic" src="{{addIcon}}" mode="aspectFit"/>
+      <text class="ip-add-txt">拍照/相册</text>
+    </view>
+  </view>
+  <!-- 张数提示：让用户随时知道还能再加几张，避免选到上限后才发现 -->
+  <text class="ip-count num">{{files.length}}/{{max}}</text>
+</view>

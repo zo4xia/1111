@@ -1,0 +1,179 @@
+/* 选举方式 · 页面独有布局
+   ------------------------------------------------------------------
+   已复用全局：card / sec / blk-title / field-note / picker / field /
+              list-row / dot / mask / sheet / empty / btn-main / btn-ghost /
+              t-doc / num / op-link / hint（弹层与按钮全走全局范式）
+   组件：img-picker（/components/img-picker，全站唯一图片上传）
+   本页只允许保留：岗位卡差异（.pos-card）、公众号标题题花（.doc-*）、
+                  紧凑日程进度卡（.prog-* / .stage-*）、进度条、快捷小按钮
+   —— 卡体一律继承 .card（阴影/描边/圆角/外距），禁止重造轮子
+   —— 三色秩序：青墨主 + 鎏金点缀（题花/鎏金顶线）+ 朱砂极少（D日）
+   ------------------------------------------------------------------ */
+
+/* 页面容器：app.wxss 只有元素选择器 page{}（令牌宿主），.page 类需各页自行声明 */
+.page { padding-bottom: var(--sp-7); }
+
+/* —— 公众号文章风 · 岗位卡片列表（每岗一卡，6 信息全在卡内） ——
+   卡体复用全局 .card（阴影/描边/圆角/外距单一真相），本页只写差异 */
+.doc { padding: var(--sp-6) 0 var(--sp-2); }
+
+.doc-title {
+  text-align: center;
+  color: var(--ink-1);
+  font-size: var(--fs-title);
+  font-weight: 700;
+  letter-spacing: var(--ls-title);
+  line-height: var(--lh-snug);
+  padding: 0 var(--sp-5) var(--sp-3);
+}
+
+/* 鎏金题花：公众号文章风「题下短线」，三色秩序中的金点缀 */
+.doc-orn {
+  width: 56rpx; height: 4rpx;
+  margin: 0 auto var(--sp-3);
+  background: var(--c-jin-light);
+  border-radius: var(--r-pill);
+}
+
+.doc-sub {
+  text-align: center;
+  color: var(--ink-4);
+  font-size: var(--fs-mini);
+  font-weight: 500;
+  letter-spacing: var(--ls-cap);
+  padding-bottom: var(--sp-5);
+}
+
+.pos-card { transition: border-color .15s ease, box-shadow .15s ease; }
+.pos-card:active { border-color: var(--c-dai); box-shadow: var(--sh-card-strong); }
+
+/* 卡头：岗位名 + 人数徽章 */
+.pc-pos {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
+  padding-bottom: var(--sp-4);
+  border-bottom: 2rpx solid var(--line-2);
+}
+.pc-pos-t { color: var(--ink-1); font-size: var(--fs-h); font-weight: 700; letter-spacing: var(--ls-h); line-height: var(--lh-snug); }
+.pc-quota-tag {
+  display: inline-flex; align-items: baseline; gap: 2rpx;
+  padding: 6rpx 14rpx;
+  background: var(--c-dai-bg);
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
+}
+.pc-quota-num { color: var(--c-dai-deep); font-size: var(--fs-h); font-weight: 700; line-height: 1; }
+.pc-quota-lbl { color: var(--c-dai); font-size: var(--fs-mini); font-weight: 600; letter-spacing: var(--ls-cap); }
+
+/* 主体两行：键值对（选举方式 / 岗位说明） */
+.pc-grid { padding: var(--sp-2) 0; }
+.pc-row {
+  display: flex; align-items: flex-start;
+  padding: var(--sp-3) 0;
+  border-bottom: 2rpx solid var(--line-2);
+}
+.pc-row:last-child { border-bottom: none; }
+.pc-k { flex: 0 0 128rpx; color: var(--ink-4); font-size: var(--fs-cap); font-weight: 500; letter-spacing: var(--ls-cap); padding-top: 4rpx; }
+.pc-v { flex: 1; min-width: 0; color: var(--ink-2); font-size: var(--fs-cap); line-height: var(--lh-snug); }
+.pc-v-method { font-weight: 600; color: var(--ink-1); }
+.pc-v-desc { min-width: 0; }
+.pc-desc-link { display: flex; flex-direction: column; align-items: flex-start; gap: 4rpx; }
+.pc-desc-txt {
+  color: var(--ink-2);
+  font-size: var(--fs-cap);
+  line-height: var(--lh-snug);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-break: break-all;
+}
+.pc-desc-txt.is-full { -webkit-line-clamp: unset; display: block; word-break: break-all; }
+.pc-desc-more { color: var(--c-dai); font-size: var(--fs-mini); font-weight: 600; line-height: 1; letter-spacing: var(--ls-cap); }
+
+/* 卡底：材料下载 op-link + 快捷提交按钮 */
+.pc-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: var(--sp-3);
+  border-top: 2rpx solid var(--line-2);
+}
+
+.doc-empty { padding: var(--sp-5) 0; }
+
+/* —— 快捷提交小按钮（岗位卡底部行内动作，mini ghost 紧凑化） —— */
+.btn-quick {
+  margin: 0;
+  padding: 10rpx 28rpx;
+  font-size: var(--fs-mini);
+  letter-spacing: 1rpx;
+  line-height: 1.6;
+}
+
+/* —— 材料下载弹层：资料列表 —— */
+.mat-list { padding: var(--sp-2) 0; }
+
+/* —— 当前进度 · 紧凑日程卡：进度条摘要 + 两列阶段网格 —— */
+.prog-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.prog-info { display: flex; flex-direction: column; gap: 4rpx; min-width: 0; }
+.prog-label { color: var(--ink-3); font-size: var(--fs-cap); font-weight: 700; letter-spacing: var(--ls-cap); }
+.prog-meta { color: var(--c-dai-deep); font-size: var(--fs-mini); font-weight: 600; letter-spacing: var(--ls-cap); line-height: 1.4; }
+.prog-num { color: var(--c-dai-deep); font-size: var(--fs-h); font-weight: 700; line-height: 1; flex-shrink: 0; }
+/* 整体进度条（粗条 plump 风格，全项目唯一使用处，归本页） */
+.prog-bar {
+  height: 20rpx;
+  border-radius: var(--r-pill);
+  background: var(--line-3);
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  min-width: 4rpx;
+  border-radius: var(--r-pill);
+  background: var(--grad-bar);
+  transition: width .3s ease;
+}
+
+.stage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+}
+.stage-cell {
+  display: flex; flex-direction: column; gap: 6rpx;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--line-3);
+  border: 2rpx solid transparent;
+  border-radius: var(--r-xs);
+  min-width: 0;
+}
+.stage-top { display: flex; align-items: center; gap: var(--sp-2); }
+.stage-key { color: var(--ink-4); font-size: var(--fs-mini); font-weight: 600; letter-spacing: var(--ls-cap); line-height: 1; }
+.stage-name {
+  color: var(--ink-1);
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.stage-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.stage-date { color: var(--ink-4); font-size: var(--fs-mini); line-height: 1; }
+.stage-st { color: var(--ink-3); font-size: var(--fs-mini); font-weight: 500; line-height: 1; }
+/* 已完成：中等弱化（ink-2，事实性信息） */
+.stage-cell.done { background: var(--line-3); }
+.stage-cell.done .stage-name { color: var(--ink-2); font-weight: 500; }
+.stage-cell.done .stage-key, .stage-cell.done .stage-date, .stage-cell.done .stage-st { color: var(--ink-3); }
+/* 未开始：最弱（ink-3 + 400 字重，与 done 靠 dot 色区分） */
+.stage-cell.todo .stage-name { color: var(--ink-3); font-weight: 400; }
+.stage-cell.todo .stage-key, .stage-cell.todo .stage-date, .stage-cell.todo .stage-st { color: var(--ink-3); }
+/* 进行中：品牌色高亮 */
+.stage-cell.doing { background: var(--c-doing-bg); border-color: var(--c-dai); }
+.stage-cell.doing .stage-name { color: var(--c-dai-deep); }
+.stage-cell.doing .stage-key, .stage-cell.doing .stage-st { color: var(--c-dai-deep); font-weight: 600; }
+/* D 日：珠红警示 */
+.stage-cell.is-dday { background: var(--c-zhu-bg); border-color: var(--c-zhu); }
+.stage-cell.is-dday .stage-name { color: var(--c-zhu); font-weight: 700; }
+.stage-cell.is-dday .stage-key, .stage-cell.is-dday .stage-st { color: var(--c-zhu); font-weight: 600; }

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "材料提交",
+  "usingComponents": {
+    "img-picker": "/components/img-picker/img-picker"
+  }
+}

@@ -1,0 +1,85 @@
+/* 登录 · 页面独有布局
+   ------------------------------------------------------------------
+   已复用全局：card / field / field-label / picker / input / chip--select /
+               note / dot / btn-main / btn-ghost / hint / ico-prefix
+   图标：utils/icons 统一线性图标（含 wechat）
+   本页只允许保留：品牌区、两个登录按钮的 pill 品牌覆写、分隔线、底部提示上间距
+   ------------------------------------------------------------------ */
+.page {
+  min-height: 100vh;
+  padding: var(--sp-9) var(--sp-7) var(--sp-8);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+/* 右上鎏金光晕（品牌记忆点，单一处，不再叠加第二处） */
+.page::before {
+  content: '';
+  position: absolute; right: -120rpx; top: -120rpx;
+  width: 440rpx; height: 440rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(176, 138, 62, 0.16), transparent 68%);
+  pointer-events: none;
+}
+
+/* —— 品牌区 —— */
+.brand-area { text-align: center; padding: var(--sp-6) 0 var(--sp-8); position: relative; z-index: 1; }
+.brand-mark {
+  display: flex; align-items: center; justify-content: center;
+  width: 104rpx; height: 104rpx;
+  margin: 0 auto var(--sp-6);
+  border-radius: var(--r-lg);
+  background: var(--grad-brand);
+  color: #fff;
+  font-family: var(--font-gongwen-h1);
+  font-size: 52rpx; /* 品牌字标 logo 常量，不参与字号令牌 */
+  font-weight: 700;
+  box-shadow: 0 10rpx 24rpx rgba(58, 118, 112, 0.35), inset 0 1rpx 0 rgba(255, 255, 255, 0.2);
+}
+.brand-title { font-size: 40rpx; font-weight: 700; color: var(--ink-1); line-height: var(--lh-tight); letter-spacing: var(--ls-hero); }
+.brand-line { width: 72rpx; height: 4rpx; margin: var(--sp-4) auto; background: var(--grad-jin); border-radius: 4rpx; }
+.brand-sub { font-size: var(--fs-mini); color: var(--ink-3); letter-spacing: 2rpx; }
+
+/* —— 主登录按钮（原生 button · 全局 .btn-main 之上的 pill 品牌覆写） —— */
+.btn-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+  padding: 0;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-body);
+  letter-spacing: var(--ls-hero);
+  box-shadow: 0 10rpx 24rpx rgba(58, 118, 112, 0.38);
+  margin-top: var(--sp-3);
+  transition: transform var(--dur) ease, box-shadow var(--dur) ease;
+}
+.btn-login:active {
+  transform: scale(0.985);
+  box-shadow: 0 4rpx 12rpx rgba(58, 118, 112, 0.25);
+}
+
+/* —— 分隔线 —— */
+.divider { display: flex; align-items: center; gap: var(--sp-4); margin: var(--sp-7) var(--sp-9) var(--sp-5); }
+.div-line { flex: 1; height: 2rpx; background: var(--line); }
+.div-txt { font-size: var(--fs-mini); color: var(--ink-4); letter-spacing: 2rpx; }
+
+/* —— 微信授权按钮（原生 button · ghost 底 + 统一线性图标） —— */
+.btn-wx {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: 96rpx;
+  padding: 0;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-sub);
+  letter-spacing: 2rpx;
+  box-shadow: var(--sh-soft);
+  transition: transform var(--dur), background var(--dur);
+}
+.btn-wx:active { transform: scale(0.985); background: var(--line-3); }
+.wx-ic { width: 36rpx; height: 36rpx; flex-shrink: 0; }
+
+/* —— 底部提示 —— */
+.hint-foot { margin-top: var(--sp-8); }

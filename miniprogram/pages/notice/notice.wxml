@@ -1,0 +1,208 @@
+<view class="page">
+  <!-- Tab：毛玻璃吸顶 -->
+  <view class="glass tabs">
+    <view class="tab {{activeTab === 'latest' ? 'on' : ''}}" bindtap="switchTab" data-key="latest">
+      <text>公告</text>
+      <text wx:if="{{unreadCount}}" class="badge-num">{{unreadCount}}</text>
+    </view>
+    <view class="tab {{activeTab === 'forecast' ? 'on' : ''}}" bindtap="switchTab" data-key="forecast">日程预告</view>
+    <view class="tab {{activeTab === 'history' ? 'on' : ''}}" bindtap="switchTab" data-key="history">往届结果</view>
+  </view>
+
+  <!-- 现在进行中（三个 Tab 均可见：村民默认停在公告 Tab 也能知道当前到哪一步） -->
+  <view class="note note--info is-outer" wx:if="{{liveStage}}">
+    <view class="dot lg state-live pulse"></view>
+    <view class="note-main">
+      <view class="note-t">{{liveStage.name}}</view>
+      <view class="note-d num">现在进行中 · {{liveStage.range}}</view>
+    </view>
+  </view>
+
+  <!-- 走马灯 -->
+  <view class="marquee-bar">
+    <image class="marquee-ico" src="{{icons.bell}}" mode="aspectFit"/>
+    <view class="marquee-box"><text class="marquee-txt">{{marqueeText}}</text></view>
+  </view>
+
+  <!-- 当前届次切换（卡片标题不再与下方区块标题重复） -->
+  <view wx:if="{{activeTab === 'latest'}}" class="card is-first">
+    <view class="blk-title">切换届次</view>
+    <view class="field-note">切换查看本村（社区）不同届次的公告</view>
+    <picker mode="selector" range="{{electionOptions}}" range-key="label" value="{{electionIndex}}" bindchange="pickElection">
+      <view class="picker is-picked">
+        <text class="picker-val">{{selectedElectionLabel || '请选择查看的届次'}}</text>
+        <text class="picker-arrow">⌄</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 本期公告：按阶段分组卡片（卡头=阶段参数+介绍，卡身=该阶段公告列表） -->
+  <block wx:if="{{activeTab === 'latest'}}">
+    <view class="sec">
+      <view class="sec-bar"></view>
+      <text class="sec-title">本期公告</text>
+      <text class="sec-count">{{latest.length}} 篇</text>
+    </view>
+    <view class="list">
+      <view class="card stage-card {{item.barCls}}" wx:for="{{stageCards}}" wx:key="key">
+        <view class="sc-head">
+          <view class="sc-key-badge num">{{item.key}}</view>
+          <view class="sc-name">{{item.name}}</view>
+          <text class="tag {{item.statusCls}}">{{item.status}}</text>
+        </view>
+        <view class="sc-meta">
+          <view class="sc-meta-item ico-prefix"><image class="ip-ic" src="{{icons.calendar}}" mode="aspectFit"/><text class="num">{{item.start}}</text><text wx:if="{{item.end && item.end !== item.start}}" class="num"> ~ {{item.end}}</text></view>
+          <text class="chip">{{item.announcements.length}} 篇公告</text>
+        </view>
+        <view class="t-doc sc-note" wx:if="{{item.note}}">{{item.note}}</view>
+        <view class="sc-divider"></view>
+        <view class="list-row is-compact" wx:for="{{item.announcements}}" wx:for-item="ann" wx:key="code" bindtap="openDetail" data-idx="{{ann.globalIdx}}" hover-class="is-pressed">
+          <view class="sc-ann-code">
+            <text class="tag tag-doc">{{ann.code}}</text>
+            <view wx:if="{{ann.unread}}" class="dot sm state-dday"></view>
+          </view>
+          <view class="list-row-main">
+            <view class="list-row-s sc-ann-title">{{ann.title}}</view>
+            <view class="meta-row">
+              <text class="list-row-s num">{{ann.publish}}</text>
+              <text wx:if="{{ann.canMaterial}}" class="tag tag-live">可提交材料</text>
+            </view>
+          </view>
+          <text class="list-row-arr">›</text>
+        </view>
+      </view>
+      <view class="empty" wx:if="{{!stageCards.length}}">
+        <image class="empty-ico" src="{{icons.file}}" mode="aspectFit"/>
+        <text class="empty-txt">当前届次暂无已发布公告</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 日程预告 -->
+  <block wx:if="{{activeTab === 'forecast'}}">
+    <view class="sec">
+      <view class="sec-bar"></view>
+      <text class="sec-title">日程预告</text>
+      <text class="sec-count">{{forecasts.length}} 个阶段</text>
+    </view>
+    <view class="list">
+      <view class="card card--brand is-first">
+        <view class="cta-title">换届日程 · 按投票日倒排</view>
+        <view class="cta-sub">各阶段日期按正式投票日自动倒推排定</view>
+      </view>
+      <view class="card" wx:for="{{forecasts}}" wx:key="key" bindtap="openDetail" data-idx="{{index}}" hover-class="is-pressed">
+        <view class="blk-title">{{item.name}}</view>
+        <view class="meta-row">
+          <text class="tag {{item.statusCls}}">{{item.statusLabel}}</text>
+          <text class="list-row-s num">计划 {{item.start}}<text wx:if="{{item.end !== item.start}}"> ~ {{item.end}}</text></text>
+        </view>
+        <view class="more-link is-divided">点击查看阶段详情 ›</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 往届结果（统一 n-card 公告列表样式） -->
+  <block wx:if="{{activeTab === 'history'}}">
+    <view class="sec">
+      <view class="sec-bar"></view>
+      <text class="sec-title">往届结果</text>
+      <text class="sec-count">{{history.length}} 条</text>
+    </view>
+    <view class="list">
+      <view class="card" wx:for="{{history}}" wx:key="title" bindtap="openDetail" data-idx="{{index}}" hover-class="is-pressed">
+        <view class="list-row is-compact">
+          <view class="list-row-main">
+            <view class="meta-row">
+              <text class="tag tag-doc">公示</text>
+              <text class="tag {{item.status === '已完成' ? 'tag-done' : 'tag-forecast'}}">{{item.status}}</text>
+            </view>
+            <view class="list-row-t">{{item.title}}</view>
+            <view class="list-row-s n-excerpt" wx:if="{{item.result}}">{{item.result}}</view>
+            <view class="meta-row">
+              <text class="list-row-s">{{item.orgName}}</text>
+              <text class="list-row-s num">{{item.date}}</text>
+              <text wx:if="{{item.voters}}" class="n-rate">{{item.voters}}</text>
+            </view>
+          </view>
+          <text class="list-row-arr">›</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 公告详情弹层：灰度公文 -->
+  <view class="mask" wx:if="{{detail && detailKind === 'ann'}}" bindtap="closeDetail">
+    <view class="sheet" catchtap="">
+      <view class="sheet-head">
+        <view class="sheet-title">公告详情</view>
+        <view class="ic-x is-lg" bindtap="closeDetail"></view>
+      </view>
+      <view class="sheet-body">
+        <view class="d-title">{{detail.title}}</view>
+        <view class="d-docno" wx:if="{{detail.code}}">{{detail.code}}</view>
+        <!-- 公文分割线：文头与正文的明确分界 -->
+        <view class="d-divider"></view>
+
+        <!-- 公告正文（公文体：仿宋，行距2，两端对齐；正文区域不混入非正文信息） -->
+        <view class="d-sec">
+          <view class="d-content">{{detail.content}}</view>
+        </view>
+        <view class="d-sign">
+          <text class="d-stamp">（盖　章）</text>
+          <text class="d-org">{{orgName}}换届选举委员会</text>
+          <text>{{detail.publish || detail.date}}</text>
+        </view>
+
+        <!-- 附件区：所有附件列在底部 -->
+        <view class="d-attachments">
+          <view class="blk-title">附件</view>
+          <view class="list-row is-compact" bindtap="copyAnnContent" hover-class="is-pressed">
+            <view class="list-row-ic is-sm"><image src="{{icons.file}}" mode="aspectFit"/></view>
+            <view class="list-row-main">
+              <view class="list-row-t">公告原件（全文）</view>
+              <view class="list-row-s">复制全文后可发给家人协助打印，纸质版可到村委会领取</view>
+            </view>
+            <text class="list-row-arr">›</text>
+          </view>
+          <view class="field-note t-gongwen">正式文本以选举委员会盖章张贴为准；如需纸质版请联系选举委员会。</view>
+        </view>
+      </view>
+      <!-- 底部按钮：仅「当前届 + 材料上报阶段」的公告才给入口；
+           办理时间统一取自材料上报窗口（matRange），与「材料提交」页同源，杜绝两页口径打架 -->
+      <view class="sheet-foot" wx:if="{{detail.canMaterial}}">
+        <button class="btn-main" bindtap="goMaterial">前往材料提交</button>
+        <view class="hint">报名材料上报窗口 {{matRange}}（含首尾日）；跳转后按清单上传材料即可</view>
+      </view>
+      <!-- 历史届的材料阶段公告：只能看，不能交（材料提交页只服务当前届） -->
+      <view class="sheet-foot" wx:elif="{{detail.isMaterialStage}}">
+        <view class="hint">{{selectedElectionLabel}}为历史届次，仅供查阅，不再受理材料提交</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 阶段预告详情弹层 -->
+  <view class="mask" wx:if="{{detail && detailKind === 'forecast'}}" bindtap="closeDetail">
+    <view class="sheet" catchtap="">
+      <view class="sheet-head">
+        <view class="sheet-title">选举日程详情</view>
+        <view class="ic-x is-lg" bindtap="closeDetail"></view>
+      </view>
+      <view class="sheet-body">
+        <view class="d-title">{{detail.name}}</view>
+        <!-- 文号位即日期区间，正文不再重复「计划时间」段 -->
+        <view class="d-docno num">〔{{detail.start}}<text wx:if="{{detail.end !== detail.start}}"> ~ {{detail.end}}</text>〕</view>
+        <view class="d-sec">
+          <view class="d-h1">核心事项</view>
+          <view class="d-content">{{detail.note}}</view>
+        </view>
+        <view class="d-sec">
+          <view class="d-h1">说明</view>
+          <view class="d-content">此日期按正式投票日自动倒推排定，正式时间以对应编号公告为准。</view>
+        </view>
+      </view>
+      <view class="sheet-foot">
+        <button class="btn-ghost" bindtap="closeDetail">关闭</button>
+      </view>
+    </view>
+  </view>
+</view>

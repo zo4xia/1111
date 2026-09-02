@@ -1,0 +1,85 @@
+/* 公告通知 · 页面独有布局
+   ------------------------------------------------------------------
+   已复用全局：card / sec / blk-title / list-row / tag / chip / dot /
+               badge-num / note / more-link / picker / field / sheet /
+               mask / empty / num / n-*（历史公示）/ d-*（公文排版）
+   本页只允许保留：Tab 吸顶、阶段分组卡、阶段内公告行、公文分割线
+   ------------------------------------------------------------------ */
+
+/* —— Tab：吸顶（毛玻璃视觉复用全局 .glass） —— */
+.tabs { display: flex; position: sticky; top: 0; z-index: 5; }
+.tab {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: var(--sp-1);
+  padding: var(--sp-4) 0;
+  font-size: var(--fs-note);
+  color: var(--ink-4);
+  letter-spacing: var(--ls-h);
+  position: relative;
+}
+.tab.on { color: var(--c-dai); font-weight: 700; }
+.tab.on::after {
+  content: '';
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 48rpx; height: 5rpx;
+  background: var(--grad-jin);
+  border-radius: 4rpx;
+}
+
+.list { padding: var(--sp-3) 0 var(--sp-7); }
+
+/* —— 阶段分组卡：卡头=阶段参数+介绍，卡身=该阶段公告列表 —— */
+.stage-card { position: relative; }
+/* 左侧色条：按阶段状态着色（已完成=青墨 / 进行中=鎏金 / 未开始=灰） */
+.stage-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 6rpx;
+  background: var(--c-dai);
+}
+.stage-card.bar-done::before { background: var(--c-dai); }
+.stage-card.bar-live::before { background: var(--c-jin); }
+.stage-card.bar-todo::before { background: var(--ink-4); }
+.sc-head { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.sc-key-badge {
+  flex-shrink: 0;
+  padding: 6rpx var(--sp-3);
+  background: var(--c-dai);
+  color: #fff;
+  font-size: var(--fs-mini);
+  font-weight: 700;
+  border-radius: var(--r-sm);
+  letter-spacing: 1rpx;
+}
+.sc-name { flex: 1; min-width: 0; font-size: var(--fs-h); font-weight: 700; color: var(--ink-1); letter-spacing: var(--ls-h); }
+.sc-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-3); }
+.sc-meta-item { display: flex; align-items: center; gap: var(--sp-1); font-size: var(--fs-cap); color: var(--ink-3); letter-spacing: 0.5rpx; }
+.sc-meta-item .ip-ic { width: 24rpx; height: 24rpx; }
+.sc-note { margin-bottom: var(--sp-3); }
+.sc-divider { height: 2rpx; margin: var(--sp-3) 0 var(--sp-4); background: linear-gradient(90deg, var(--line), var(--line-2) 50%, var(--line)); }
+
+/* 卡身公告行：文号列 + 标题 + 元信息 + 箭头 */
+.sc-ann-code { flex-shrink: 0; display: flex; align-items: center; gap: var(--sp-1); }
+.sc-ann-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* 元信息行（阶段卡 / 预告卡共用） */
+.meta-row { display: flex; align-items: center; gap: var(--sp-3); margin-top: 6rpx; }
+
+/* —— 公文分割线（文头与正文分界） —— */
+.d-divider {
+  height: 3rpx;
+  margin: var(--sp-6) 0 var(--sp-6);
+  background: linear-gradient(90deg, transparent 0%, var(--c-jin) 20%, var(--c-jin-deep) 50%, var(--c-jin) 80%, transparent 100%);
+  border-radius: 2rpx;
+}
+/* 公告详情附件区：与正文拉开距离（blk-title 间距走全局，field-note 覆写为 sp-3 拉开提示与列表） */
+.d-attachments { margin-top: var(--sp-8); padding-top: var(--sp-6); border-top: 2rpx dashed var(--line); }
+.d-attachments .field-note { margin-top: var(--sp-3); }
+/* 历史公示：结果摘要两行省略 + 参选率右对齐 */
+.n-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.n-rate { margin-left: auto; color: var(--ink-3); font-size: var(--fs-mini); }
+

@@ -1,0 +1,106 @@
+<view class="page">
+  <!-- ① 头部身份卡：品牌渐变（全局 .card--brand）+ 信息网格 -->
+  <view class="card card--brand is-first">
+    <view class="me-top">
+      <view class="avatar avatar--lg">{{avatarChar}}</view>
+      <view class="me-main">
+        <view class="me-name">{{account.acc_name || (account.isGuest ? '游客' : '未命名')}}</view>
+        <view class="me-meta">{{orgName}} · {{roleLabel}}</view>
+      </view>
+      <view class="badge-num" wx:if="{{unreadCount}}" bindtap="goNotice" hover-class="is-pressed">
+        <text class="bn-n num">{{unreadCount}}</text>
+        <text class="bn-l">未读</text>
+      </view>
+    </view>
+
+    <view class="info-grid">
+      <view class="info-cell {{info.length % 2 === 1 && index === info.length - 1 ? 'is-wide' : ''}}" wx:for="{{info}}" wx:key="label">
+        <image class="mi-ic" src="{{item.icon}}" mode="aspectFit"/>
+        <view class="mi-body">
+          <view class="mi-label">{{item.label}}</view>
+          <view class="mi-value">{{item.value}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ② 我的记录 -->
+  <view class="card">
+    <view class="blk-title">我的记录</view>
+
+    <view class="list-row" wx:if="{{myCand}}" bindtap="goCandidate" hover-class="is-pressed">
+      <view class="list-row-ic"><image src="{{icons.user}}" mode="aspectFit"/></view>
+      <view class="list-row-main">
+        <view class="list-row-t">参选档案 · {{myCand.name}}</view>
+        <view class="list-row-s">{{myCand.position}}候选人 · {{myCand.source}}</view>
+      </view>
+      <text class="tag tag-{{myCand.statusCls}}">{{myCand.status}}</text>
+    </view>
+
+    <view class="list-row" wx:else>
+      <view class="list-row-ic"><image src="{{icons.user}}" mode="aspectFit"/></view>
+      <view class="list-row-main">
+        <view class="list-row-t">参选档案</view>
+        <view class="list-row-s">还没有参选记录；想报名可到首页「报名参选」</view>
+      </view>
+      <text class="tag tag-none">未参选</text>
+    </view>
+
+    <view class="list-row" bindtap="goNotice" hover-class="is-pressed">
+      <view class="list-row-ic tone-jin"><image src="{{icons.bell}}" mode="aspectFit"/></view>
+      <view class="list-row-main">
+        <view class="list-row-t">未读公告</view>
+        <view class="list-row-s">{{unreadCount ? '有 ' + unreadCount + ' 条新公告待查看' : '暂无未读公告'}}</view>
+      </view>
+      <text class="list-row-arr">›</text>
+    </view>
+  </view>
+
+  <!-- ③ 我的提交材料 -->
+  <view class="card">
+    <view class="blk-title">我的提交材料</view>
+
+    <view class="list-row is-compact" wx:for="{{materialList}}" wx:key="name">
+      <view class="list-row-main">
+        <view class="list-row-t">{{item.name}}</view>
+        <view class="list-row-s">提交于 {{item.date}}</view>
+      </view>
+      <text class="tag tag-{{item.cls}}">{{item.status}}</text>
+    </view>
+
+    <view class="empty" wx:if="{{!materialList.length}}">
+      <image class="empty-ico" src="{{icons.file}}" mode="aspectFit"/>
+      <text class="empty-txt">暂无材料提交记录</text>
+    </view>
+
+    <view class="more-link is-divided" wx:if="{{materialTotal > materialList.length}}" bindtap="goMaterial" hover-class="is-pressed">共 {{materialTotal}} 条记录，去材料页查看 ›</view>
+
+    <!-- 快速上传：本机暂存，7 日自动清除 -->
+    <view class="up-zone">
+      <view class="field">
+        <view class="field-label ico-prefix"><image class="ip-ic" src="{{icons.clip}}" mode="aspectFit"/> 上传资料（图片 / 文件）</view>
+
+        <view class="file-row" wx:for="{{uploads}}" wx:key="name">
+          <image class="file-row-ic" src="{{icons.file}}" mode="aspectFit"/>
+          <view class="file-row-main">
+            <view class="file-row-name">{{item.name}}</view>
+            <view class="file-row-sub">{{item.sizeText}} · {{item.timeText}}</view>
+          </view>
+          <view class="ic-x" data-idx="{{index}}" bindtap="removeUpload"></view>
+        </view>
+
+        <view class="add-file" bindtap="addUpload" hover-class="is-pressed">＋ 上传资料</view>
+      </view>
+
+      <view class="note note--bad ico-prefix">
+        <image class="ip-ic" src="{{icons.warn}}" mode="aspectFit"/>
+        <view class="note-main">
+          <view class="note-t">上传资料仅本机暂存，7 日自动清除</view>
+          <view class="note-d">「正式提交」的材料不受影响；本平台不保留您的个人信息</view>
+        </view>
+      </view>
+    </view>
+
+    <button class="btn-ghost go-mat" bindtap="goMaterial">前往材料页正式提交</button>
+  </view>
+</view>

@@ -1,0 +1,33 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/home/home",
+    "pages/notice/notice",
+    "pages/candidate/candidate",
+    "pages/profile/profile",
+    "pages/method/method",
+    "pages/material/material"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#1f4e48",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "城厢区村居换届选举",
+    "backgroundColor": "#f6f8f7",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#99a39f",
+    "selectedColor": "#3a7670",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "首页", "iconPath": "images/tab/home.png", "selectedIconPath": "images/tab/home-active.png" },
+      { "pagePath": "pages/notice/notice", "text": "公告", "iconPath": "images/tab/notice.png", "selectedIconPath": "images/tab/notice-active.png" },
+      { "pagePath": "pages/candidate/candidate", "text": "选举", "iconPath": "images/tab/candidate.png", "selectedIconPath": "images/tab/candidate-active.png" },
+      { "pagePath": "pages/profile/profile", "text": "我的", "iconPath": "images/tab/profile.png", "selectedIconPath": "images/tab/profile-active.png" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

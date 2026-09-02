@@ -1,0 +1,85 @@
+<view class="page">
+  <!-- 窗口状态条：开关由日程按阶段自动控制（未开放 / 开放中 / 已截止 三态如实区分） -->
+  <view class="note is-outer {{realWindowOpen ? 'note--info' : (windowState === 'before' ? 'note--warn' : 'note--bad')}}">
+    <view class="dot lg {{realWindowOpen ? 'state-live pulse' : (windowState === 'before' ? 'state-warn' : 'state-off')}}"></view>
+    <view class="note-main">
+      <view class="note-t">{{realWindowOpen ? '材料提交：开放中' : (windowState === 'before' ? '材料提交：尚未开放' : '材料提交：已截止')}}</view>
+      <view class="note-d">{{windowMsg}}</view>
+    </view>
+  </view>
+
+  <!-- 说明卡：需要提交什么（清单复用 kit 单一真相 MATERIAL_TYPES，不另写一套文字） -->
+  <view class="card">
+    <view class="blk-title">参选人材料提交</view>
+    <view class="field-note ico-prefix"><image class="ip-ic" src="{{icons.file}}" mode="aspectFit"/> 请按以下清单备齐材料后上传（拍照或添加文件均可）</view>
+    <view class="need-list">
+      <view class="need-item" wx:for="{{needList}}" wx:key="*this">
+        <text class="need-dot">·</text>
+        <text class="need-txt">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 上传卡：图片拍照/相册（全站唯一 img-picker）+ 文件附件加号新增 + 文字说明输入 -->
+  <view class="card">
+    <view class="blk-title">上传材料</view>
+
+    <view class="field">
+      <view class="field-label">图片材料（拍照 / 相册）<text class="field-req">*</text></view>
+      <img-picker
+        files="{{imgFiles}}"
+        max="{{9}}"
+        size-limit="{{10485760}}"
+        bind:success="onImgAdd"
+        bind:remove="onImgRemove"
+        bind:fail="onUploadFail"/>
+    </view>
+
+    <view class="field">
+      <view class="field-label">文件附件（点击加号新增，可添加多个）</view>
+      <view class="file-row" wx:for="{{docFiles}}" wx:key="path">
+        <image class="file-row-ic" src="{{icons.file}}" mode="aspectFit"/>
+        <view class="file-row-main">
+          <view class="file-row-name">{{item.name}}</view>
+          <view class="file-row-sub">{{item.size}}</view>
+        </view>
+        <view class="ic-x" bindtap="removeDocFile" data-idx="{{index}}"></view>
+      </view>
+      <!-- 加号虚线按钮：点击调起微信文件选择，tempFilePath 落 docFiles，可重复添加 -->
+      <view class="add-file" bindtap="addDocFile" hover-class="is-pressed">＋ 添加文件附件</view>
+    </view>
+
+    <view class="field">
+      <view class="field-label">文字说明（选填）</view>
+      <textarea class="note-area" placeholder="可补充材料说明，例如：自荐理由、材料对应岗位等" value="{{noteText}}" bindinput="onNoteInput" maxlength="500"/>
+    </view>
+
+    <view class="field">
+      <!-- 按钮文案直接说明当前能不能交，避免「灰按钮点了才知道不行」 -->
+      <button class="btn-main {{canSubmit ? '' : 'btn-disabled'}}" bindtap="submit" hover-class="is-pressed">{{submitBtnText}}</button>
+      <view class="hint">{{windowHint}}</view>
+    </view>
+  </view>
+
+  <!-- 提交记录 -->
+  <view class="card">
+    <view class="blk-title">我的提交记录</view>
+
+    <view class="list-row" wx:for="{{records}}" wx:key="_id">
+      <view class="list-row-ic"><image src="{{icons.file}}" mode="aspectFit"/></view>
+      <view class="list-row-main">
+        <view class="list-row-t">{{item.name}}</view>
+        <view class="list-row-s">{{item.date}}</view>
+        <view class="list-row-s" wx:if="{{item.note}}">{{item.note}}</view>
+        <view class="list-row-s" wx:if="{{item.files}}">{{item.files}}</view>
+        <view class="list-row-s" wx:if="{{item.comment}}">{{item.comment}}</view>
+      </view>
+      <text class="tag tag-{{item.cls}}">{{item.status}}</text>
+    </view>
+
+    <view class="empty" wx:if="{{!records.length}}">
+      <image class="empty-ico" src="{{icons.file}}" mode="aspectFit"/>
+      <text class="empty-txt">暂无提交记录</text>
+    </view>
+  </view>
+</view>

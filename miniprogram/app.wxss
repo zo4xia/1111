@@ -1,0 +1,952 @@
+/* =====================================================================
+   UI 设计系统 v6.1 · 归一化（唯一真相层）
+   ---------------------------------------------------------------------
+   铁律：
+   1. 本文件是全站唯一的基础样式真相，页面 wxss 只允许写「页面独有布局」。
+   2. 禁止在页面 wxss / wxml 中重复实现卡片、标题、列表行、标签、按钮、弹层。
+   3. 禁止页内硬编码色值与字号，一律走 §1 令牌。
+   4. 本文件中不存在未被任何页面引用的类（新增即确认有引用）。
+   5. 全站 UI 仅有两处实现源：本文件全局类（§1~§15）与 /components/img-picker；
+      不引入任何第三方 UI 库，禁止 --td-* 一类双轨覆写。
+
+   目录
+     §1  设计令牌（色/字/间距/圆角/阴影/动效）
+     §2  基础层（page / 文本工具 / 按压反馈）
+     §3  卡片 .card
+     §4  区块标题 .blk / 分节标题 .sec
+     §5  标签 .tag / 胶囊 .chip
+     §6  按钮 .btn
+     §7  列表行 .list-row
+     §8  提示条 .note
+     §9  圆点 .dot / 徽章 .badge
+     §10 图标 / 叉 / 文件行 / 虚线添加
+     §11 表单（字段 / 选择器）
+     §12 弹层 .mask .sheet
+     §13 空态 / 走马灯 / 更多链接
+     §14 审核轨迹 .trk（候选人四轮审核专用）
+     §15 公文排版 .d-*
+   ===================================================================== */
+
+/* ============================ §1 设计令牌 ============================ */
+page {
+  /* —— 青墨主色 —— */
+  --c-dai: #3a7670;
+  --c-dai-deep: #1f4e48;
+  --c-dai-light: #6ea49b;
+  --c-dai-bg: #e8f0ee;
+  --c-dai-hover: #2c5e58;
+
+  /* —— 鎏金暖点缀 —— */
+  --c-jin: #b08a3e;
+  --c-jin-light: #d4b870;
+  --c-jin-deep: #8a6a2c;
+  --c-jin-bg: #f5ead0;
+  --c-jin-line: #ead9b0;
+
+  /* —— 朱砂：仅用于警示 / 未读 / 驳回 —— */
+  --c-zhu: #b5453f;
+  --c-zhu-bg: #f6e3e1;
+
+  /* —— 背景与卡片 —— */
+  --bg: #f6f8f7;
+  --card: #ffffff;
+
+  /* —— 文字色阶 —— */
+  --ink-1: #172826;
+  --ink-2: #435856;
+  --ink-3: #6b7a75;
+  --ink-4: #99a39f;
+  --line: #e5ebe9;
+  --line-2: #eef2f0;
+  --line-3: #f3f6f5;
+
+  /* —— 语义状态（唯一一套，页面禁止再造） —— */
+  --c-ok: var(--c-dai-light);
+  --c-ok-bg: var(--c-dai-bg);
+  --c-warn: var(--c-jin-deep);
+  --c-warn-bg: var(--c-jin-bg);
+  --c-doing: var(--c-dai);
+  --c-doing-bg: var(--c-dai-bg);
+  --c-none: var(--ink-4);
+  --c-none-bg: var(--line-3);
+
+  /* —— 字体三层：UI 无衬线 / 公文衬线 / 数字等宽 —— */
+  --font-ui: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  --font-num: "SF Mono", "DIN Alternate", Consolas, "Roboto Mono", monospace;
+  --font-gongwen: "FangSong", "STFangsong", "FangSong_GB2312", "STSong", "Songti SC", "SimSun", serif;
+  --font-gongwen-h1: "STHeiti", "Heiti SC", "SimHei", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-gongwen-h2: "STKaiti", "Kaiti SC", "KaiTi", "STSong", serif;
+
+  /* —— 字号（v6.2 老年易读调优：大号微收、小号整体上提，缓解小字压抑） —— */
+  --fs-hero: 42rpx;
+  --fs-title: 34rpx;
+  --fs-h: 32rpx;
+  --fs-body: 30rpx;
+  --fs-sub: 28rpx;
+  --fs-note: 27rpx;
+  --fs-cap: 26rpx;
+  --fs-mini: 24rpx;
+
+  /* —— 字距 —— */
+  --ls-hero: 4rpx;
+  --ls-title: 2.5rpx;
+  --ls-h: 1.5rpx;
+  --ls-body: 0.6rpx;
+  --ls-cap: 0.3rpx;
+
+  /* —— 行高 —— */
+  --lh-tight: 1.4;
+  --lh-snug: 1.55;
+  --lh-base: 1.75;
+  --lh-loose: 1.9;
+
+  /* —— 间距（8 基准） —— */
+  --sp-1: 8rpx;
+  --sp-2: 12rpx;
+  --sp-3: 16rpx;
+  --sp-4: 20rpx;
+  --sp-5: 24rpx;
+  --sp-6: 32rpx;
+  --sp-7: 40rpx;
+  --sp-8: 56rpx;
+  --sp-9: 72rpx;
+
+  /* —— 圆角 —— */
+  --r-xs: 8rpx;
+  --r-sm: 14rpx;
+  --r-md: 22rpx;
+  --r-lg: 28rpx;
+  --r-xl: 40rpx;
+  --r-pill: 999rpx;
+  --r-btn: 16rpx;
+
+  /* —— 阴影 —— */
+  --sh-card: 0 4rpx 18rpx rgba(31, 78, 72, 0.06);
+  --sh-card-strong: 0 10rpx 30rpx rgba(31, 78, 72, 0.12);
+  --sh-soft: 0 2rpx 8rpx rgba(31, 78, 72, 0.04);
+  --sh-brand: 0 8rpx 20rpx rgba(58, 118, 112, 0.24);
+
+  /* —— 渐变 —— */
+  --grad-brand: linear-gradient(140deg, var(--c-dai-light) 0%, var(--c-dai) 60%, var(--c-dai-deep) 100%);
+  --grad-brand-soft: linear-gradient(135deg, var(--c-dai) 0%, var(--c-dai-deep) 100%);
+  --grad-jin: linear-gradient(90deg, var(--c-jin), var(--c-jin-light));
+  --grad-bar: linear-gradient(180deg, var(--c-dai), var(--c-dai-deep));
+
+  /* —— 动效 —— */
+  --dur: 0.18s;
+
+  background: var(--bg);
+  font-family: var(--font-ui);
+  font-size: var(--fs-body);
+  color: var(--ink-1);
+  -webkit-font-smoothing: antialiased;
+  line-height: var(--lh-base);
+  letter-spacing: var(--ls-body);
+}
+
+/* ============================ §2 基础层 ============================ */
+/* 公文正文块（公告正文 / 报名表 / 模板预览，唯一一处衬线长文排版） */
+.t-doc {
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-family: var(--font-gongwen);
+  font-size: var(--fs-cap);
+  line-height: var(--lh-loose);
+  color: var(--ink-2);
+}
+/* 行内切衬线（表单提示等短句） */
+.t-gongwen { font-family: var(--font-gongwen); letter-spacing: 0.5rpx; }
+/* 数字 / 日期 / 文号 / 进度：等宽对齐 */
+.num { font-family: var(--font-num); letter-spacing: 0.3rpx; }
+
+/* 按压反馈：小程序 view 无 :active，必须用 hover-class 挂载 */
+.is-pressed { opacity: 0.72; }
+
+/* 毛玻璃（吸顶导航 / Tab 容器） */
+.glass {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(28rpx) saturate(160%);
+  -webkit-backdrop-filter: blur(28rpx) saturate(160%);
+  border-bottom: 2rpx solid var(--line);
+}
+
+/* 行内图标前缀 */
+.ico-prefix { display: inline-flex; align-items: center; gap: 10rpx; }
+.ico-prefix .ip-ic { width: 32rpx; height: 32rpx; flex-shrink: 0; opacity: 0.82; }
+
+/* ============================ §3 卡片 ============================ */
+.card {
+  position: relative;
+  margin: 0 var(--sp-5) var(--sp-5);
+  padding: var(--sp-6) var(--sp-5);
+  background: var(--card);
+  border: 2rpx solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-card);
+  overflow: hidden;
+}
+.card.is-first { margin-top: var(--sp-5); }
+/* 扁平：弱化层级（容器型卡片） */
+.card--flat { box-shadow: none; }
+/* 品牌：青墨渐变 + 右上鎏金柔光（光晕走 background 层叠，天然位于内容之下） */
+.card--brand {
+  background:
+    radial-gradient(circle at 88% 10%, rgba(212, 184, 112, 0.22), transparent 46%),
+    var(--grad-brand-soft);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--sh-brand);
+}
+.card--brand .blk-title,
+.card--brand .mi-label { color: #fff; }
+.card--brand .blk-title::before { background: var(--c-jin-light); }
+/* 淡青信息卡：介于白卡与页面底之间的青墨浅底，用于「参考/展示型」区块
+   —— 与白卡（主操作）形成可感知的底色差异，帮助长页面扫读定位 */
+.card--tint { background: #eff5f3; }
+
+/* ============================ §4 区块 / 分节标题 ============================ */
+/* 区块标题：卡片内或区块内，自带左竖条 */
+.blk-title {
+  position: relative;
+  padding-left: var(--sp-4);
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-h);
+  font-weight: 700;
+  color: var(--ink-1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-h);
+}
+.blk-title::before {
+  content: '';
+  position: absolute; left: 0; top: 6rpx; bottom: 6rpx;
+  width: 6rpx; border-radius: 4rpx;
+  background: var(--grad-bar);
+}
+.blk-sub {
+  margin-top: 4rpx;
+  font-size: var(--fs-mini);
+  color: var(--ink-4);
+  letter-spacing: var(--ls-cap);
+}
+
+/* 分节标题：卡片外的页面级分节行 */
+.sec {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-7) var(--sp-5) var(--sp-4);
+}
+.sec-bar {
+  width: 6rpx; height: 26rpx;
+  border-radius: 4rpx; flex-shrink: 0;
+  background: var(--grad-bar);
+}
+.sec-title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-h);
+  font-weight: 700;
+  color: var(--ink-1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-h);
+}
+.sec-count {
+  flex-shrink: 0;
+  font-family: var(--font-num);
+  font-size: var(--fs-cap);
+  font-weight: 500;
+  color: var(--ink-4);
+  letter-spacing: 0;
+}
+.sec-more {
+  flex-shrink: 0;
+  font-size: var(--fs-cap);
+  font-weight: 500;
+  color: var(--c-dai);
+  letter-spacing: var(--ls-cap);
+}
+
+/* ============================ §5 标签 / 胶囊 ============================ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 6rpx 16rpx;
+  border: 2rpx solid transparent;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-mini);
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  letter-spacing: var(--ls-cap);
+}
+/* 进行中：青墨 + 呼吸点 */
+.tag-live {
+  background: var(--c-doing-bg);
+  color: var(--c-dai-deep);
+  border-color: rgba(58, 118, 112, 0.22);
+}
+.tag-live::before {
+  content: '';
+  width: 10rpx; height: 10rpx;
+  border-radius: 50%;
+  background: var(--c-doing);
+  box-shadow: 0 0 0 3rpx rgba(58, 118, 112, 0.18);
+}
+/* 已完成：青墨淡 + 勾 */
+.tag-done {
+  background: var(--c-ok-bg);
+  color: var(--c-dai-deep);
+  border-color: rgba(58, 118, 112, 0.18);
+}
+.tag-done::before {
+  content: '';
+  width: 12rpx; height: 6rpx;
+  border-left: 2rpx solid var(--c-dai);
+  border-bottom: 2rpx solid var(--c-dai);
+  transform: rotate(-45deg) translate(2rpx, -2rpx);
+}
+/* 警告：鎏金 */
+.tag-warn { background: var(--c-warn-bg); color: var(--c-warn); }
+/* 驳回 / 否决：朱砂 */
+.tag-bad { background: var(--c-zhu-bg); color: var(--c-zhu); }
+/* 未开始 / 无：中性 */
+.tag-none { background: var(--c-none-bg); color: var(--ink-3); border-color: var(--line); }
+/* 预告：鎏金方点 */
+.tag-forecast {
+  background: var(--c-jin-bg);
+  color: var(--c-jin-deep);
+  border-color: var(--c-jin-line);
+}
+.tag-forecast::before {
+  content: '';
+  width: 8rpx; height: 8rpx;
+  border-radius: 1rpx;
+  background: var(--c-jin);
+}
+/* 文号：公文灰 */
+.tag-doc {
+  padding: 4rpx 14rpx;
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: var(--ink-2);
+  font-family: var(--font-gongwen);
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+/* 新 / 未读：朱砂小标 */
+.tag-new {
+  padding: 3rpx 12rpx;
+  background: rgba(181, 69, 63, 0.08);
+  border-color: rgba(181, 69, 63, 0.2);
+  color: var(--c-zhu);
+  font-size: 18rpx;
+}
+
+/* 中性胶囊：非状态类短标（职位 / 职数 / 计数） */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 14rpx;
+  border-radius: var(--r-pill);
+  background: var(--line-3);
+  color: var(--ink-2);
+  font-size: var(--fs-mini);
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+/* 胶囊排布容器 */
+.chip-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+/* 可选中胶囊（角色 / 筛选） */
+.chip--select {
+  padding: var(--sp-2) var(--sp-5);
+  background: var(--card);
+  border: 2rpx solid var(--line);
+  color: var(--ink-3);
+  font-size: var(--fs-cap);
+}
+.chip--select.is-on {
+  background: var(--c-dai);
+  border-color: var(--c-dai);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(58, 118, 112, 0.28);
+}
+
+/* ============================ §6 按钮 ============================ */
+.btn-main {
+  padding: 22rpx 0;
+  background: var(--c-dai);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-btn);
+  font-size: var(--fs-sub);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  text-align: center;
+  letter-spacing: 3rpx;
+  box-shadow: 0 6rpx 18rpx rgba(58, 118, 112, 0.28);
+}
+.btn-main::after { border: none; }
+.btn-ghost {
+  padding: 16rpx 0;
+  background: var(--c-dai-bg);
+  color: var(--c-dai-deep);
+  border: none;
+  border-radius: var(--r-btn);
+  font-size: var(--fs-cap);
+  text-align: center;
+  letter-spacing: 1rpx;
+}
+.btn-ghost::after { border: none; }
+.btn-disabled {
+  background: var(--line-3);
+  color: var(--ink-3);
+  box-shadow: none;
+}
+
+/* 文字操作链接（公众号清秀风：无边框、品牌色、轻按压）
+   用于表格内的「材料下载 / 快捷提交」等行内操作，替代重按钮 */
+.op-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 8rpx 4rpx;
+  color: var(--c-dai);
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  letter-spacing: var(--ls-cap);
+  line-height: 1.4;
+  background: none;
+}
+.op-link::after { border: none; }
+.op-link.is-strong { color: var(--c-dai-deep); }
+.op-link.is-sub { color: var(--ink-3); }
+.op-link:active { opacity: 0.55; }
+
+/* ============================ §7 列表行 ============================ */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) 0;
+  border-bottom: 2rpx solid var(--line-2);
+}
+.list-row:last-child { border-bottom: none; }
+.list-row.is-compact { padding: var(--sp-3) 0; }
+.list-row-ic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88rpx; height: 88rpx;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  background: var(--c-dai-bg);
+  box-shadow: inset 0 1rpx 0 rgba(255, 255, 255, 0.6);
+}
+.list-row-ic image { width: 48rpx; height: 48rpx; }
+.list-row-ic.is-sm { width: 64rpx; height: 64rpx; }
+.list-row-ic.is-sm image { width: 36rpx; height: 36rpx; }
+.list-row-ic.tone-jin { background: var(--c-jin-bg); }
+.list-row-ic.tone-zhu { background: var(--c-zhu-bg); }
+.list-row-main { flex: 1; min-width: 0; }
+.list-row-t {
+  font-size: var(--fs-h);
+  font-weight: 600;
+  color: var(--ink-1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-h);
+}
+.list-row-s {
+  margin-top: 6rpx;
+  font-size: var(--fs-cap);
+  color: var(--ink-3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-cap);
+}
+.list-row-arr {
+  flex-shrink: 0;
+  font-size: var(--fs-body);
+  color: var(--ink-4);
+}
+
+/* ============================ §8 提示条 ============================ */
+.note {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  border-left: 6rpx solid transparent;
+  font-size: var(--fs-cap);
+  line-height: var(--lh-snug);
+}
+.note-main { flex: 1; min-width: 0; }
+.note-t { font-weight: 700; }
+.note-d { margin-top: 4rpx; font-size: var(--fs-mini); line-height: var(--lh-snug); }
+/* 页面级提示条（脱离卡片的独立条） */
+.note.is-outer { margin: var(--sp-5); }
+/* 提示：青墨 */
+.note--info { background: var(--c-dai-bg); border-left-color: var(--c-dai); color: var(--c-dai-deep); }
+/* 警告：鎏金 */
+.note--warn { background: var(--c-warn-bg); border-left-color: var(--c-jin); color: var(--c-warn); }
+/* 错误 / 关闭：朱砂 */
+.note--bad { background: var(--c-zhu-bg); border-left-color: var(--c-zhu); color: var(--c-zhu); }
+/* 强引导：品牌渐变（含图标 + 主副文案 + 行动） */
+.note--brand {
+  background: var(--grad-brand-soft);
+  border-left: none;
+  color: #fff;
+  padding: var(--sp-4) var(--sp-5);
+  box-shadow: var(--sh-brand);
+}
+.note--brand .note-d { color: rgba(255, 255, 255, 0.82); }
+.note--brand .cta-go { color: #fff; }
+
+/* 行动条：品牌渐变 + 图标 + 主副文案 + 去跳转 */
+.cta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--grad-brand-soft);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-brand);
+}
+.cta-ic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64rpx; height: 64rpx;
+  flex-shrink: 0;
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.16);
+}
+.cta-ic image { width: 36rpx; height: 36rpx; }
+.cta-main { flex: 1; min-width: 0; }
+.cta-title { color: #fff; font-size: var(--fs-sub); font-weight: 700; letter-spacing: 1rpx; }
+.cta-sub { margin-top: 4rpx; color: rgba(255, 255, 255, 0.78); font-size: var(--fs-mini); line-height: var(--lh-snug); }
+.cta-go { flex-shrink: 0; color: #fff; font-size: var(--fs-cap); font-weight: 700; }
+
+/* ============================ §9 圆点 / 徽章 ============================ */
+/* 圆点：颜色由状态类决定（currentColor），尺寸由 sm/md/lg 决定 */
+.dot {
+  display: inline-block;
+  width: 14rpx; height: 14rpx;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+}
+.dot.sm { width: 10rpx; height: 10rpx; }
+.dot.lg { width: 16rpx; height: 16rpx; }
+.state-live { color: var(--c-doing); }
+.state-done { color: var(--c-ok); }
+.state-warn { color: var(--c-warn); }
+.state-dday { color: var(--c-zhu); }
+.state-off { color: var(--ink-4); }
+/* 呼吸扩散环：唯一一处脉动实现，颜色继承 currentColor */
+.pulse { position: relative; }
+.pulse::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ui-pulse 1.8s ease-out infinite;
+}
+@keyframes ui-pulse {
+  0% { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
+/* 徽章 */
+.badge-dot {
+  width: 16rpx; height: 16rpx;
+  border-radius: 50%;
+  background: var(--c-zhu);
+  border: 3rpx solid #fff;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+/* 图标右上角定点红点 */
+.badge-dot.is-abs { position: absolute; top: -6rpx; right: -6rpx; }
+.badge-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32rpx; height: 32rpx;
+  padding: 0 10rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-zhu);
+  color: #fff;
+  font-family: var(--font-num);
+  font-size: var(--fs-mini);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  flex-shrink: 0;
+  box-shadow: 0 2rpx 6rpx rgba(181, 69, 63, 0.35);
+}
+
+/* ============================ §10 图标 / 叉 / 文件 ============================ */
+/* 头像（候选人名 / 用户首字） */
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76rpx; height: 76rpx;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--grad-brand);
+  color: #fff;
+  font-size: var(--fs-h);
+  font-weight: 600;
+}
+.avatar--lg { width: 104rpx; height: 104rpx; font-size: var(--fs-hero); }
+
+/* 关闭 / 删除叉（CSS 绘制，尺寸二选一） */
+.ic-x {
+  position: relative;
+  width: 36rpx; height: 36rpx;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2rpx solid var(--line);
+}
+.ic-x::before,
+.ic-x::after {
+  content: '';
+  position: absolute; left: 50%; top: 50%;
+  width: 14rpx; height: 2rpx;
+  background: var(--ink-3);
+  border-radius: 2rpx;
+}
+.ic-x::before { transform: translate(-50%, -50%) rotate(45deg); }
+.ic-x::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.ic-x.is-lg {
+  width: 48rpx; height: 48rpx;
+  background: var(--line-2);
+  border: none;
+}
+
+/* 文件行（附件 / 已上传资料） */
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-2);
+  background: var(--line-3);
+  border-radius: var(--r-sm);
+}
+.file-row-ic { width: 40rpx; height: 40rpx; flex-shrink: 0; }
+.file-row-main { flex: 1; min-width: 0; }
+.file-row-name {
+  font-size: var(--fs-cap);
+  color: var(--ink-1);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-row-sub {
+  margin-top: 2rpx;
+  font-size: var(--fs-mini);
+  color: var(--ink-4);
+  letter-spacing: var(--ls-cap);
+}
+
+/* 虚线添加（上传 / 添加附件） */
+.add-file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80rpx;
+  border: 2rpx dashed var(--c-dai-light);
+  border-radius: var(--r-sm);
+  background: var(--c-dai-bg);
+  color: var(--c-dai);
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+.add-file.is-disabled {
+  border-color: var(--line);
+  background: var(--line-3);
+  color: var(--ink-4);
+}
+
+/* ============================ §11 表单 ============================ */
+.field { margin-bottom: var(--sp-5); }
+.field:last-child { margin-bottom: 0; }
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: 0.5rpx;
+}
+.field-req { color: var(--c-zhu); }
+.field-note {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-mini);
+  color: var(--ink-4);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-cap);
+}
+
+/* 选择器（picker 外观） */
+.picker {
+  display: flex;
+  align-items: center;
+  min-height: 76rpx;
+  padding: 0 var(--sp-4);
+  background: var(--line-3);
+  border: 2rpx solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-cap);
+  color: var(--ink-4);
+}
+.picker.is-picked { background: var(--card); color: var(--ink-1); }
+.picker-val {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.picker-arrow {
+  flex-shrink: 0;
+  margin-left: var(--sp-3);
+  color: var(--ink-4);
+  font-size: var(--fs-mini);
+}
+
+/* 文本输入 */
+.input {
+  display: flex;
+  align-items: center;
+  min-height: 76rpx;
+  padding: 0 var(--sp-4);
+  background: var(--card);
+  border: 2rpx solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-cap);
+  color: var(--ink-1);
+  letter-spacing: 0.5rpx;
+}
+.input-ph { color: var(--ink-4); font-size: var(--fs-cap); }
+
+/* ============================ §12 弹层 ============================ */
+.mask {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(31, 78, 72, 0.32);
+}
+.sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 88vh;
+  background: var(--card);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  box-shadow: 0 -10rpx 40rpx rgba(31, 78, 72, 0.18);
+}
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-7) var(--sp-4);
+  border-bottom: 2rpx solid var(--line-2);
+}
+.sheet-title {
+  font-size: var(--fs-h);
+  font-weight: 700;
+  color: var(--ink-1);
+  letter-spacing: var(--ls-h);
+}
+.sheet-sub {
+  margin-top: 4rpx;
+  font-size: var(--fs-mini);
+  color: var(--ink-4);
+}
+.sheet-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-7) var(--sp-7) var(--sp-6);
+}
+/* 弹窗内分组之间的呼吸：避免块与块贴在一起 */
+.sheet-body > view + view { margin-top: var(--sp-3); }
+.sheet-foot {
+  padding: var(--sp-4) var(--sp-7) var(--sp-5);
+  border-top: 2rpx solid var(--line-2);
+}
+
+/* ============================ §13 空态 / 走马灯 / 更多 ============================ */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-8) 0;
+}
+.empty-ico { width: 112rpx; height: 112rpx; opacity: 0.4; }
+.empty-txt { font-size: var(--fs-sub); color: var(--ink-3); letter-spacing: var(--ls-cap); }
+
+/* 走马灯：青墨浅底（禁止蓝色等非品牌色） */
+.marquee-bar {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-5);
+  background: var(--c-dai-bg);
+  border-bottom: 2rpx solid var(--line);
+}
+.marquee-ico { width: 30rpx; height: 30rpx; margin-right: var(--sp-3); flex-shrink: 0; }
+.marquee-box { flex: 1; overflow: hidden; white-space: nowrap; }
+.marquee-txt {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: var(--fs-mini);
+  font-weight: 500;
+  color: var(--c-dai-deep);
+  letter-spacing: var(--ls-cap);
+  animation: ui-marquee 18s linear infinite;
+}
+.marquee-more {
+  flex-shrink: 0;
+  margin-left: var(--sp-3);
+  font-size: var(--fs-mini);
+  font-weight: 500;
+  color: var(--c-dai);
+}
+@keyframes ui-marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* 更多链接 */
+.more-link {
+  padding: var(--sp-3) 0 var(--sp-1);
+  color: var(--c-dai);
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: var(--ls-cap);
+}
+.more-link.is-divided {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 2rpx dashed var(--line);
+}
+
+/* 底部说明 */
+.hint {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-mini);
+  color: var(--ink-3);
+  line-height: var(--lh-base);
+  text-align: center;
+  letter-spacing: var(--ls-cap);
+}
+
+/* ============================ §14 审核轨迹 ============================ */
+/* 候选人四轮审核专用（与 method 页的倒排工期时间线 .tl-* 互不干扰） */
+.trk-item { display: flex; gap: var(--sp-4); }
+.trk-left { display: flex; flex-direction: column; align-items: center; }
+.trk-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx; height: 48rpx;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--ink-4);
+  color: #fff;
+  font-family: var(--font-num);
+  font-size: var(--fs-mini);
+  font-weight: 700;
+}
+.trk-dot.state-done { background: var(--c-ok); }
+.trk-dot.state-live { background: var(--c-doing); }
+.trk-dot.state-bad { background: var(--c-zhu); }
+.trk-dot.state-warn { background: var(--c-warn); }
+.trk-dot.state-none { background: var(--ink-4); }
+.trk-line { width: 4rpx; flex: 1; min-height: 32rpx; margin: 4rpx 0; background: var(--line); }
+.trk-main { flex: 1; min-width: 0; padding-bottom: var(--sp-5); }
+.trk-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.trk-label { font-size: var(--fs-cap); font-weight: 600; color: var(--ink-1); }
+.trk-time { margin-top: 4rpx; font-size: var(--fs-mini); color: var(--ink-4); letter-spacing: var(--ls-cap); }
+.trk-comment { margin-top: 4rpx; font-size: var(--fs-mini); color: var(--ink-3); line-height: var(--lh-base); }
+
+/* ============================ §15 公文排版 ============================ */
+/* 灰度无彩，故意设计，勿改色 */
+.d-title {
+  margin: var(--sp-4) 0 var(--sp-3);
+  font-family: var(--font-gongwen-h1);
+  font-size: 40rpx;
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  letter-spacing: 2rpx;
+  text-align: center;
+  color: #000;
+}
+.d-docno {
+  margin-bottom: var(--sp-6);
+  font-family: var(--font-gongwen);
+  font-size: var(--fs-mini);
+  line-height: 1.5;
+  letter-spacing: 2rpx;
+  text-align: center;
+  color: #888;
+}
+.d-h1 {
+  margin: var(--sp-6) 0 var(--sp-3);
+  font-family: var(--font-gongwen-h1);
+  font-size: var(--fs-body);
+  font-weight: 900;
+  letter-spacing: 2rpx;
+  color: #000;
+}
+.d-sec { margin-bottom: var(--sp-6); }
+.d-content {
+  font-family: var(--font-gongwen);
+  font-size: var(--fs-sub);
+  line-height: 2.1;
+  letter-spacing: var(--ls-body);
+  text-align: justify;
+  color: #1a1a1a;
+}
+/* 公文多段间距：避免使用相邻兄弟选择器 +（部分 WXSS 基础库不支持），
+   改用每段自带间距 + 首个段落清零（:first-child 已确认受支持） */
+.d-sec .d-content { margin-top: var(--sp-5); }
+.d-sec .d-content:first-child { margin-top: 0; }
+.d-sign {
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-4);
+  border-top: 2rpx dashed #d4d4d4;
+  font-family: var(--font-gongwen);
+  font-size: var(--fs-cap);
+  line-height: 2;
+  letter-spacing: 1rpx;
+  text-align: right;
+  color: #6b7976;
+}
+.d-sign .d-org { display: block; font-size: var(--fs-note); font-weight: 600; color: #1a1a1a; margin-bottom: 4rpx; }
+.d-sign .d-stamp { color: var(--c-zhu); font-size: var(--fs-mini); letter-spacing: 3rpx; margin-top: var(--sp-2); }
+
+/* 弹层内公文排版：限制阅读宽度 + 覆写 margins */
+.sheet-body .d-title { max-width: 660rpx; margin: var(--sp-2) auto var(--sp-3); }
+.sheet-body .d-docno { margin-bottom: var(--sp-5); }
+.sheet-body .d-h1 { margin-top: 0; margin-bottom: var(--sp-4); }
+.sheet-body .d-content { white-space: pre-wrap; word-break: break-all; }
+.sheet-body .d-sign { margin-top: var(--sp-6); padding-top: var(--sp-4); }

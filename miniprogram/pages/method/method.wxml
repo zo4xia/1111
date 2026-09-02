@@ -1,0 +1,162 @@
+<view class="page">
+  <!-- ============ 选举活动切换（复用公告页「卡片内 picker 届次切换」范式） ============ -->
+  <view class="card is-first">
+    <view class="blk-title">换届选举方式</view>
+    <view class="field-note">切换查看本村（社区）不同届次选举的岗位与方案</view>
+    <picker mode="selector" range="{{electionOptions}}" range-key="label" value="{{electionIndex}}" bindchange="pickElection">
+      <view class="picker {{selectedElection ? 'is-picked' : ''}}">
+        <text class="picker-val">{{selectedElection ? selectedElection.label : '请选择选举活动'}}</text>
+        <text class="picker-arrow">⌄</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- ============ 公众号文章风 · 岗位卡片列表（每岗 1 卡，6 信息全在卡内） ============ -->
+  <view class="doc">
+    <view class="doc-title">{{selectedElection.term || '本届'}}换届选举岗位</view>
+    <view class="doc-orn"></view>
+    <view class="doc-sub" wx:if="{{positions.length}}">共 {{positions.length}} 岗 · {{positionTotal}} 名</view>
+
+    <view wx:if="{{positions.length}}">
+      <view class="card pos-card" wx:for="{{positions}}" wx:key="type">
+        <!-- 卡头：岗位名 + 人数徽章 -->
+        <view class="pc-pos">
+          <text class="pc-pos-t">{{item.type}}</text>
+          <view class="pc-quota-tag">
+            <text class="pc-quota-num num">{{item.quota}}</text>
+            <text class="pc-quota-lbl">人</text>
+          </view>
+        </view>
+        <!-- 主体两行：方式 + 说明（短直显 / 长一行截断+详情›） -->
+        <view class="pc-grid">
+          <view class="pc-row">
+            <text class="pc-k">选举方式</text>
+            <text class="pc-v pc-v-method">{{electionMethodText}}</text>
+          </view>
+          <view class="pc-row">
+            <text class="pc-k">岗位说明</text>
+            <view class="pc-v pc-v-desc">
+              <view wx:if="{{item.descLong}}" class="pc-desc-link" data-pos="{{item.type}}" data-desc="{{item.desc}}" bindtap="showPosDesc">
+                <text class="pc-desc-txt">{{item.desc}}</text>
+                <text class="pc-desc-more">详情›</text>
+              </view>
+              <text wx:else class="pc-desc-txt is-full">{{item.desc}}</text>
+            </view>
+          </view>
+        </view>
+        <!-- 卡底：材料下载 op-link + 快捷提交按钮（带岗位直达材料提交页） -->
+        <view class="pc-foot">
+          <text class="op-link is-strong" data-pos="{{item.type}}" bindtap="openMaterials">点击此处</text>
+          <button size="mini" class="btn-ghost btn-quick" data-pos="{{item.type}}" bindtap="goQuickSubmit" hover-class="is-pressed">快捷提交</button>
+        </view>
+      </view>
+    </view>
+    <view class="doc-empty" wx:else>
+      <view class="empty">
+        <image class="empty-ico" src="{{icons.file}}" mode="aspectFit"/>
+        <text class="empty-txt">本届暂未公布参选岗位，请留意后续公告</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ============ 当前进度 · 选举日程（紧凑卡片：进度条摘要 + 两列阶段网格） ============ -->
+  <view class="sec">
+    <view class="sec-bar"></view>
+    <text class="sec-title">当前进度 · 选举日程</text>
+    <text class="sec-count" wx:if="{{selectedElection}}">投票日 {{selectedElection.date}}</text>
+  </view>
+
+  <view class="card" wx:if="{{stages.length}}">
+    <!-- 顶部摘要：进度条 + 当前阶段名 + 完成比 -->
+    <view class="prog-head">
+      <view class="prog-info">
+        <text class="prog-label">整体进度</text>
+        <text class="prog-meta" wx:if="{{currentStageName}}">当前 · {{currentStageName}}</text>
+      </view>
+      <view class="prog-num num">{{stageDone}}/{{stages.length}}</view>
+    </view>
+    <view class="prog-bar">
+      <view class="prog-fill" style="width: {{progressPct}}%;"></view>
+    </view>
+    <!-- 两列阶段网格 -->
+    <view class="stage-grid">
+      <view class="stage-cell {{item.cls}} {{item.dday ? 'is-dday' : ''}}" wx:for="{{stages}}" wx:key="key">
+        <view class="stage-top">
+          <view class="dot sm {{item.dotCls}}"></view>
+          <text class="stage-key num">{{item.key}}</text>
+        </view>
+        <text class="stage-name">{{item.name}}</text>
+        <view class="stage-meta">
+          <text class="stage-date num">{{item.start}}</text>
+          <text class="stage-st">{{item.statusText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ============ 报名表弹层（全局 .mask/.sheet 范式，与公告/候选人详情同源） ============ -->
+  <view class="mask" wx:if="{{formVisible}}" bindtap="closeSheet" data-k="formVisible">
+    <view class="sheet" catchtap="">
+      <view class="sheet-head">
+        <view>
+          <view class="sheet-title">换届选举报名表</view>
+          <view class="sheet-sub">{{selectedElection.term}} · 报名岗位 {{formPosition || '（未指定）'}}</view>
+        </view>
+        <view class="ic-x is-lg" bindtap="closeSheet" data-k="formVisible"></view>
+      </view>
+      <view class="sheet-body">
+        <text class="t-doc">{{formText}}</text>
+      </view>
+      <view class="sheet-foot">
+        <button class="btn-main" bindtap="copyForm" hover-class="is-pressed">复制报名表文本</button>
+        <view class="hint">复制后可粘贴到微信打印填写；填好拍照，回到岗位卡点「快捷提交」上传</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ============ 岗位说明弹层（说明列点击展开，长文不截断） ============ -->
+  <view class="mask" wx:if="{{descVisible}}" bindtap="closeSheet" data-k="descVisible">
+    <view class="sheet" catchtap="">
+      <view class="sheet-head">
+        <view>
+          <view class="sheet-title">{{descTitle}}</view>
+          <view class="sheet-sub">岗位说明 · 本届换届选举</view>
+        </view>
+        <view class="ic-x is-lg" bindtap="closeSheet" data-k="descVisible"></view>
+      </view>
+      <view class="sheet-body">
+        <text class="t-doc">{{descText}}</text>
+      </view>
+      <view class="sheet-foot">
+        <button class="btn-main" data-pos="{{descTitle}}" bindtap="openFormFromDesc" hover-class="is-pressed">获取报名表模板</button>
+        <view class="hint">岗位说明以选举委员会正式公告为准；报名表为文本模板，复制后可粘贴打印</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ============ 材料下载弹层（资料不止一份，逐项复制模板） ============ -->
+  <view class="mask" wx:if="{{matVisible}}" bindtap="closeSheet" data-k="matVisible">
+    <view class="sheet" catchtap="">
+      <view class="sheet-head">
+        <view>
+          <view class="sheet-title">材料下载</view>
+          <view class="sheet-sub">{{matPos || '通用资料'}} · 共 {{matList.length}} 份模板，点击复制文本后可粘贴打印</view>
+        </view>
+        <view class="ic-x is-lg" bindtap="closeSheet" data-k="matVisible"></view>
+      </view>
+      <view class="sheet-body">
+        <view class="mat-list">
+          <view class="list-row" wx:for="{{matList}}" wx:key="name" bindtap="copyMaterial" data-idx="{{index}}" hover-class="is-pressed">
+            <view class="list-row-ic"><image src="{{icons.file}}" mode="aspectFit"/></view>
+            <view class="list-row-main">
+              <view class="list-row-t">{{item.name}}</view>
+              <view class="list-row-s">{{item.desc}}</view>
+            </view>
+            <text class="op-link is-strong">复制</text>
+          </view>
+        </view>
+        <view class="hint">模板复制后可在微信中粘贴打印；正式表格以选举委员会盖章公告为准</view>
+      </view>
+    </view>
+  </view>
+</view>

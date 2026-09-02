@@ -1,0 +1,78 @@
+<view class="page">
+  <!-- 品牌区 -->
+  <view class="brand-area">
+    <view class="brand-mark">选</view>
+    <view class="brand-title">{{platformName}}</view>
+    <view class="brand-line"></view>
+    <view class="brand-sub">{{platformDept}}</view>
+  </view>
+
+  <!-- 错误提示 -->
+  <view wx:if="{{error}}" class="note note--bad is-outer">
+    <view class="dot sm state-dday pulse"></view>
+    <view class="note-main">{{error}}</view>
+  </view>
+
+  <!-- 表单卡 -->
+  <view class="card">
+    <!-- ⇠ 后端[organizations.name] 归属地下拉选项；服务端可达时=全部 122 村/社区（GET /api/orgs），
+         离线回落本地演示列表。orgLocked=true 时锁定（本机已绑定账号：归属地注册后终身不可改） -->
+    <view class="field">
+      <view class="field-label ico-prefix"><image class="ip-ic" src="{{icons.pin}}" mode="aspectFit"/> 归属地</view>
+      <picker mode="selector" range="{{orgNames}}" value="{{orgIndex < 0 ? 0 : orgIndex}}" disabled="{{orgLocked}}" bindchange="onOrgChange">
+        <view class="picker {{orgIndex >= 0 ? 'is-picked' : ''}}">
+          <text class="picker-val">{{orgIndex < 0 ? '请选择' : orgNames[orgIndex]}}</text>
+          <text class="picker-arrow">⌄</text>
+        </view>
+      </picker>
+      <view class="field-note" wx:if="{{orgLocked}}">归属地已锁定：注册后不可更改（换归属地请联系管理员）</view>
+    </view>
+
+    <view class="field">
+      <view class="field-label ico-prefix"><image class="ip-ic" src="{{icons.user}}" mode="aspectFit"/> 登录账号</view>
+      <input class="input" value="{{phone}}" bindinput="onPhone" placeholder="请输入手机号" placeholder-class="input-ph" maxlength="11" type="number"/>
+    </view>
+
+    <view class="field">
+      <view class="field-label ico-prefix"><image class="ip-ic" src="{{icons.lock}}" mode="aspectFit"/> 登录密码</view>
+      <input class="input" password value="{{password}}" bindinput="onPassword" placeholder="已设密码的账号请输入；免密注册选民可留空" placeholder-class="input-ph"/>
+    </view>
+
+    <!-- ⇠ 后端[account_roles + roles] 角色芯片由 _refreshRoles() 动态生成：
+         按手机号+归属地查 account_roles 取 ar_role_key，再用 roles.role_key→role_name 映射中文名。
+         （原硬编码 'voters'/'candidate' 已移除；'candidate' 在字典中本就不存在）
+         未注册 / 无可用角色 → isGuest=true，展示「游客（未注册）」选中态，提交时以游客身份进入。 -->
+    <view class="field">
+      <view class="field-label ico-prefix"><image class="ip-ic" src="{{icons.user}}" mode="aspectFit"/> 账号身份</view>
+      <view class="chip-row" wx:if="{{roleList.length}}">
+        <view wx:for="{{roleList}}" class="chip chip--select {{role===item.key?'is-on':''}}" data-r="{{item.key}}" bindtap="onRole" hover-class="is-pressed">{{item.name}}</view>
+      </view>
+      <view class="chip-row" wx:elif="{{isGuest}}">
+        <view class="chip chip--select is-on">游客浏览（未注册）</view>
+      </view>
+      <view class="field-note" wx:else>请先选择归属地与账号</view>
+    </view>
+
+    <!-- 未注册账号提示：说清免密注册与游客两条路 -->
+    <view class="note note--warn" wx:if="{{isUnregistered}}">
+      <view class="note-main">该账号未注册：选好归属地点「登录」可免密注册（无需密码，归属地注册后不可更改）；也可游客浏览</view>
+    </view>
+  </view>
+
+  <!-- 主登录（原生 button · 全局 .btn-main + 本页 pill 覆写） -->
+  <button class="btn-main btn-login" bindtap="submit" hover-class="is-pressed">{{loading ? '登录中…' : '登 录'}}</button>
+
+  <!-- 分隔 -->
+  <view class="divider"><view class="div-line"></view><text class="div-txt">其他方式</text><view class="div-line"></view></view>
+
+  <!-- 微信授权登录：意思一下拉起授权（图标走 utils/icons 统一线性图标，逻辑见 login.js quickLogin） -->
+  <button class="btn-ghost btn-wx" bindtap="quickLogin" hover-class="is-pressed">
+    <image class="wx-ic" src="{{icons.wechat}}" mode="aspectFit"/>
+    <text>微信授权登录</text>
+  </button>
+
+  <!-- 底部提示 -->
+  <view class="hint hint-foot">
+    演示环境 · 体验账号 13800000002 / 密码 123456（正式系统以村委会发放的账号为准）；新用户免密注册：选好归属地、密码留空直接登录
+  </view>
+</view>

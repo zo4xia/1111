@@ -1,0 +1,29 @@
+/* 材料提交 · 页面独有
+   ------------------------------------------------------------------
+   状态条 / 卡片 / 标题 / 字段 / 选择器 / 文件行 / 虚线添加 / 按钮 /
+   列表行 / 标签 / 空态 / 弹层 全部复用 app.wxss 全局类，
+   图片上传走 /components/img-picker（全站唯一实现）。
+   ------------------------------------------------------------------ */
+/* 唯一本页私有样式：.page 是页面容器类，app.wxss 只定义了元素选择器 page{}
+   （令牌宿主），并未定义 .page 类，各页需自行声明底部留白，否则最后一张卡贴底。 */
+.page { padding-bottom: var(--sp-7); }
+
+/* 需提交材料清单（说明卡内） */
+.need-list { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3) 0; }
+.need-item { display: flex; align-items: baseline; gap: var(--sp-2); }
+.need-dot { color: var(--c-dai); font-weight: 700; line-height: 1; }
+.need-txt { color: var(--ink-2); font-size: var(--fs-cap); line-height: var(--lh-snug); }
+
+/* 文字说明输入 */
+.note-area {
+  width: 100%;
+  min-height: 160rpx;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--line-3);
+  border: 2rpx solid var(--line-2);
+  border-radius: var(--r-sm);
+  color: var(--ink-1);
+  font-size: var(--fs-cap);
+  line-height: var(--lh-snug);
+  box-sizing: border-box;
+}

@@ -1,0 +1,74 @@
+/* 我的 · 页面独有布局
+   ------------------------------------------------------------------
+   本页只允许出现「头部身份区 + 信息网格」两处自有布局
+   （up-zone / go-mat 仅是间距分隔，非组件）。
+   卡片 / 标题 / 列表行 / 文件行 / 虚线添加 / 提示条 / 徽章 / 空态
+   一律复用 app.wxss 全局类，禁止在此重复实现。
+   v6.1 视觉审计：深底弱化白 opacity→rgba 固定色（对比度可控）；
+   信息网格删「微信号」恒定占位项，5→4 项归位 2×2。
+   ------------------------------------------------------------------ */
+
+/* 身份主区：头像 + 姓名 + 未读徽章 */
+.me-top {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+.me-main { flex: 1; min-width: 0; }
+.me-name {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-title);
+}
+.me-meta {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-mini);
+  /* 品牌深底弱化白：固定 rgba 而非 opacity（opacity 随底色变化对比度不可控，rgba 实测 ≥5.7:1） */
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: var(--ls-cap);
+}
+.bn-n { font-size: var(--fs-sub); font-weight: 700; }
+.bn-l { font-size: var(--fs-mini); color: rgba(255, 255, 255, 0.85); }
+
+/* 信息网格：2 列自适应，末项跨整行
+   靠 flex-basis 计算列宽，禁止写死 width/height（原内联 316rpx×97rpx 会击穿响应式） */
+.info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-5);
+}
+.info-cell {
+  flex: 1 1 calc(50% - 6rpx);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: rgba(255, 255, 255, 0.12);
+  border: 2rpx solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--r-sm);
+  box-sizing: border-box;
+}
+.info-cell.is-wide { flex-basis: 100%; }
+.mi-ic { width: 30rpx; height: 30rpx; flex-shrink: 0; opacity: 0.92; }
+.mi-body { flex: 1; min-width: 0; }
+.mi-label { font-size: var(--fs-mini); color: rgba(255, 255, 255, 0.72); line-height: var(--lh-tight); letter-spacing: var(--ls-cap); }
+.mi-value {
+  margin-top: 2rpx;
+  font-size: var(--fs-cap);
+  font-weight: 600;
+  letter-spacing: 0.3rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 快速上传区：与上方列表以虚线分隔 */
+.up-zone {
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-5);
+  border-top: 2rpx dashed var(--line);
+}
+.go-mat { margin-top: var(--sp-6); }

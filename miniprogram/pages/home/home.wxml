@@ -1,0 +1,108 @@
+<view class="page">
+  <!-- 走马灯 -->
+  <view class="marquee-bar">
+    <image class="marquee-ico" src="{{icons.bell}}" mode="aspectFit"/>
+    <view class="marquee-box"><text class="marquee-txt">{{marqueeText}}</text></view>
+    <text class="marquee-more" bindtap="goNotice">更多公告 ›</text>
+  </view>
+
+  <!-- 主横幅（全局品牌卡 + 本页数据排版） -->
+  <view class="card card--brand is-first">
+    <view class="hero-sub">{{orgName}} · 换届选举</view>
+    <view class="hero-title">依法选举 公正公开</view>
+    <view class="hero-desc">{{electionName}}</view>
+    <view class="hero-row">
+      <view class="hero-item">
+        <view class="hero-num num">{{daysToD}}</view>
+        <view class="hero-lbl">距投票日(天)</view>
+      </view>
+      <view class="hero-item">
+        <!-- ⇠ 后端[elections.el_election_date] 正式选举日 = 倒排工期时间线起点；红点呼吸强调其关键性 -->
+        <view class="hero-num num">{{dDate}}</view>
+        <view class="hero-lbl"><view class="dot sm state-dday pulse"></view>正式选举日</view>
+      </view>
+      <view class="hero-item">
+        <view class="hero-num num">{{progressDone}}%</view>
+        <view class="hero-lbl">换届整体进度</view>
+      </view>
+    </view>
+    <view wx:if="{{currentStage}}" class="hero-stage">
+      <!-- 真实日期由 D 日锚点推算（fullRange 产出），不再展示 D 偏移 key -->
+      <view class="hero-stage-name">{{currentStage.name}}</view>
+      <view class="hero-stage-range num">{{currentStage.range}}</view>
+    </view>
+  </view>
+
+  <!-- 四宫格入口 -->
+  <view class="card grid">
+    <view class="grid-item" wx:for="{{grid}}" wx:key="label" bindtap="goGrid" data-url="{{item.url}}" hover-class="is-pressed">
+      <view class="grid-ico">
+        <image class="grid-ico-img" src="{{icons[item.ic]}}" mode="aspectFit"/>
+        <!-- ⇠ 后端[announcements] 近24h有更新时，公告入口 icon 右上角显示未读红点（item.dot 由 home.js 计算） -->
+        <view class="badge-dot is-abs" wx:if="{{item.dot}}"></view>
+      </view>
+      <text class="grid-lbl">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 最新公告 -->
+  <view class="sec">
+    <view class="sec-bar"></view>
+    <text class="sec-title">最新公告</text>
+    <text class="sec-more" bindtap="goNotice">更多 ›</text>
+  </view>
+  <view class="card">
+    <view class="list-row is-compact" wx:for="{{latestAnns}}" wx:key="code" bindtap="goAnnDetail" data-code="{{item.code}}" hover-class="is-pressed">
+      <!-- ⇠ 角标列：置顶/类型竖排堆叠，全局 .tag（tag-warn 鎏金置顶 / tag-doc 公文灰类型），固定列宽保证标题左对齐成列 -->
+      <view class="ann-tags">
+        <text class="tag tag-warn" wx:if="{{item.isPin}}">置顶</text>
+        <text class="tag tag-doc" wx:if="{{item.type}}">{{item.type}}</text>
+      </view>
+      <view class="list-row-main">
+        <view class="list-row-s ann-title">{{item.title}}</view>
+      </view>
+      <!-- ⇠ 后端[announcements.ann_publish_time / ann_edit_time] 距 now ≤24h → “新”标（与入口红点同源） -->
+      <text wx:if="{{item.isNew}}" class="tag tag-new">新</text>
+      <text class="ann-date num">{{item.date}}</text>
+    </view>
+  </view>
+
+  <!-- 近期选举预告 -->
+  <block wx:if="{{nextStage}}">
+    <view class="sec">
+      <view class="sec-bar"></view>
+      <text class="sec-title">近期选举预告</text>
+    </view>
+    <view class="card">
+      <view class="blk-title">{{nextStage.name}}</view>
+      <view class="list-row-s ico-prefix"><image class="ip-ic" src="{{icons.calendar}}" mode="aspectFit"/> 计划时间：{{nextStage.start}}<text wx:if="{{nextStage.end !== nextStage.start}}"> ~ {{nextStage.end}}</text></view>
+      <view class="list-row-s ico-prefix"><image class="ip-ic" src="{{icons.pin}}" mode="aspectFit"/> 主办：{{orgName}}选举委员会</view>
+      <view class="field-note">具体时间以正式公告为准</view>
+    </view>
+  </block>
+
+  <!-- 村/居委会干部花名册（卡片式 · 淡青底信息卡，与主操作白卡形成扫读差异） -->
+  <view class="sec">
+    <view class="sec-bar"></view>
+    <text class="sec-title">村/居委会干部花名册</text>
+  </view>
+  <view class="card card--tint">
+    <view class="roster-list">
+      <view class="roster-card" wx:for="{{roster}}" wx:key="name">
+        <view class="roster-av">{{item.name[0]}}</view>
+        <view class="roster-main">
+          <view class="roster-name">{{item.name}} <text class="chip">{{item.position}}</text></view>
+          <view class="roster-note" wx:if="{{item.note}}">{{item.note}}</view>
+          <view class="roster-meta">
+            <text wx:if="{{item.phone}}" class="num">{{item.phone}}</text>
+            <text class="num">第 {{item.term}} 届任期</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{!roster.length}}">
+      <image class="empty-ico" src="{{icons.file}}" mode="aspectFit"/>
+      <text class="empty-txt">暂无干部花名册数据</text>
+    </view>
+  </view>
+</view>

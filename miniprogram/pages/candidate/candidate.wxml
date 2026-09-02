@@ -1,0 +1,95 @@
+<view class="page">
+  <!-- 页头：候选人公示（公文模板头） -->
+  <view class="card is-first pub-head">
+    <view class="pub-title">候选人公示</view>
+    <view class="pub-rule"><view class="pr-line"></view><view class="pr-diamond"></view><view class="pr-line"></view></view>
+    <view class="pub-sub">{{activeElectionName}}</view>
+    <view class="pub-sum">{{summary}}</view>
+  </view>
+
+  <!-- 岗位容器：编号 + 岗位 + 职数 + 当前阶段 + 名单（点名字弹明细） -->
+  <view class="card" wx:for="{{groups}}" wx:key="title" wx:for-index="gi">
+    <view class="cg-head">
+      <text class="cg-no">{{item.cnNo}}</text>
+      <text class="cg-title">{{item.title}}候选人</text>
+      <text class="chip">应选 {{item.quota}} 名</text>
+    </view>
+    <view class="cg-stage {{item.doing ? 'is-doing' : ''}}">
+      <view wx:if="{{item.doing}}" class="dot sm state-live pulse"></view>
+      <text>当前阶段：{{item.stageText}}</text>
+    </view>
+
+    <!-- 缺额警示：公示人数不足应选职数（positions.pos_quota） -->
+    <view class="note note--warn cg-gap" wx:if="{{item.gap > 0}}">
+      <view class="note-main">
+        <view class="note-t">该岗位还差 {{item.gap}} 人未选满</view>
+        <view class="note-d">后续将按规则补充人选，名单更新后会在此公示</view>
+      </view>
+    </view>
+
+    <view class="cg-members" wx:if="{{item.members.length}}">
+      <view class="cg-m" wx:for="{{item.members}}" wx:for-item="m" wx:for-index="mi" wx:key="name"
+            bindtap="openDetail" data-g="{{gi}}" data-i="{{mi}}" hover-class="is-pressed">
+        <text class="m-name">{{m.name}}</text>
+        <text class="tag tag-{{m.statusCls}}">{{m.statusShort}}</text>
+      </view>
+    </view>
+    <view class="empty" wx:else><text class="empty-txt">该岗位暂无公示人员</text></view>
+
+    <view class="hint">点击姓名可查看四轮审核轨迹</view>
+  </view>
+
+  <view class="empty" wx:if="{{!groups.length}}">
+    <image class="empty-ico" src="{{icons.file}}" mode="aspectFit"/>
+    <text class="empty-txt">暂无候选人公示数据</text>
+  </view>
+
+  <!-- 详情弹层：四轮审核轨迹 -->
+  <view class="mask" wx:if="{{detail}}" bindtap="closeDetail">
+    <view class="sheet" catchtap="">
+      <view class="sheet-head">
+        <view class="sheet-title">候选人明细</view>
+        <view class="ic-x is-lg" bindtap="closeDetail"></view>
+      </view>
+      <view class="sheet-body">
+        <view class="d-head">
+          <view class="avatar avatar--lg">{{detail.name[0]}}</view>
+          <view class="d-head-main">
+            <view class="d-line1">
+              <text class="c-name">{{detail.name}}</text>
+              <text class="chip">{{detail.position}}候选人</text>
+            </view>
+            <view class="c-meta">{{detail.gender}} · {{detail.age}}岁 · {{detail.source}}</view>
+            <text class="tag tag-{{detail.statusCls}} d-status">{{detail.status}}</text>
+          </view>
+        </view>
+
+        <view class="note note--warn d-warn">
+          <view class="note-main">最终名单以四轮审核全部通过为准；任一环节未通过，后续环节将暂停</view>
+        </view>
+
+        <view class="blk-title d-sec-t">四轮审核轨迹</view>
+        <view class="trk-item" wx:for="{{detailRounds}}" wx:key="key">
+          <view class="trk-left">
+            <view class="trk-dot state-{{item.cls}}">{{item.val === '通过' ? '✓' : item.val === '不通过' ? '✗' : index + 1}}</view>
+            <view class="trk-line" wx:if="{{index < detailRounds.length - 1}}"></view>
+          </view>
+          <view class="trk-main">
+            <view class="trk-row">
+              <text class="trk-label">{{item.label}}</text>
+              <text class="tag tag-{{item.cls}}">{{item.val || '—'}}</text>
+            </view>
+            <view class="trk-time" wx:if="{{item.time}}">{{item.time}} ｜ 审核人：{{item.reviewer || '待公示'}}</view>
+            <view class="trk-comment" wx:if="{{item.comment}}">{{item.comment}}</view>
+          </view>
+        </view>
+
+        <view class="d-votes" wx:if="{{detail.votes}}">得票：{{detail.votes}} 票</view>
+        <view class="d-note t-gongwen" wx:if="{{detail.note}}">{{detail.note}}</view>
+      </view>
+      <view class="sheet-foot">
+        <button class="btn-main" bindtap="closeDetail">我知道了</button>
+      </view>
+    </view>
+  </view>
+</view>

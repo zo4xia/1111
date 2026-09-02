@@ -1,0 +1,11 @@
+{
+  "name": "miniprogram",
+  "version": "1.0.0",
+  "description": "城厢区村居换届选举系统 · 选民端小程序",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "commonjs"
+}
