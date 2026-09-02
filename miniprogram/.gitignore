@@ -1,0 +1,21 @@
+# Windows
+[Dd]esktop.ini
+Thumbs.db
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+
+# Node.js
+node_modules/
+
+# AI 协作工具工作区（不入库，保留磁盘）
+.codebuddy/
+.workbuddy/
+
+# 本轮审计/接手报告为临时产物，按需跟踪
+# （三伙伴压实报告、接手检查报告已显式 add）

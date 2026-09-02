@@ -185,6 +185,96 @@ app.get('/api/orgs', h(async (req, res) => {
   ok(res, r.rows);
 }));
 
+// ── 后台账号管理（D-013：隐藏解锁页 + 归属地账号预设，仅 platform_admin）────────────
+// 现状说明：登录按 acc_password_hint 明文比对（见 /api/login），本接口沿用同一字段存初始密码，
+//   保证「预设即可登录」；bcrypt 哈希列为后续安全加固项（需同步改登录校验，不能只改一边造成第二真相）。
+const crypto = require('crypto');
+const UNLOCK_CODE = process.env.UNLOCK_CODE || '123456';
+const PRESET_ROLES = ['sub_admin', 'operator', 'editor', 'reviewer']; // 允许预设的业务角色（不含超管/冻结的选民）
+const PRESET_ROLE_NAME = { sub_admin: '子管理', operator: '经办', editor: '编辑', reviewer: '审核员' };
+const accountSelect = `
+  SELECT a.id, a.org_id AS "orgId", o.name AS "orgName", a.acc_name AS "name", a.acc_phone AS "phone",
+         a.acc_status AS "status", a.acc_note AS "note", a.created_at AS "createdAt",
+         (SELECT ar.role_key FROM account_roles ar WHERE ar.acc_id=a.id AND ar.ar_status='active' LIMIT 1) AS "roleKey"
+  FROM accounts a LEFT JOIN organizations o ON o.slug=a.org_id`;
+
+// 账号列表：GET /api/admin/accounts?orgId=（超管；不传返回全部，上限 200；不回传密码）
+app.get('/api/admin/accounts', auth(), requireAdmin, h(async (req, res) => {
+  const orgId = req.query.orgId ? String(req.query.orgId) : '';
+  const r = orgId
+    ? await pool.query(accountSelect + ' WHERE a.org_id=$1 ORDER BY a.created_at', [orgId])
+    : await pool.query(accountSelect + ' ORDER BY a.org_id, a.created_at LIMIT 200');
+  ok(res, r.rows);
+}));
+
+// 批量预设账号：POST /api/admin/accounts { unlockCode, orgId, accounts:[{name,phone,roleKey,password?}] }
+app.post('/api/admin/accounts', auth(), requireAdmin, h(async (req, res) => {
+  const { unlockCode, orgId, accounts: list } = req.body || {};
+  if (unlockCode !== UNLOCK_CODE) return fail(res, 403, '解锁码不正确');
+  if (!orgId) return fail(res, 400, '请选择归属地（村/社区）');
+  if (!Array.isArray(list) || !list.length) return fail(res, 400, '至少添加一个账号');
+  const org = await pool.query('SELECT slug, name FROM organizations WHERE slug=$1', [orgId]);
+  if (!org.rows[0]) return fail(res, 404, '归属地不存在');
+  const created = [], updated = [], skipped = [];
+  for (const item of list) {
+    const name = (item.name || '').trim();
+    const phone = String(item.phone || '').trim();
+    const roleKey = String(item.roleKey || '').trim();
+    const password = String(item.password || '123456').trim() || '123456';
+    if (!/^1\d{10}$/.test(phone)) { skipped.push({ phone, reason: '手机号格式不对（11 位）' }); continue; }
+    if (!PRESET_ROLES.includes(roleKey)) { skipped.push({ phone, reason: '角色不合法' }); continue; }
+    // 一号一归属地：手机号全局唯一，已绑别的村则拦截（防串台 D-000）
+    const ex = await pool.query('SELECT id, org_id FROM accounts WHERE acc_phone=$1', [phone]);
+    let accId;
+    if (ex.rows[0]) {
+      if (ex.rows[0].org_id !== orgId) { skipped.push({ phone, reason: '该手机号已绑定其他归属地' }); continue; }
+      accId = ex.rows[0].id;
+      await pool.query(
+        `UPDATE accounts SET acc_name=COALESCE(NULLIF($2,''),acc_name), acc_password_hint=$3, acc_status='active', updated_at=now()
+         WHERE id=$1`, [accId, name, password]);
+      updated.push(phone);
+    } else {
+      accId = crypto.randomUUID();
+      await pool.query(
+        `INSERT INTO accounts (id, org_id, acc_name, acc_phone, acc_password_hint, org, roles, acc_status, acc_created_by, acc_note)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,'active',$8,$9)`,
+        [accId, orgId, name || PRESET_ROLE_NAME[roleKey], phone, password, org.rows[0].name, roleKey, req.user.phone || 'admin', '隐藏解锁页预设']);
+      created.push(phone);
+    }
+    // account_roles：一人一岗，先停旧 active 角色再挂新角色，避免角色挤兑（唯一性）
+    await pool.query(`UPDATE account_roles SET ar_status='disabled', updated_at=now() WHERE acc_id=$1 AND ar_status='active'`, [accId]);
+    const arEx = await pool.query('SELECT id FROM account_roles WHERE acc_id=$1 AND role_key=$2', [accId, roleKey]);
+    if (arEx.rows[0]) {
+      await pool.query(`UPDATE account_roles SET ar_status='active', org_id=$2, ar_assigned_by=$3, updated_at=now() WHERE id=$1`,
+        [arEx.rows[0].id, orgId, req.user.phone || 'admin']);
+    } else {
+      await pool.query(
+        `INSERT INTO account_roles (id, org_id, role_key, ar_status, ar_assigned_by, ar_note, acc_id)
+         VALUES ($1,$2,$3,'active',$4,$5,$6)`,
+        [crypto.randomUUID(), orgId, roleKey, req.user.phone || 'admin', '隐藏解锁页预设', accId]);
+    }
+  }
+  ok(res, { created, updated, skipped, orgId, orgName: org.rows[0].name });
+}));
+
+// 启用/停用：PUT /api/admin/accounts/:id/status { status:'active'|'disabled' }
+app.put('/api/admin/accounts/:id/status', auth(), requireAdmin, h(async (req, res) => {
+  const status = req.body && req.body.status === 'active' ? 'active' : 'disabled';
+  const r = await pool.query('UPDATE accounts SET acc_status=$2, updated_at=now() WHERE id=$1 RETURNING id, acc_status AS "status"',
+    [req.params.id, status]);
+  if (!r.rows[0]) return fail(res, 404, '账号不存在');
+  ok(res, r.rows[0]);
+}));
+
+// 重置密码：PUT /api/admin/accounts/:id/reset-password { password? }，默认重置为 123456
+app.put('/api/admin/accounts/:id/reset-password', auth(), requireAdmin, h(async (req, res) => {
+  const pw = String((req.body && req.body.password) || '123456').trim() || '123456';
+  const r = await pool.query('UPDATE accounts SET acc_password_hint=$2, updated_at=now() WHERE id=$1 RETURNING id',
+    [req.params.id, pw]);
+  if (!r.rows[0]) return fail(res, 404, '账号不存在');
+  ok(res, { id: r.rows[0].id, reset: true });
+}));
+
 // ── 列表工厂（登录 + 归属地隔离）───────────────────────
 function listFactory(table, sql, paramsFn) {
   return [auth(), h(async (req, res) => {
@@ -228,7 +318,8 @@ app.post('/api/elections/:id/generate-stages', auth(), h(async (req, res) => {
     await tx.query('DELETE FROM election_stages WHERE election_id = $1', [e.el_id]);
     for (const t of tpl.rows) {
       const sStr = shiftDate(e.el_election_date, t.st_day_offset);
-      const eStr = shiftDate(sStr, Math.max(1, Number(t.st_duration_days || 1)) - 1);
+      // st_duration_days 列实义=阶段结束日相对D的offset(同前端offsetEnd，单天阶段=起始offset)，并非持续天数
+      const eStr = shiftDate(e.el_election_date, Number(t.st_duration_days));
       const status = today < sStr ? '未开始' : (today <= eStr ? '进行中' : '已完成');
       await tx.query(
         `INSERT INTO election_stages (org_id, election_id, stage_key, stage_name, stage_status, stage_start_date, stage_end_date, stage_order)
@@ -280,19 +371,8 @@ const {
 const ensureStubFile = (relSub, content) => ensureStubRaw(UPLOAD_DIR, relSub, content);
 
 /** 纯日历日加减：YYYY-MM-DD + offset 天 → YYYY-MM-DD。用本地分量构造与读取，不走 UTC/toISOString，避免 UTC+8 午夜被回退一天 */
-function shiftDate(dateStr, offset) {
-  const [y, m, d] = String(dateStr).slice(0, 10).split('-').map(Number);
-  const dt = new Date(y, (m || 1) - 1, d || 1);
-  dt.setDate(dt.getDate() + Number(offset || 0));
-  const p = (n) => String(n).padStart(2, '0');
-  return `${dt.getFullYear()}-${p(dt.getMonth() + 1)}-${p(dt.getDate())}`;
-}
-/** 本地今日 YYYY-MM-DD（ISO 字典序即时间序，可直接比较） */
-function localToday() {
-  const n = new Date();
-  const p = (x) => String(x).padStart(2, '0');
-  return `${n.getFullYear()}-${p(n.getMonth() + 1)}-${p(n.getDate())}`;
-}
+// D-day 纯日期计算唯一真源抽到 lib/dateUtil（api 与 scripts 共用，禁止第二份日期算法）
+const { shiftDate, localToday } = require('./lib/dateUtil');
 
 /** 按 D 日生成 16 阶段日程（供 generate-stages 与提案审批联动复用） */
 async function genStagesFor(elUuid) {
@@ -310,7 +390,8 @@ async function genStagesFor(elUuid) {
     await tx.query('DELETE FROM election_stages WHERE election_id = $1', [e.el_id]);
     for (const t of tpl.rows) {
       const sStr = shiftDate(e.el_election_date, t.st_day_offset);
-      const eStr = shiftDate(sStr, Math.max(1, Number(t.st_duration_days || 1)) - 1);
+      // st_duration_days 列实义=阶段结束日相对D的offset(同前端offsetEnd，单天阶段=起始offset)，并非持续天数
+      const eStr = shiftDate(e.el_election_date, Number(t.st_duration_days));
       const status = today < sStr ? '未开始' : (today <= eStr ? '进行中' : '已完成');
       await tx.query(
         `INSERT INTO election_stages (org_id, election_id, stage_key, stage_name, stage_status, stage_start_date, stage_end_date, stage_order)
@@ -455,7 +536,8 @@ app.put('/api/proposals/:id/review', auth(), requireStaff, h(async (req, res) =>
     await tx.query('DELETE FROM election_stages WHERE election_id = $1', [elId]);
     for (const t of stpl.rows) {
       const sStr = shiftDate(e.el_election_date, t.st_day_offset);
-      const eStr = shiftDate(sStr, Math.max(1, Number(t.st_duration_days || 1)) - 1);
+      // st_duration_days 列实义=阶段结束日相对D的offset(同前端offsetEnd，单天阶段=起始offset)，并非持续天数
+      const eStr = shiftDate(e.el_election_date, Number(t.st_duration_days));
       const status = today < sStr ? '未开始' : (today <= eStr ? '进行中' : '已完成');
       await tx.query(
         `INSERT INTO election_stages (org_id, election_id, stage_key, stage_name, stage_status, stage_start_date, stage_end_date, stage_order)
@@ -524,7 +606,10 @@ app.get('/api/announcements', auth(), h(async (req, res) => {
     `SELECT a.id, a.org_id AS "orgId", a.election_id AS "elId", a.ann_code AS "annCode", a.ann_title AS "annTitle",
             a.ann_stage_key AS "annStageKey", a.ann_status AS "annStatus", a.ann_version AS "annVersion",
             a.ann_editor AS "annEditor", a.ann_publish_time AS "annPublishTime", a.ann_content AS "annContent",
-            a.ann_publicity_deadline AS "annPublicityDeadline"
+            a.ann_publicity_deadline AS "annPublicityDeadline",
+            a.ann_sign AS "annSign", a.ann_sign_date AS "annSignDate",
+            a.ann_open_material_submit AS "annOpenMaterialSubmit", a.ann_publish_mode AS "annPublishMode",
+            a.ann_publish_at AS "annPublishAt", a.ann_remind_hours AS "annRemindHours", a.ann_remind_to AS "annRemindTo"
      FROM announcements a WHERE 1=1${extra} ORDER BY a.ann_publish_time DESC NULLS LAST, a.ann_code`, qp);
   const rows = r.rows.map((a) => ({ ...a, annFiles: filesOf(`announcements/${a.id}`) }));
   ok(res, rows);
@@ -552,14 +637,26 @@ app.put('/api/announcements/:id/publish', auth(), h(async (req, res) => {
   ok(res, r.rows[0]);
 }));
 
-// 公告草稿编辑持久化（小编改标题/正文/编号后保存，刷新不丢）
+// 公告草稿全量编辑持久化（小编工作台唯一编辑器：标题/正文/编号/落款/成文日期/材料开关/发布方式/定时/提醒，刷新不丢）
 app.put('/api/announcements/:id', auth(), h(async (req, res) => {
-  const { annTitle, annContent, annCode } = req.body || {};
+  const {
+    annTitle, annContent, annCode, annSign, annSignDate,
+    annOpenMaterialSubmit, annPublishMode, annPublishAt, annRemindHours, annRemindTo,
+  } = req.body || {};
+  const remindTo = Array.isArray(annRemindTo) ? annRemindTo.join(',') : (annRemindTo ?? null);
   const r = await pool.query(
-    `UPDATE announcements SET ann_title=COALESCE($2, ann_title), ann_content=COALESCE($3, ann_content),
-            ann_code=COALESCE($4, ann_code), ann_editor=$5, ann_edit_time=now(), updated_at=now()
-     WHERE id = $1 RETURNING id, ann_code AS "annCode", ann_title AS "annTitle", ann_status AS "annStatus"`,
-    [req.params.id, annTitle ?? null, annContent ?? null, annCode ?? null, req.user.name || '']);
+    `UPDATE announcements SET
+       ann_title=COALESCE($2, ann_title), ann_content=COALESCE($3, ann_content), ann_code=COALESCE($4, ann_code),
+       ann_sign=COALESCE($5, ann_sign), ann_sign_date=COALESCE($6, ann_sign_date),
+       ann_open_material_submit=COALESCE($7, ann_open_material_submit),
+       ann_publish_mode=COALESCE($8, ann_publish_mode), ann_publish_at=COALESCE($9, ann_publish_at),
+       ann_remind_hours=COALESCE($10, ann_remind_hours), ann_remind_to=COALESCE($11, ann_remind_to),
+       ann_editor=$12, ann_edit_time=now(), updated_at=now()
+     WHERE id = $1 RETURNING id, ann_code AS "annCode", ann_title AS "annTitle", ann_status AS "annStatus",
+       ann_publish_mode AS "annPublishMode", ann_open_material_submit AS "annOpenMaterialSubmit"`,
+    [req.params.id, annTitle ?? null, annContent ?? null, annCode ?? null, annSign ?? null, annSignDate ?? null,
+      annOpenMaterialSubmit ?? null, annPublishMode ?? null, annPublishAt ?? null, annRemindHours ?? null, remindTo,
+      req.user.name || '']);
   if (!r.rows[0]) return fail(res, 404, '公告不存在');
   ok(res, r.rows[0]);
 }));
@@ -979,6 +1076,18 @@ pool.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS prop_election_date da
 pool.query(`ALTER TABLE proposals ADD COLUMN IF NOT EXISTS prop_report text`)
   .then(() => console.log('[api] proposals.prop_report 列就绪'))
   .catch((e) => console.error('[api] prop_report 加列失败：', e.message.slice(0, 80)));
+
+// 公告编辑态持久化（小编工作台是唯一编辑器，编辑字段必须落库、刷新不丢；附件不走列，走 uploads 目录扫描 annFiles）
+pool.query(`ALTER TABLE announcements
+  ADD COLUMN IF NOT EXISTS ann_sign text,
+  ADD COLUMN IF NOT EXISTS ann_sign_date varchar(40),
+  ADD COLUMN IF NOT EXISTS ann_open_material_submit boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS ann_publish_mode varchar(16) DEFAULT 'immediate',
+  ADD COLUMN IF NOT EXISTS ann_publish_at timestamptz,
+  ADD COLUMN IF NOT EXISTS ann_remind_hours int DEFAULT 24,
+  ADD COLUMN IF NOT EXISTS ann_remind_to varchar(60) DEFAULT 'editor,admin'`)
+  .then(() => console.log('[api] announcements 编辑态列就绪'))
+  .catch((e) => console.error('[api] announcements 加列失败：', e.message.slice(0, 80)));
 
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`[api] listening on 0.0.0.0:${PORT}`);
