@@ -141,7 +141,8 @@ Page({
         publish: (a.ann_publish_time || '').slice(0, 10),
         electionTerm: selectedElection ? selectedElection.term : '',
         noticeKey: selectedElectionId + '::' + code,
-        unread: readSet.indexOf(selectedElectionId + '::' + code) === -1
+        unread: readSet.indexOf(selectedElectionId + '::' + code) === -1,
+        files: Array.isArray(a.ann_files) ? a.ann_files : []   // 每份公告独立附件 [{name,url}]
       }
     }).sort((x, y) => (x.stageIdx - y.stageIdx) || String(x.publish).localeCompare(String(y.publish)))
 
@@ -288,6 +289,36 @@ Page({
     wx.setClipboardData({
       data: d.title + '\n' + d.content,
       success: () => wx.showToast({ title: '原文已复制，可粘贴保存', icon: 'success' })
+    })
+  },
+  // 公告附件下载：每份公告独立附件，点击下载并打开（根治"切换公告下载链接是死的"）
+  downloadAttachment(e) {
+    const { url, name } = e.currentTarget.dataset
+    if (!url) return
+    const api = require('../../utils/api')
+    const fullUrl = api.BASE_URL + url
+    wx.showLoading({ title: '下载中…', mask: true })
+    wx.downloadFile({
+      url: fullUrl,
+      success(res) {
+        wx.hideLoading()
+        if (res.statusCode === 200 && res.tempFilePath) {
+          wx.openDocument({
+            filePath: res.tempFilePath,
+            showMenu: true,
+            fail() {
+              // 打不开的类型（如 .txt/.jpg），复制文件路径兜底
+              wx.setClipboardData({ data: fullUrl, success: () => wx.showToast({ title: '链接已复制，浏览器打开', icon: 'none' }) })
+            }
+          })
+        } else {
+          wx.showToast({ title: '下载失败（' + res.statusCode + '）', icon: 'none' })
+        }
+      },
+      fail() {
+        wx.hideLoading()
+        wx.setClipboardData({ data: fullUrl, success: () => wx.showToast({ title: '下载失败，链接已复制', icon: 'none' }) })
+      }
     })
   }
 })

@@ -8,21 +8,47 @@
     </view>
   </view>
 
-  <!-- 说明卡：需要提交什么（清单复用 kit 单一真相 MATERIAL_TYPES，不另写一套文字） -->
+  <!-- 说明卡：参选岗位 + 需要提交什么（D-015：先选岗位，再对照清单下载空白表/自备材料） -->
   <view class="card">
     <view class="blk-title">参选人材料提交</view>
-    <view class="field-note ico-prefix"><image class="ip-ic" src="{{icons.file}}" mode="aspectFit"/> 请按以下清单备齐材料后上传（拍照或添加文件均可）</view>
+
+    <!-- 第一步：选择参选岗位 -->
+    <view class="field-label">第一步 · 选择参选岗位<text class="field-req">*</text></view>
+    <view class="pos-tabs">
+      <view class="pos-tab {{positionId === item ? 'pos-tab--on' : ''}}"
+            wx:for="{{positionList}}" wx:key="*this"
+            data-pos="{{item}}" bindtap="onPickPosition" hover-class="is-pressed">{{item}}</view>
+    </view>
+
+    <!-- 第二步：备齐材料（有空白表的可直接下载，其余自备） -->
+    <view class="field-note ico-prefix" style="margin-top:14px;"><image class="ip-ic" src="{{icons.file}}" mode="aspectFit"/> 第二步 · 按清单备齐材料（可下载空白表填写，或自备后拍照/传文件）</view>
     <view class="need-list">
-      <view class="need-item" wx:for="{{needList}}" wx:key="*this">
-        <text class="need-dot">·</text>
-        <text class="need-txt">{{item}}</text>
+      <view class="need-card" wx:for="{{needCards}}" wx:key="name">
+        <view class="need-card-main">
+          <text class="need-dot">·</text>
+          <text class="need-txt">{{item.name}}</text>
+        </view>
+        <view class="need-act {{item.tpl ? 'need-act--dl' : 'need-act--self'}}"
+              data-file="{{item.tpl}}" bindtap="downloadTpl">
+          {{item.tpl ? '下载空白表' : '本人自备'}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 其他常用表格 -->
+    <view class="extra-tpl">
+      <view class="extra-tpl-t">其他常用表格</view>
+      <view class="extra-tpl-item" wx:for="{{extraTpl}}" wx:key="file"
+            data-file="{{item.file}}" bindtap="downloadTpl" hover-class="is-pressed">
+        <text class="extra-tpl-name">{{item.name}}</text>
+        <text class="extra-tpl-dl">下载</text>
       </view>
     </view>
   </view>
 
   <!-- 上传卡：图片拍照/相册（全站唯一 img-picker）+ 文件附件加号新增 + 文字说明输入 -->
   <view class="card">
-    <view class="blk-title">上传材料</view>
+    <view class="blk-title">第三步 · 上传填好的材料</view>
 
     <view class="field">
       <view class="field-label">图片材料（拍照 / 相册）<text class="field-req">*</text></view>

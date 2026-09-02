@@ -14,6 +14,48 @@
 .need-dot { color: var(--c-dai); font-weight: 700; line-height: 1; }
 .need-txt { color: var(--ink-2); font-size: var(--fs-cap); line-height: var(--lh-snug); }
 
+/* D-015 参选岗位按钮组 */
+.pos-tabs { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-2); }
+.pos-tab {
+  padding: 14rpx 34rpx;
+  background: var(--line-3);
+  border: 2rpx solid var(--line);
+  border-radius: 999rpx;
+  color: var(--ink-2);
+  font-size: var(--fs-cap);
+  line-height: 1;
+}
+.pos-tab--on {
+  background: var(--c-dai-bg);
+  border-color: var(--c-dai);
+  color: var(--c-dai-deep);
+  font-weight: 700;
+}
+
+/* D-015 材料清单卡：左名称、右下载/自备 */
+.need-card {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-2);
+  padding: 16rpx 20rpx;
+  background: var(--line-3);
+  border-radius: var(--r-sm);
+}
+.need-card-main { display: flex; align-items: baseline; gap: var(--sp-2); flex: 1; min-width: 0; }
+.need-act { flex-shrink: 0; font-size: var(--fs-mini); padding: 8rpx 18rpx; border-radius: 999rpx; line-height: 1.2; }
+.need-act--dl { background: var(--c-dai); color: #fff; font-weight: 600; }
+.need-act--self { background: transparent; color: var(--ink-4); border: 2rpx dashed var(--line); }
+
+/* 其他常用表格下载 */
+.extra-tpl { margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 2rpx solid var(--line-2); }
+.extra-tpl-t { color: var(--ink-3); font-size: var(--fs-mini); margin-bottom: var(--sp-2); }
+.extra-tpl-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14rpx 4rpx;
+  border-bottom: 2rpx solid var(--line-3);
+}
+.extra-tpl-name { color: var(--ink-2); font-size: var(--fs-cap); }
+.extra-tpl-dl { color: var(--c-dai); font-size: var(--fs-cap); font-weight: 600; }
+
 /* 文字说明输入 */
 .note-area {
   width: 100%;

@@ -16,6 +16,19 @@ const icons = require('../../utils/icons')
 // 离线演示提交暂存键：本地记录必须落盘，否则 onShow → refresh() 重建 records 会把刚提交的记录冲掉
 const DRAFT_KEY = 'localMaterialDrafts'
 
+// D-015 材料模板（文件在后端 uploads/material_templates，由 /api/files 静态服务）
+// 有空白表的清单给「下载空白表」；身份证/简历/无犯罪证明等需本人自备
+const TPL_FILE = {
+  '个人自荐表': '自荐表-可填写版.xlsx',
+  '组织推荐函': '提名表-可填写版.xlsx'
+}
+const EXTRA_TPL = [
+  { name: '自荐表填写样例（参考）', file: '自荐表-参考样例.jpg' },
+  { name: '委托书（委托他人代交时用）', file: '委托书-可填写版.docx' },
+  { name: '候选人资格审查表', file: '资格审查表.xlsx' },
+  { name: '主任候选人资格审查表', file: '主任候选人资格审查表.xlsx' }
+]
+
 Page({
   data: {
     icons: icons.dai,
@@ -28,6 +41,10 @@ Page({
     submitBtnText: '提交材料',
     // 需提交材料清单（说明卡直接复用 kit 单一真相，不另写一套文字）
     needList: MATERIAL_TYPES,
+    needCards: [],       // D-015：清单 + 每项是否有空白模板可下载
+    extraTpl: EXTRA_TPL, // 其他可下载表格（样例/委托书/资格审查表）
+    positionList: [],    // 本届岗位按钮（pos_type），兜底 主任/副主任/委员
+    positionId: '',      // 当前选中岗位（提交时带给后端，不再硬编码「委员」）
     imgFiles: [],   // img-picker：拍照/相册图片
     docFiles: [],   // 文件附件（PDF/Word 等）
     noteText: '',   // 文字说明输入
@@ -35,7 +52,11 @@ Page({
     submitting: false
   },
 
-  onLoad() { /* 极简提交：无预选参数，进页即填 */ },
+  onLoad() {
+    // 清单卡：逐项标注是否有可下载空白模板
+    const needCards = MATERIAL_TYPES.map(n => ({ name: n, tpl: TPL_FILE[n] || '' }))
+    this.setData({ needCards })
+  },
   onShow() { this.refresh() },
 
   refresh() {
@@ -68,12 +89,52 @@ Page({
 
     const range = win.start ? (win.start.slice(5) + ' ~ ' + win.end.slice(5)) : '待公布'
     const btnText = { open: '提交材料', before: '尚未到提交时间', after: '窗口已截止', none: '提交材料' }
+    // D-015 本届岗位按钮：以 positions 表为准，空库兜底常见三岗；当前选中失效则回落到第一个
+    const posRows = (s.positions || []).filter(p => p.pos_election_id === g.electionId)
+    let positionList = posRows.map(p => p.pos_type).filter(Boolean)
+    if (!positionList.length) positionList = ['主任', '副主任', '委员']
+    let positionId = this.data.positionId
+    if (!positionId || positionList.indexOf(positionId) < 0) positionId = positionList[0]
     this.setData({
       realWindowOpen: win.open, canSubmit: win.open, records: all,
       windowState: win.state, windowRange: range,
       submitBtnText: btnText[win.state] || '提交材料',
       windowMsg: this.windowText(win, range),
-      windowHint: this.windowHint(win, range)
+      windowHint: this.windowHint(win, range),
+      positionList, positionId
+    })
+  },
+
+  /** D-015 选择要参选的岗位（主任/副主任/委员…），提交记录挂到该岗位 */
+  onPickPosition(e) {
+    this.setData({ positionId: e.currentTarget.dataset.pos })
+  },
+
+  /** 下载空白材料模板：wx.downloadFile → wx.openDocument 预览；失败兜底复制链接 */
+  downloadTpl(e) {
+    const file = e.currentTarget.dataset.file
+    if (!file) { wx.showToast({ title: '该项需本人自备，无空白模板', icon: 'none' }); return }
+    const api = require('../../utils/api')
+    const url = api.BASE_URL + '/api/files/material_templates/' + encodeURIComponent(file)
+    wx.showLoading({ title: '下载中…', mask: true })
+    wx.downloadFile({
+      url,
+      success(res) {
+        wx.hideLoading()
+        if (res.statusCode !== 200) { wx.showToast({ title: '模板下载失败', icon: 'none' }); return }
+        wx.openDocument({
+          filePath: res.tempFilePath, showMenu: true,
+          fail() {
+            wx.setClipboardData({ data: url })
+            wx.showToast({ title: '无法预览，已复制链接', icon: 'none' })
+          }
+        })
+      },
+      fail() {
+        wx.hideLoading()
+        wx.setClipboardData({ data: url })
+        wx.showToast({ title: '下载失败，已复制链接', icon: 'none' })
+      }
     })
   },
 
@@ -160,20 +221,18 @@ Page({
     this.setData({ submitting: true })
     const g = getApp().globalData
 
-    // 在线模式：真实写库（POST /api/materials）→ wx.uploadFile 逐个真实上传附件 →
-    // PC 管理端材料列表立即可见、可预览 → 审核通过/驳回后自动私信回流本页与「我的通知」
+    // 在线模式：选民端真实写库（POST /api/mp/materials，JWT 带 orgId/phone/name）
+    // → wx.uploadFile 逐个真实上传附件 → PC 管理端材料列表立即可见、可预览
+    // ⚠️ 不要调 /api/materials（那是 staff 内推端点，requireStaff 选民必 403）
     if (g.serverMode) {
       const api = require('../../utils/api')
       const http = require('../../data/http')
       const that = this
       wx.showLoading({ title: '提交中…', mask: true })
-      api.post('/api/materials', {
-        electionId: g.electionId,
-        matType: '参选人材料',   // 极简：只收参选人材料一种
-        note: noteText,
-        submitter: (g.account && g.account.acc_name) || '参选人',
-        submitterPhone: (g.account && g.account.acc_phone) || '',
-        attachments: []   // 附件走 /api/materials/:id/upload 真实上传（multipart）
+      api.post('/api/mp/materials', {
+        positionId: this.data.positionId || '委员',   // D-015 取顶部选中的参选岗位
+        note: noteText
+        // 附件走 /api/materials/:id/upload 真实上传（multipart），选民可用（auth 无 requireStaff）
       }).then((created) => {
         const matId = created && created.id
         // 真实附件上传：图片（img-picker 临时路径）+ 文件（chooseMessageFile 临时路径）逐个传

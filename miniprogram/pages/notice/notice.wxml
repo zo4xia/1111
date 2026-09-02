@@ -153,10 +153,22 @@
           <text>{{detail.publish || detail.date}}</text>
         </view>
 
-        <!-- 附件区：所有附件列在底部 -->
+        <!-- 附件区：每份公告独立附件列表（随当前公告变化，不是死链接） -->
         <view class="d-attachments">
           <view class="blk-title">附件</view>
-          <view class="list-row is-compact" bindtap="copyAnnContent" hover-class="is-pressed">
+          <!-- 真实附件：后端 annFiles 目录扫描，每份公告各自独立 -->
+          <view class="list-row is-compact" wx:for="{{detail.files}}" wx:key="url"
+                bindtap="downloadAttachment" data-url="{{item.url}}" data-name="{{item.name}}" hover-class="is-pressed">
+            <view class="list-row-ic is-sm"><image src="{{icons.file}}" mode="aspectFit"/></view>
+            <view class="list-row-main">
+              <view class="list-row-t">{{item.name}}</view>
+              <view class="list-row-s">点击下载 / 预览</view>
+            </view>
+            <text class="list-row-arr">›</text>
+          </view>
+          <!-- 无附件时的兜底：复制全文 -->
+          <view class="list-row is-compact" wx:if="{{!detail.files || detail.files.length === 0}}"
+                bindtap="copyAnnContent" hover-class="is-pressed">
             <view class="list-row-ic is-sm"><image src="{{icons.file}}" mode="aspectFit"/></view>
             <view class="list-row-main">
               <view class="list-row-t">公告原件（全文）</view>

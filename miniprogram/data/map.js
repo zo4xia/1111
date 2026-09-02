@@ -52,6 +52,7 @@ const SCHEMA = {
     { to: 'ann_review_time', from: 'annReviewTime', fn: 'ts' }, { to: 'ann_publish_time', from: 'annPublishTime', fn: 'ts' },
     { to: 'ann_publicity_deadline', from: 'annPublicityDeadline', fn: 'day' },
     { to: 'ann_pin', const: false }, { to: 'ann_type', const: '公告' }, { to: 'ann_content', from: 'annContent', fn: 's' },
+    { to: 'ann_files', from: 'annFiles', def: [] },   // 每份公告独立附件 [{name,url}]，后端 filesOf() 目录扫描
   ],
   positions: [
     { to: 'pos_org_id', from: 'orgId' }, { to: 'pos_election_id', from: 'elId', fn: 's' },
