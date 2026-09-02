@@ -1,0 +1,89 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pageHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.pageTitle {
+  margin: 0 0 6px 0;
+  font-size: 20px;
+  color: var(--td-text-color-primary);
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--td-text-color-placeholder);
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+.tableBox {
+  background: var(--td-bg-color-container);
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: var(--td-shadow-1);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--td-text-color-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.block h4 {
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  color: var(--td-text-color-primary);
+}
+
+.files {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--td-bg-color-component);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.fileName {
+  color: var(--td-text-color-primary);
+}
+
+.upload {
+  margin-bottom: 4px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--td-text-color-placeholder);
+}
+
+.muted {
+  color: var(--td-text-color-placeholder);
+  font-size: 13px;
+}
+
+.extRow { display: flex; gap: 8px; margin-top: 8px; }
+.extRow :global(.t-input) { flex: 1; }

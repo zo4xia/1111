@@ -1,0 +1,42 @@
+.treeHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  color: var(--td-text-color-secondary);
+  font-size: 13px;
+}
+.treeBox {
+  background: var(--td-bg-color-container);
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: var(--td-shadow-1);
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+}
+.detailBox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 0;
+}
+.detailRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+.detailLabel {
+  flex: 0 0 72px;
+  color: var(--td-text-color-secondary);
+}
+.detailTip {
+  margin-top: 4px;
+  padding: 10px 12px;
+  background: var(--td-bg-color-component);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--td-text-color-secondary);
+  line-height: 1.6;
+}

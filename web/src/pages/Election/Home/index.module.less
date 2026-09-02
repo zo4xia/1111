@@ -1,0 +1,217 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1080px;
+}
+
+/* ===== 换届进度横幅 ===== */
+.heroCard {
+  background: linear-gradient(135deg, #f5f7fb 0%, #ffffff 100%);
+  border: 1px solid #e8ecf2;
+}
+
+.heroHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.heroOrg {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.heroTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-top: 4px;
+}
+
+.heroStats {
+  display: flex;
+  gap: 48px;
+  margin: 20px 0 12px;
+}
+
+.heroStat {
+  display: flex;
+  flex-direction: column;
+}
+
+.heroNum {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+  font-family: 'DIN Alternate', 'Segoe UI', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.heroLbl {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.breathDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d54941;
+  display: inline-block;
+  animation: breath 1.6s ease-in-out infinite;
+}
+
+@keyframes breath {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(213, 73, 65, 0.4); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(213, 73, 65, 0); }
+}
+
+.heroStage {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #374151;
+  background: #fff;
+  border: 1px solid #e8ecf2;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.heroStageDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0052d9;
+  margin-right: 8px;
+}
+
+.heroStageRange {
+  color: #6b7280;
+  margin-left: 8px;
+}
+
+/* ===== 网格 ===== */
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ===== 公告列表 ===== */
+.annList {
+  display: flex;
+  flex-direction: column;
+}
+
+.annRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f2f5;
+  font-size: 13px;
+}
+
+.annRow:last-child {
+  border-bottom: none;
+}
+
+.annPin {
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.annTitle {
+  flex: 1;
+  color: #1f2937;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.annTitle:hover {
+  color: #0052d9;
+}
+
+.annDate {
+  color: #9ca3af;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ===== 近期预告 ===== */
+.fcName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.fcLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.fcNote {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ===== 干部花名册 ===== */
+.rosterList {
+  display: flex;
+  flex-direction: column;
+}
+
+.rosterRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f2f5;
+  font-size: 13px;
+}
+
+.rosterRow:last-child {
+  border-bottom: none;
+}
+
+.rosterName {
+  font-weight: 600;
+  color: #1f2937;
+  width: 120px;
+}
+
+.rosterPos {
+  flex: 1;
+  color: #374151;
+}
+
+.rosterTerm {
+  color: #9ca3af;
+  font-size: 12px;
+}

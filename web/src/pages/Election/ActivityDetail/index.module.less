@@ -1,0 +1,360 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.missing {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  padding: 80px 0;
+}
+
+/* 头部 */
+.header {
+  background: linear-gradient(135deg, var(--td-brand-color), #6a3fd8);
+  color: #fff;
+  padding: 24px 28px;
+  border-radius: 12px;
+}
+
+.headerTitle {
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.bar {
+  width: 5px;
+  height: 22px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.headerSub {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 13px;
+  opacity: 0.95;
+}
+
+.dday b {
+  font-size: 16px;
+}
+
+/* 卡片 */
+.card {
+  background: var(--td-bg-color-container);
+  border-radius: 10px;
+  padding: 22px 24px;
+  box-shadow: var(--td-shadow-1);
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--td-text-color-primary);
+  margin-bottom: 8px;
+}
+
+.stageHint {
+  font-size: 12px;
+  color: var(--td-text-color-placeholder);
+  margin-bottom: 20px;
+}
+
+/* ===== 左右两栏：左流程 / 右小编工作台 ===== */
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(340px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.leftCol {
+  min-width: 0;
+}
+
+.workCol {
+  position: sticky;
+  top: 12px;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.postsFull {
+  grid-column: 1 / -1;
+}
+
+.timeline {
+  margin-top: 8px;
+}
+
+.tlLabel {
+  text-align: right;
+}
+
+.tlDate {
+  font-weight: 600;
+  color: var(--td-text-color-primary);
+}
+
+.tlKey {
+  font-size: 12px;
+  color: var(--td-brand-color);
+  margin-top: 2px;
+}
+
+.stageCard {
+  background: var(--td-bg-color-component);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 4px;
+  border-left: 3px solid transparent;
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+/* 左栏点选阶段的选中态 */
+.stageSelected {
+  outline: 2px solid var(--td-brand-color);
+  outline-offset: -2px;
+  box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.1);
+}
+
+/* 阶段三色：当前=红底 / 已过=浅绿 / 未开始=浅灰 */
+.current {
+  background: rgba(255, 77, 79, 0.12);
+  border-left-color: var(--td-error-color);
+}
+.done {
+  background: rgba(0, 168, 112, 0.12);
+  border-left-color: var(--td-success-color);
+}
+.todo {
+  background: #ebedf0;
+}
+
+.stageHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.stageName {
+  font-size: 15px;
+  color: var(--td-text-color-primary);
+}
+
+.stageRow {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--td-text-color-secondary);
+  margin-top: 4px;
+}
+
+.stageLabel {
+  flex-shrink: 0;
+  color: var(--td-text-color-placeholder);
+  width: 60px;
+}
+
+.announcementDesc {
+  color: var(--td-brand-color);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.noticeChips {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: 8px;
+}
+
+.noticeChip {
+  cursor: pointer;
+}
+
+/* ===== 右栏：小编工作台 ===== */
+.workbench {
+  padding: 18px 20px;
+}
+
+.wbTitle {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wbTitle .bar {
+  width: 4px;
+  height: 18px;
+  background: var(--td-brand-color);
+  border-radius: 2px;
+}
+
+.wbSub {
+  font-size: 12px;
+  color: var(--td-text-color-placeholder);
+  margin: 8px 0 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.wbEmpty {
+  font-size: 13px;
+  color: var(--td-text-color-placeholder);
+  padding: 24px 8px;
+  text-align: center;
+}
+
+.wbField {
+  margin-bottom: 14px;
+}
+
+.wbLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--td-text-color-secondary);
+  margin-bottom: 6px;
+}
+
+.wbRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.wbHint {
+  font-size: 12px;
+  color: var(--td-text-color-placeholder);
+}
+
+.wbBtns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.wbPublish {
+  border: 1px solid var(--td-component-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: var(--td-bg-color-component);
+  margin-top: 6px;
+}
+
+.dtInput {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--td-component-border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.wbFootBtns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.wbOthers {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--td-component-border);
+}
+
+/* 公文预览 */
+.noticeBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.noticeMeta {
+  font-size: 12px;
+  color: var(--td-text-color-placeholder);
+}
+
+.noticePre {
+  white-space: pre-wrap;
+  font-family: var(--td-font-family);
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--td-text-color-primary);
+  background: var(--td-bg-color-component);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 0;
+}
+
+.noticeHint {
+  font-size: 12px;
+  color: var(--td-warning-color);
+}
+
+/* 岗位 */
+.postsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.postItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--td-bg-color-component);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.postCount {
+  color: var(--td-brand-color);
+  font-weight: 600;
+}
+
+.postReq {
+  color: var(--td-text-color-secondary);
+}
+
+.muted {
+  color: var(--td-text-color-placeholder);
+  font-size: 13px;
+}
+
+/* 窄屏退化为单栏 */
+@media (max-width: 920px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+  .workCol {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}

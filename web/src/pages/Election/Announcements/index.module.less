@@ -1,0 +1,131 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pageHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.pageTitle {
+  margin: 0 0 6px 0;
+  font-size: 20px;
+  color: var(--td-text-color-primary);
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--td-text-color-placeholder);
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+.activitySel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--td-text-color-secondary);
+}
+
+.activitySel > div {
+  width: 240px;
+}
+
+.tableBox {
+  background: var(--td-bg-color-container);
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: var(--td-shadow-1);
+}
+
+.stageCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--td-text-color-secondary);
+}
+
+.opCell {
+  display: flex;
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* 编辑布局：左编辑 + 右预览 */
+.editLayout {
+  display: flex;
+  gap: 20px;
+}
+
+.editLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 13px;
+  color: var(--td-text-color-secondary);
+}
+
+.fieldRow {
+  display: flex;
+  gap: 12px;
+}
+
+.fieldRow .field {
+  flex: 1;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--td-text-color-placeholder);
+  background: var(--td-bg-color-component);
+  border-radius: 6px;
+  padding: 8px 10px;
+  line-height: 1.6;
+}
+
+.editRight {
+  flex: 1;
+  min-width: 0;
+  border-left: 1px solid var(--td-component-stroke);
+  padding-left: 20px;
+}
+
+.previewBox {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 12px;
+  max-height: 560px;
+  overflow: auto;
+}
+
+.linkInput { margin-top: 8px; }
+.switchRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--td-text-color-secondary);
+  line-height: 1.5;
+  margin: 4px 0 8px;
+}
