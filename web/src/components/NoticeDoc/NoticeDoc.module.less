@@ -1,0 +1,48 @@
+/* 公文格式（GB/T 9704-2012 党政机关公文格式） */
+.doc {
+  font-family: 'FangSong', '仿宋', '仿宋_GB2312', 'SimSun', serif;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  background: #fff;
+}
+
+/* 标题：2号小标宋体（22pt），居中，不缩进 */
+.title {
+  font-family: 'STZhongsong', '华文中宋', 'SimSun', serif;
+  font-weight: 700;
+  font-size: 22px;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0 0 18px 0;
+}
+
+/* 正文：3号仿宋（16pt），首行缩进2字符，行距固定 */
+.body {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #000;
+}
+
+.para {
+  margin: 0 0 4px 0;
+  text-indent: 2em;
+  text-align: justify;
+}
+
+.blank {
+  height: 16px;
+}
+
+/* 落款：右对齐，空两字 */
+.signBlock {
+  margin-top: 24px;
+  text-align: right;
+  padding-right: 2em;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.sign {
+  white-space: nowrap;
+}
