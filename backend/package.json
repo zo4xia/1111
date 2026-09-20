@@ -7,10 +7,10 @@
     "start": "node api.js"
   },
   "dependencies": {
-    "express": "^4.21.2",
+    "express": "^4.22.3",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^9.1.0",
+    "multer": "^2.3.0",
+    "nodemailer": "^9.1.1",
     "pg": "^8.13.1"
   }
 }
